@@ -1,0 +1,6 @@
+@Cobro_Matricula_EPN_HostAddress = http://localhost:5086
+
+GET {{Cobro_Matricula_EPN_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
