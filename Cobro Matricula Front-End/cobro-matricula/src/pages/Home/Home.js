@@ -17,20 +17,22 @@ export const Home = () => {
                 break;
             case 'Calcular': navigate('/calculadora');
                 break;
+            case 'Cancelar': setEnableForm(!enableForm);
+                break;
             default: 
                 break;
         }
     }
 
     return (
-    <div className="w-full mt-10">
-        <div className="flex flex-col items-center gap-y-3 mx-auto max-w-md bg-gradient-to-r from-cyan-300 from-10% via-green-300 via-30% to-indigo-300 to-40% border border-slate-200 rounded-md ">
-            <UserCard Photo={Admin} User={'Administrador'} Action={'Ingresar'} handleOption={handleOption} />
+    <div className="w-full h-full flex items-center justify-center">
+        <div className="w-1/3 flex flex-col gap-y-3 justify-center items-center  brightness-105 bg-gradient-to-r from-cyan-300/70 from-20% via-green-300 via-30% to-indigo-500/70 to-80% border border-slate-200 rounded-md ">
+            <UserCard Photo={Admin} User={'Administrador'} Action={'Ingresar'} handleOption={handleOption} enableForm={enableForm} />
             {enableForm && (
-                <Login />
+                <Login setEnableForm={setEnableForm} />
                 
             )}
-            <UserCard Photo={Student} User={'Estudiante'} Action={'Calcular'} handleOption={handleOption}/>
+            <UserCard Photo={Student} User={'Estudiante'} Action={'Calcular'} handleOption={handleOption} enableForm={enableForm} />
         </div>
     </div>
   )
