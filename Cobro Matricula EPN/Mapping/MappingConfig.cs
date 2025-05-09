@@ -11,6 +11,7 @@ namespace Cobro_Matricula_EPN.Mapping
         {
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
+            CreateMap<User, RegistrationRequestDto>();
         }
     }
 }
