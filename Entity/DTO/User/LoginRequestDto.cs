@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Entity.DTO.User
+{
+    public class LoginRequestDto
+    {
+        [Required]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(16, MinimumLength =8, ErrorMessage ="La contraseña debe tener al menos 8 caracteres")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$", ErrorMessage = "La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número.")]
+        public string Password { get; set; }
+    }
+}

@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35913.81 d17.13
+VisualStudioVersion = 17.13.35913.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cobro Matricula EPN", "Cobro Matricula EPN\Cobro Matricula EPN.csproj", "{580BAA97-B292-466C-8948-F5E704BB6C9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entity", "Entity\Entity.csproj", "{46B50C23-6899-4593-87F6-2717A5D21EFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{CFFB7E59-EF70-4459-A0C4-42936B1F188A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{580BAA97-B292-466C-8948-F5E704BB6C9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{580BAA97-B292-466C-8948-F5E704BB6C9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{580BAA97-B292-466C-8948-F5E704BB6C9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46B50C23-6899-4593-87F6-2717A5D21EFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46B50C23-6899-4593-87F6-2717A5D21EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46B50C23-6899-4593-87F6-2717A5D21EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46B50C23-6899-4593-87F6-2717A5D21EFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFFB7E59-EF70-4459-A0C4-42936B1F188A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFFB7E59-EF70-4459-A0C4-42936B1F188A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFFB7E59-EF70-4459-A0C4-42936B1F188A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFFB7E59-EF70-4459-A0C4-42936B1F188A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
