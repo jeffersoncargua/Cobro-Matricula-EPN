@@ -2,7 +2,7 @@
 using Cobro_Matricula_EPN.Context;
 using Cobro_Matricula_EPN.Repository.IRepository;
 using Entity.DTO.User;
-using Microsoft.AspNetCore.Mvc.Filters;
+using Entity.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -22,6 +22,19 @@ namespace Cobro_Matricula_EPN.Repository
             _mapper = mapper;
             secretKey = config.GetValue<string>("APISettings:SecretKey");
         }
+
+        public async Task<bool> IsUnique(string email)
+        {
+            var result = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
+            if (result == null) {
+                return true;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
             //var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == loginRequestDto.Email && u.Password == loginRequestDto.Password);
@@ -74,6 +87,43 @@ namespace Cobro_Matricula_EPN.Repository
             };
 
             return  response;
+        }
+
+        public async Task<bool> Register(RegistrationRequestDto registrationRequestDto)
+        {
+            try
+            {
+                var registration = _mapper.Map<User>(registrationRequestDto);
+                await _db.Users.AddAsync(registration);
+                await Save();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return false;
+            }
+            
+        }
+
+        public async Task<bool> RemoveAsync(int id)
+        {
+            var userExist = await _db.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (userExist != null)
+            {
+                _db.Users.Remove(userExist);
+                await Save();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task Save()
+        {
+            await _db.SaveChangesAsync();
         }
     }
 }
