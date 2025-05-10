@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react';
+import {Link} from 'react-router-dom'
 
 export const Login = ({setEnableForm}) => {
 
@@ -46,9 +47,10 @@ export const Login = ({setEnableForm}) => {
                 </button>
             </div>
         </div>
-        <div className='mt-2 flex justify-around'>
+        <div className='mt-2 flex flex-col'>
             <button type='submit' className='px-2.5 py-2.5 text-center bg-cyan-500 hover:bg-cyan-600 hover:text-white rounded-lg'>Iniciar Sesión</button>
             {/* <button type='button' onClick={() => setEnableForm(false) } className='px-2.5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 hover:text-white rounded-lg'>Cancelar</button> */}
+            <Link to={'forgetPassword'} className='text-indigo-900 font-semibold hover:text-blue-950 hover:underline px-2.5 py-2.5 '>Olvide mi contraseña</Link>
         </div>
         
     </form>
