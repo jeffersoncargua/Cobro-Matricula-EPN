@@ -26,11 +26,10 @@ export const Home = () => {
 
     return (
     <div className="w-full h-full flex items-center justify-center">
-        <div className="w-1/3 flex flex-col gap-y-3 justify-center items-center  brightness-105 bg-gradient-to-r from-cyan-300/70 from-20% via-green-300 via-30% to-indigo-500/70 to-80% border border-slate-200 rounded-md ">
+        <div className="w-[80%] sm:w-[80%] md:w-1/2 lg:w-1/3 flex flex-col gap-y-3 justify-center items-center  brightness-105 bg-gradient-to-r from-cyan-300/70 from-20% via-green-300 via-30% to-indigo-500/70 to-80% border border-slate-200 rounded-md ">
             <UserCard Photo={Admin} User={'Administrador'} Action={'Ingresar'} handleOption={handleOption} enableForm={enableForm} />
             {enableForm && (
                 <Login setEnableForm={setEnableForm} />
-                
             )}
             <UserCard Photo={Student} User={'Estudiante'} Action={'Calcular'} handleOption={handleOption} enableForm={enableForm} />
         </div>
