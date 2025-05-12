@@ -1,2 +1,2 @@
-export {UserManagment} from './UserManagment/UserManagment';
-export {UserRegistration} from './UserRegistration/UserRegistration';
+export { UserManagment } from './UserManagment/UserManagment';
+export { UserRegistration } from './UserRegistration/UserRegistration';

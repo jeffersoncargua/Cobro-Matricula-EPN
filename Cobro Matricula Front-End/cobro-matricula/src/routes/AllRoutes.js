@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Home,Managment } from "../pages";
-import { UserManagment,UserRegistration } from "../pages/Managment";
+import { UserRegistration,UserManagment } from "../pages/Managment";
 
 export const AllRoutes = () => {
   return (
