@@ -1,19 +1,33 @@
 import { useRef, useState } from 'react';
-import {Link} from 'react-router-dom'
+//import {Link} from 'react-router-dom'
+import Swal from 'sweetalert2';
 
-export const Login = ({setEnableForm}) => {
+export const Login = ({setEnableForm, setEnableModalRecover}) => {
 
     const [enablePass, setEnablePass] = useState(false);
     const userRef = useRef();
     const passReff = useRef();
 
-    const handleLogin = () => {
-
+    const handleLogin = (e) => {
+        e.preventDefault();
+        Swal.fire({
+        title: "Login Exitoso",
+        text: "Has iniciado sesión correctamente!!",
+        confirmButtonText: "Listo",
+        imageUrl: "https://images.pexels.com/photos/990349/pexels-photo-990349.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+        imageWidth: 400,
+        imageHeight: 300,
+        imageAlt: "Custom image",
+        customClass:"text-sm"
+        }).then(result => {
+            if(result.isConfirmed){
+                setEnableForm(false);
+            }
+        });
     }
 
-
   return (
-    <form className='border border-slate-600 p-2 rounded-lg w-80 text-sm ' onSubmit={() => handleLogin() } >                    
+    <form className='border border-slate-600 p-2 rounded-lg w-80 text-sm ' onSubmit={handleLogin} >                    
         <label htmlFor="email" className="text-start block mb-2 font-medium text-gray-900 dark:text-white">Ingresa tu Correo</label>
         <div className="relative mb-6">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
@@ -50,7 +64,7 @@ export const Login = ({setEnableForm}) => {
         <div className='mt-2 flex flex-col'>
             <button type='submit' className='px-2.5 py-2.5 text-center bg-cyan-500 hover:bg-cyan-600 hover:text-white rounded-lg'>Iniciar Sesión</button>
             {/* <button type='button' onClick={() => setEnableForm(false) } className='px-2.5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 hover:text-white rounded-lg'>Cancelar</button> */}
-            <Link to={'forgetPassword'} className='text-indigo-900 font-semibold hover:text-blue-950 hover:underline px-2.5 py-2.5 '>Olvide mi contraseña</Link>
+            <button type='button' onClick={() => setEnableModalRecover(true)} to={'forgetPassword'} className='text-indigo-900 font-semibold hover:text-blue-950 hover:underline px-2.5 py-2.5 '>Olvide mi contraseña</button>
         </div>
         
     </form>

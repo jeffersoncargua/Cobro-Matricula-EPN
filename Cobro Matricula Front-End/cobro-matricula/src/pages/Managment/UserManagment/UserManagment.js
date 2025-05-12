@@ -20,14 +20,16 @@ export const UserManagment = () => {
     cancelButtonText : "Cancelar",
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
-    confirmButtonText: "Si, borralo"
+    confirmButtonText: "Si, borralo",
+    customClass: "text-sm"
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
           title: "Eliminado!",
           text: "Se eliminó el registro con éxito.",
           icon: "success",
-          confirmButtonText: "Listo"
+          confirmButtonText: "Listo",
+          customClass:"text-sm"
         });
       }
     });
@@ -35,7 +37,7 @@ export const UserManagment = () => {
 
 
   return (
-    <div className="w-[95%] mx-auto ">
+    <div className="flex items-center justify-center w-[95%] min-h-screen mx-auto ">
       <UserTable handleUpdatedUser={handleUpdatedUser} handleDeletedUser={handleDeletedUser} />
       {enableModal && (
         <ModalUpdatedUser enableModal={enableModal} setEnableModal={setEnableModal} />
