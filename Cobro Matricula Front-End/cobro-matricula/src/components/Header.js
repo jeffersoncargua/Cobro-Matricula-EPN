@@ -11,10 +11,10 @@ export const Header = () => {
     
 <div className="bg-white border-gray-200 dark:bg-gray-900">
 
-  <div className=" flex flex-wrap items-center justify-center mx-auto p-4 bg-slate-200">
-    <Link to='/' className="flex items-center space-x-3 rtl:space-x-reverse  ">
+  <div className=" flex items-center justify-center mx-auto p-4 bg-slate-200">
+    <Link to='/' className="flex flex-wrap gap-y-2 items-center justify-center space-x-3 rtl:space-x-reverse  ">
         <img src={Logo} className="h-28 border border-slate-400" alt="Flowbite Logo" />
-        <span className="font-dancing self-center text-5xl font-semibold whitespace-nowrap dark:text-white">Unversidad XYZ</span>
+        <span className="font-dancing self-center text-3xl sm:text-5xl font-semibold whitespace-nowrap dark:text-white">Unversidad XYZ</span>
     </Link>
   </div>
 

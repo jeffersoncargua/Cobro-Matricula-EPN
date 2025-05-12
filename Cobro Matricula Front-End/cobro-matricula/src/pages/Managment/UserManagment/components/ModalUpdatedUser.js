@@ -1,7 +1,10 @@
-import {useRef} from 'react';
+import {useRef, useState} from 'react';
 import Swal from 'sweetalert2';
 
 export const ModalUpdatedUser = ({enableModal,setEnableModal}) => {
+
+    const [enablePass, setEnablePass] = useState(false);
+    const [enableConfirmPass, setEnableConfirmPass] = useState(false);
 
     const nameRef = useRef();
     const lastNameRef = useRef();
@@ -17,7 +20,12 @@ export const ModalUpdatedUser = ({enableModal,setEnableModal}) => {
         title: "Actualización Exitosa!!",
         icon: "success",
         draggable: true,
-        confirmButtonText: "Listo"
+        confirmButtonText: "Listo",
+        customClass:"text-sm"
+        }).then(result => {
+          if(result.isConfirmed){
+            setEnableModal(false);
+          }
         });
     }
 
@@ -67,11 +75,48 @@ export const ModalUpdatedUser = ({enableModal,setEnableModal}) => {
                             </div> 
                             <div className="mb-6">
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium  dark:text-white">Contraseña</label>
-                                <input type="password" id="password" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required ref={passRef} />
+                                <div className='w-full relative'>
+                                    <input type={enablePass ? 'text':"password"} id="password" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required ref={passRef} />
+                                    <button type='button' onClick={() => setEnablePass(!enablePass)} className='absolute inset-y-0 end-0 pe-2.5 flex items-center text-black hover:text-cyan-600' >
+                                        {!enablePass ? 
+                                        (
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-eye-slash-fill w-5 h-5" viewBox="0 0 16 16">
+                                                <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
+                                                <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
+                                            </svg>
+                                        )
+                                        :
+                                        (
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-eye-fill w-5 h-5" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                            </svg>
+                                        )}
+                                    </button>
+                                </div>
                             </div> 
                             <div className="mb-6">
                                 <label htmlFor="confirm_password" className="block mb-2 text-sm font-medium  dark:text-white">Confirmar Contraseña</label>
-                                <input type="password" id="confirm_password" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required ref={confirmPassRef} />
+                                <div className='w-full relative'>
+                                    <input type={enableConfirmPass ? 'text':'password'} id="confirm_password" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required ref={confirmPassRef} />
+                                    <button type='button' onClick={() => setEnableConfirmPass(!enableConfirmPass)} className='absolute inset-y-0 end-0 pe-2.5 text-black hover:text-cyan-600' >
+                                        {!enableConfirmPass ? 
+                                        (
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-eye-slash-fill w-5 h-5" viewBox="0 0 16 16">
+                                                <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
+                                                <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
+                                            </svg>
+                                        )
+                                        :
+                                        (
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-eye-fill w-5 h-5" viewBox="0 0 16 16">
+                                                <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                                <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                            </svg>
+                                        )}
+                                    </button>
+                                </div>
+                                
                             </div>                            
                             <button type="submit" className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}>Editar</button>
                         </form>
