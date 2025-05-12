@@ -28,7 +28,7 @@ export const FormRegistration = () => {
 
 
   return (
-    <form className="group text-slate-900 p-4 border border-slate-100 rounded-lg bg-gradient-to-r from-indigo-500/75 from-10% via-sky-500 via-30% to-emerald-500/75 to-90%" onSubmit={handleSubmit}>
+    <form className="w-full text-slate-900 p-4 m-4 border border-slate-100 rounded-lg bg-gradient-to-r from-indigo-500/75 from-10% via-sky-500 via-30% to-emerald-500/75 to-90%" onSubmit={handleSubmit}>
         <div className="grid gap-6 mb-6 md:grid-cols-2  ">
             <div>
                 <label htmlFor="first_name" className="block mb-2 text-sm font-medium  dark:text-white">Nombre</label>
