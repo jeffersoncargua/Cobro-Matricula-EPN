@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import {useRef} from 'react';
+import Swal from 'sweetalert2';
 
 export const ModalUpdatedUser = ({enableModal,setEnableModal}) => {
 
@@ -11,8 +11,14 @@ export const ModalUpdatedUser = ({enableModal,setEnableModal}) => {
     const passRef = useRef();
     const confirmPassRef = useRef();
 
-    const handleSubmit = () => {
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        Swal.fire({
+        title: "Actualización Exitosa!!",
+        icon: "success",
+        draggable: true,
+        confirmButtonText: "Listo"
+        });
     }
 
   return (
@@ -36,7 +42,7 @@ export const ModalUpdatedUser = ({enableModal,setEnableModal}) => {
                     </div>
                     {/* <!-- Modal body --> */}
                     <div className="p-4 md:p-5">
-                        <form className="group text-slate-900 p-4 border border-slate-100 rounded-lg " onSubmit={() => handleSubmit()}>
+                        <form className="group text-slate-900 p-4 border border-slate-100 rounded-lg " onSubmit={handleSubmit}>
                             <div className="grid gap-6 mb-6 md:grid-cols-2  ">
                                 <div>
                                     <label htmlFor="first_name" className="block mb-2 text-sm font-medium  dark:text-white">Nombre</label>

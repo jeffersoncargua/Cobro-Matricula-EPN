@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 export const FormRegistration = () => {
 
-    var user; // sirve para enviar los datos del formulario a la API
+    //var user; // sirve para enviar los datos del formulario a la API
 
     const [enableRegistrationButton, setEnableRegistrationButton] = useState(false);
     
@@ -15,13 +16,19 @@ export const FormRegistration = () => {
     const passRef = useRef();
     const confirmPassRef = useRef();
 
-    const handleSubmit = () => {
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        Swal.fire({
+        title: "Registro Exitoso!!",
+        icon: "success",
+        draggable: true,
+        confirmButtonText: "Listo"
+        });
     }
 
 
   return (
-    <form className="group text-slate-900 p-4 border border-slate-100 rounded-lg bg-gradient-to-r from-indigo-500/75 from-10% via-sky-500 via-30% to-emerald-500/75 to-90%" onSubmit={() => handleSubmit()}>
+    <form className="group text-slate-900 p-4 border border-slate-100 rounded-lg bg-gradient-to-r from-indigo-500/75 from-10% via-sky-500 via-30% to-emerald-500/75 to-90%" onSubmit={handleSubmit}>
         <div className="grid gap-6 mb-6 md:grid-cols-2  ">
             <div>
                 <label htmlFor="first_name" className="block mb-2 text-sm font-medium  dark:text-white">Nombre</label>
