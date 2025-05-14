@@ -10,11 +10,12 @@ namespace Entity.DTO.User
     public class RegistrationRequestDto
     {
         [Required]
-        [RegularExpression(@"^[a-zA-Z]{30}", ErrorMessage = "El nombre no debe contener más de 30 caracteres y ser alfabeticos")]
+
+        [RegularExpression(@"^[a-zA-Z\s]{2,30}$", ErrorMessage = "El nombre no debe contener más de 30 caracteres y debe ser alfabeticos")]
         public string Name { get; set; }
 
         [Required]
-        [RegularExpression(@"^[a-zA-Z]{30}", ErrorMessage = "El apellido no debe contener más de 30 caracteres y ser alfabeticos")]
+        [RegularExpression(@"^[a-zA-Z\s]{2,30}$", ErrorMessage = "El apellido no debe contener más de 30 caracteres y debe ser alfabeticos")]
         public string LastName { get; set; }
 
         [Required]
@@ -34,13 +35,14 @@ namespace Entity.DTO.User
 
         [Required]
         [DataType(DataType.Password)]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$", ErrorMessage = "La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número.")]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^a-zA-Z\d\s])(?=.{8,}).*$", ErrorMessage = "La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número.")]
         public string Password { get; set; }
 
         [Required]
         [Compare("Password",ErrorMessage ="Las contraseñas no coinciden")]
         public string ConfirmPass { get; set; }
+      
+        public string Role { get; set; }
 
-        public string Role { get; set; } = "Collaborator";
     }
 }

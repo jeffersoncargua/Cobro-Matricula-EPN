@@ -9,9 +9,10 @@ namespace Cobro_Matricula_EPN.Mapping
         //Mapper para los usuarios
         public MappingConfig()
         {
-            CreateMap<User, UserDto>();
-            CreateMap<UserDto, User>();
-            CreateMap<User, RegistrationRequestDto>();
+            //CreateMap<User, UserDto>();
+            //CreateMap<UserDto, User>();
+
+            CreateMap<ApplicationUser, UserDto>().ReverseMap();
         }
     }
 }
