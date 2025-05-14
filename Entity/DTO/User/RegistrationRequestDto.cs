@@ -10,6 +10,7 @@ namespace Entity.DTO.User
     public class RegistrationRequestDto
     {
         [Required]
+
         [RegularExpression(@"^[a-zA-Z\s]{2,30}$", ErrorMessage = "El nombre no debe contener más de 30 caracteres y debe ser alfabeticos")]
         public string Name { get; set; }
 
@@ -40,7 +41,8 @@ namespace Entity.DTO.User
         [Required]
         [Compare("Password",ErrorMessage ="Las contraseñas no coinciden")]
         public string ConfirmPass { get; set; }
-
+      
         public string Role { get; set; }
+
     }
 }

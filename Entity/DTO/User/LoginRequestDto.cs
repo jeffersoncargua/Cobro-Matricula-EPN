@@ -10,6 +10,8 @@ namespace Entity.DTO.User
     public class LoginRequestDto
     {
         [Required]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",ErrorMessage = "El correo electronico no tiene el formato adecuado!!")]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]

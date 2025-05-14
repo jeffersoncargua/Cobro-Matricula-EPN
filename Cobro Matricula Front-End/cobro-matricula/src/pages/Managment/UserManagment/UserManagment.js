@@ -1,5 +1,6 @@
-import { useState, useEffect} from "react";
+import { useState} from "react";
 import { UserTable,ModalUpdatedUser } from "./components";
+import Swal from "sweetalert2";
 
 export const UserManagment = () => {
 
@@ -11,12 +12,32 @@ export const UserManagment = () => {
   }
   
   const handleDeletedUser = () => {
-    
+    Swal.fire({
+    title: "Estas Seguro?",
+    text: "Se eliminará el registro de la base de datos!",
+    icon: "warning",
+    showCancelButton: true,
+    cancelButtonText : "Cancelar",
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si, borralo",
+    customClass: "text-sm"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Eliminado!",
+          text: "Se eliminó el registro con éxito.",
+          icon: "success",
+          confirmButtonText: "Listo",
+          customClass:"text-sm"
+        });
+      }
+    });
   }
 
 
   return (
-    <div className="w-[95%] mx-auto ">
+    <div className="flex items-center justify-center w-[95%] min-h-screen mx-auto ">
       <UserTable handleUpdatedUser={handleUpdatedUser} handleDeletedUser={handleDeletedUser} />
       {enableModal && (
         <ModalUpdatedUser enableModal={enableModal} setEnableModal={setEnableModal} />
