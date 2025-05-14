@@ -17,7 +17,7 @@ namespace Cobro_Matricula_EPN.Repository
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
 
-        public Repository(ApplicationDbContext db, IMapper mapper)
+        public Repository(ApplicationDbContext db, IMapper mapper) 
         {
             _db = db;
             _mapper = mapper;

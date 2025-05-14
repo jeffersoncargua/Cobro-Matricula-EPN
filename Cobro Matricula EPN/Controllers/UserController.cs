@@ -39,14 +39,6 @@ namespace Cobro_Matricula_EPN.Controllers
                 //}
 
                 if(await _userRepo.IsConfirmEmail(loginRequestDto.Email))
-                if(result.User == null && string.IsNullOrEmpty(result.Token))
-                if(result.User == null && string.IsNullOrEmpty(result.Token))
-                if(result.User == null && string.IsNullOrEmpty(result.Token))
-                if(result.User == null && string.IsNullOrEmpty(result.Token))
-                if(result.User == null && string.IsNullOrEmpty(result.Token))
-                if(result.User == null && string.IsNullOrEmpty(result.Token))
-                if(result.User == null && string.IsNullOrEmpty(result.Token))
-                if(result.User == null && string.IsNullOrEmpty(result.Token))
                 {
                     var result = await _userRepo.Login(loginRequestDto);
                     if (result.User == null && string.IsNullOrEmpty(result.Token))
@@ -76,6 +68,14 @@ namespace Cobro_Matricula_EPN.Controllers
             }
             catch (Exception ex)
             {
+                _response.IsSuccess = true;
+                _response.Message.Add("El usuario ha sido eliminado de la base de datos!!!");
+                _response.Result = null;
+                return NotFound(_response);
+            }
+            
+        }
+
 
         [HttpPost("Registration")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -232,14 +232,6 @@ namespace Cobro_Matricula_EPN.Controllers
             _response.StatusCode = HttpStatusCode.BadRequest;
             _response.Message.Add("Ha ocurrido un error en el servidor. No se pudo actualizar su informacion!!");
             return BadRequest(_response);
-        }
-    }
-
-    
-            _response.IsSuccess = true;
-            _response.Message.Add("El usuario ha sido eliminado de la base de datos!!!");
-            _response.Result = null;
-            return NotFound(_response);
         }
     }
 
