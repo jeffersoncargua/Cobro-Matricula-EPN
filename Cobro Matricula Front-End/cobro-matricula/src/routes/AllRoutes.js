@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Home,Managment } from "../pages";
-import { UserRegistration,UserManagment, UserRecover } from "../pages/Managment";
+import { UserRegistration,UserManagment, UserRecover,UserConfirmation } from "../pages/Managment";
 
 export const AllRoutes = () => {
   return (
@@ -10,6 +10,7 @@ export const AllRoutes = () => {
           <Route path="registration" element={<UserRegistration/>} />
           <Route path="users" element={<UserManagment/>} />
            <Route path="forget" element={<UserRecover/>} />
+           <Route path="confimation" element={<UserConfirmation/>} />
         </Route>
     </Routes>
   )
