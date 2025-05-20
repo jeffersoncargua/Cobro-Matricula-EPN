@@ -1,33 +1,54 @@
+import { ButtonLoading } from '../../../components';
 import { useRef, useState } from 'react';
-//import {Link} from 'react-router-dom'
-import Swal from 'sweetalert2';
+import {useNavigate} from 'react-router-dom';
+import {LoginUser} from '../../../apiServices/UserServices';
+//import { useFetch } from '../../../hooks/useFetch';
+import { SwalFailed, SwalSuccess } from '../../../sweetAlerts/SweetAlerts';
+
 
 export const Login = ({setEnableForm, setEnableModalRecover}) => {
 
     const [enablePass, setEnablePass] = useState(false);
+    const [showButtonLoading,setShowButtonLoading] = useState(false);
     const userRef = useRef();
     const passReff = useRef();
+    const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const HandleLogin = async(e) => {
+
         e.preventDefault();
-        Swal.fire({
-        title: "Login Exitoso",
-        text: "Has iniciado sesión correctamente!!",
-        confirmButtonText: "Listo",
-        imageUrl: "https://images.pexels.com/photos/990349/pexels-photo-990349.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        imageWidth: 400,
-        imageHeight: 300,
-        imageAlt: "Custom image",
-        customClass:"text-sm"
-        }).then(result => {
+
+        setShowButtonLoading(true);
+
+        var userRequest = {
+            email : userRef.current.value,
+            password : passReff.current.value
+        }
+
+        var response = LoginUser(userRequest);
+
+        if(response.isSuccess){
+            //Aqui va el swalSuccess
+            const result = await SwalSuccess("Correcto!!",["Has iniciado sesión"],'Bienvenido a la Universidad XYZ');
             if(result.isConfirmed){
+                //se debe realizar una redux para almacenar la informacion del usuario
                 setEnableForm(false);
             }
-        });
+        }else{
+            //Aqui va el swalFailed
+            //Mas adelante se debe cambiar el segundo paramatro por el que nos entregue el response del fetch
+            const result = await SwalFailed("Oops",["Error al intentar iniciar sesión"],"Inténtalo nuevamente");
+            if (result.isConfirmed){
+                navigate('/');
+                setEnableForm(false);
+            }
+        }
+
+        setShowButtonLoading(false);    
     }
 
   return (
-    <form className='border border-slate-600 p-2 rounded-lg w-80 text-sm ' onSubmit={handleLogin} >                    
+    <form className='border border-slate-600 p-2 rounded-lg w-80 text-sm ' onSubmit={HandleLogin} >                    
         <label htmlFor="email" className="text-start block mb-2 font-medium text-gray-900 dark:text-white">Ingresa tu Correo</label>
         <div className="relative mb-6">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
@@ -36,7 +57,7 @@ export const Login = ({setEnableForm, setEnableModalRecover}) => {
                     <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
                 </svg>
             </div>
-            <input type="text" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@example.com" ref={userRef} />
+            <input type="text" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@example.com" required ref={userRef} />
         </div>
         <label htmlFor="password" className="text-start block mb-2 font-medium text-gray-900 dark:text-white">Ingresar tu contraseña</label>
         <div className="flex">
@@ -47,7 +68,7 @@ export const Login = ({setEnableForm, setEnableModalRecover}) => {
                 </svg>
             </span>
             <div className='relative w-full'>
-                <input type={!enablePass ? 'password':'text'} id="password" className="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mjug&/%113" ref={passReff} />
+                <input type={!enablePass ? 'password':'text'} id="password" className="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required placeholder="Mjug&/%113" ref={passReff} />
                 <button type='button' className='absolute inset-y-0 end-0 flex items-center pe-2.5 ' onClick={()=>setEnablePass(!enablePass)}>
                     {!enablePass ? 
                     (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-eye-fill hover:text-gray-500" viewBox="0 0 16 16">
@@ -61,10 +82,20 @@ export const Login = ({setEnableForm, setEnableModalRecover}) => {
                 </button>
             </div>
         </div>
-        <div className='mt-2 flex flex-col'>
-            <button type='submit' className='px-2.5 py-2.5 text-center bg-cyan-500 hover:bg-cyan-600 hover:text-white rounded-lg'>Iniciar Sesión</button>
-            {/* <button type='button' onClick={() => setEnableForm(false) } className='px-2.5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 hover:text-white rounded-lg'>Cancelar</button> */}
-            <button type='button' onClick={() => setEnableModalRecover(true)} to={'forgetPassword'} className='text-indigo-900 font-semibold hover:text-blue-950 hover:underline px-2.5 py-2.5 '>Olvide mi contraseña</button>
+        <div className='mt-2 flex flex-col '>
+            {showButtonLoading ? 
+            (                
+                <ButtonLoading />
+            )
+            :(
+                <>
+                    <button type='submit' className='mx-auto px-3 py-2.5 text-center bg-cyan-500 hover:bg-cyan-600 hover:text-white rounded-lg'>Iniciar Sesión</button>
+                    {/* <button type='button' onClick={() => setEnableForm(false) } className='px-2.5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 hover:text-white rounded-lg'>Cancelar</button> */}
+                    <button type='button' onClick={() => setEnableModalRecover(true)} to={'forgetPassword'} className='text-indigo-900 font-semibold hover:text-blue-950 hover:underline px-2.5 py-2.5 '>Olvide mi contraseña</button>
+                </>  
+            )}
+            
+            
         </div>
         
     </form>

@@ -1,26 +1,42 @@
-import React, { useRef } from 'react'
-import Swal from 'sweetalert2';
+import { ButtonLoading } from '../../../components';
+import { useRef, useState } from 'react';
+import { ForgetPass } from '../../../apiServices/UserServices';
+
+//import { useNavigate } from 'react-router-dom';
+import { SwalSuccess, SwalFailed } from '../../../sweetAlerts/SweetAlerts';
 
 export const ModalRecover = ({enableModalRecover,setEnableModalRecover}) => {
 
     const emailRef = useRef();
+    const [showButtonLoading,setShowButtonLoading] = useState(false);
+    //const navigate = useNavigate();
 
-    const handleSubmitRecover = (e) => {
+    const HandleSubmitRecover = async(e) => {
         e.preventDefault();
-        Swal.fire({
-        title: "Solicitud Enviada",
-        text: "Revisa tu correo electrónico por favor.!!",
-        confirmButtonText: "Listo",
-        imageUrl: "https://images.pexels.com/photos/990349/pexels-photo-990349.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        imageWidth: 400,
-        imageHeight: 300,
-        imageAlt: "Custom image",
-        customClass:"text-sm"
-        }).then(result => {
+        setShowButtonLoading(true);
+        
+        var forgetResquest = {email : emailRef.current.value};
+        var response = ForgetPass(forgetResquest);
+
+        if (response.isSuccess) {
+
+            //SwalSuccess para cuando la respuesta es positiva desde el api
+            const result = await SwalSuccess("Solicitud Enviada",["Revisa tu correo electrónico por favor.!!"]);
             if(result.isConfirmed){
                 setEnableModalRecover(false);
             }
-        } );
+            
+        }else{
+            //SwalFailed para cuando la respuesta es positiva desde el api
+            const result = await SwalFailed("Oops...",["No se ha encontrado el usuario, inténtalo nuevamente"],"Solicita ayuda del administrador o crea una nueva cuenta");
+            if(result.isConfirmed){
+                setEnableModalRecover(false); 
+            }
+            
+        }
+
+        setShowButtonLoading(false);
+
     }
 
   return (
@@ -44,7 +60,7 @@ export const ModalRecover = ({enableModalRecover,setEnableModalRecover}) => {
                     </div>
                     {/* <!-- Modal body --> */}
                     <div className="p-4 md:p-5">
-                        <form className="group text-slate-900 p-4 border border-slate-100 rounded-lg " onSubmit={handleSubmitRecover}>
+                        <form className="group text-slate-900 p-4 border border-slate-100 rounded-lg " onSubmit={HandleSubmitRecover}>
                             <div className="relative mb-6">
                                 <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                                     <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
@@ -53,8 +69,17 @@ export const ModalRecover = ({enableModalRecover,setEnableModalRecover}) => {
                                     </svg>
                                 </div>
                                 <input type="text" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@example.com" ref={emailRef} />
-                            </div>                          
-                            <button type="submit" className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}>Enviar</button>
+                            </div> 
+                            {showButtonLoading ? 
+                            (
+                                <ButtonLoading />
+                            )
+                            :
+                            (
+                                <button type="submit" className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}>Enviar</button>    
+                            )}                         
+                            
+                            
                         </form>
                     </div>
                 </div>

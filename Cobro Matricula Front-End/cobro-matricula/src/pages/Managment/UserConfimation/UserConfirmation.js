@@ -1,16 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 //import Swal from "sweetalert2";  //Descomentar cuando se vaya a configurar el enlace con las API de autenticacion
 
 import './style/UserConfirmation.css';
+import { ConfirmationUser } from "../../../apiServices/UserServices";
+import { SwalFailed, SwalSuccess } from "../../../sweetAlerts/SweetAlerts";
 
 
 export const UserConfirmation = () => {
 
     const [showInfo, setShowInfo] = useState(false);
+    const [params] = useSearchParams();
     // const array = new [1,2,3];
     const [count, setCount] = useState(1);
-    //const navigate = useNavigate(); //Descomentar cuando se vaya a configurar el enlace con las API de autenticacion
+    
+    const navigate = useNavigate(); //Descomentar cuando se vaya a configurar el enlace con las API de autenticacion
 
     const handleAnimation = useCallback(() => {
         var arrayPings = document.getElementById('spans');
@@ -37,37 +41,35 @@ export const UserConfirmation = () => {
 
 
     useEffect(()=>{
-        //     setShowInfo(!showInfo);
 
-        //Descomentar cuando se vaya a configurar el enlace con las API de autenticacion
-        //En caso de ser afirmativo 
-        
-        // Swal.fire({
-        // title: "Cuenta Verificada",
-        // icon: "success",
-        // draggable: true,
-        // customClass:"text-sm",
-        // });
-
-        ////En caso de error este SWAL
-        // Swal.fire({
-        // icon: "error",
-        // title: "Oops...",
-        // text: "El enlace de tu cuenta de verificacion ha caducado",
-        // footer: "Solicita ayuda del administrador o crea una nueva cuenta",
-        // customClass:"text-sm",
-        // }).then(result => {
-        //     if(result.isConfirmed){
-        //         navigate('/');
-        //     }
-        // });      
+        setShowInfo(true);
         handleAnimation();
 
-    },[handleAnimation])
+        const ConfirmCount = async() => {            
+
+            var response = ConfirmationUser(params);
+
+            if (response.isSuccess) {
+                const result = await SwalSuccess("Cuenta Verificada","Por favor dirijasé a la página de Inicio para iniciar sesión con su cuenta");
+                if(result.isConfirmed){
+                    navigate('/');
+                }
+            }else{
+                const result = await SwalFailed("Oops...",["El enlace de tu cuenta de verificacion ha caducado"],"Solicita ayuda del administrador o crea una nueva cuenta");
+                if(result.isConfirmed){
+                    navigate('/');
+                }
+            }
+        }
+       
+        ConfirmCount();
+        setShowInfo(false);
+
+    },[handleAnimation,navigate,params])
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center">
-        {!showInfo &&
+        {showInfo &&
         (
             <div className="flex flex-wrap gap-y-2 text-3xl text-black animate-[pulse_1.5s_cubic-bezier(0.4,0,0.6,0.5)_infinite]">
                 <p className=" me-3 sombreado">Estamos verificando su cuenta. Por favor espere </p>
