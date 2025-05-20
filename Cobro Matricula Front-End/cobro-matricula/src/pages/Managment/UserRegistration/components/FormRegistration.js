@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from 'sweetalert2';
+import { RegisterUser } from "../../../../apiServices/UserServices";
+import { SwalFailed, SwalSuccess } from "../../../../sweetAlerts/SweetAlerts";
 
 export const FormRegistration = () => {
 
@@ -20,20 +21,33 @@ export const FormRegistration = () => {
     const confirmPassRef = useRef();
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        Swal.fire({
-        title: "Registro Exitoso!!",
-        text: "Revisa tu correo para confirmar tu registro!!",
-        icon: "success",
-        draggable: true,
-        confirmButtonText: "Listo",
-        customClass: "text-sm"
-        }).then(result => {
+
+        var registerUser = {
+            name: nameRef.current.value,
+            lastName: lastNameRef.current.value,
+            city: cityRef.current.value,
+            phone: phoneRef.current.value,
+            email: emailRef.current.value,
+            password : passRef.current.value,
+            confirmPassword : confirmPassRef.current.value
+        }
+
+        var response = RegisterUser(registerUser);
+
+        if (response.isSuccess) {
+            const result = await SwalSuccess("Registro Exitoso!!",["Revisa tu correo para confirmar tu registro!!"]);
             if(result.isConfirmed){
                 navigate('/');
             }
-        });
+        }else{
+            const result = await SwalFailed('Oops...',["No se pudo realizar el registro"],'Por favor inténtalo más tarde');
+            if (result.isConfirmed) {
+                navigate('/');    
+            }
+            
+        }
     }
 
 
@@ -110,7 +124,7 @@ export const FormRegistration = () => {
             <div className="flex items-center h-5">
             <input id="remember" type="checkbox" value="" onChange={() => setEnableRegistrationButton(!enableRegistrationButton)} className="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required />
             </div>
-            <label htmlFor="remember" className="ms-2 text-sm font-medium  dark:text-gray-300">I agree with the <Link to='/' className="text-pink-600 hover:underline dark:text-blue-500">terms and conditions</Link>.</label>
+            <label htmlFor="remember" className="ms-2 text-sm font-medium  dark:text-gray-300">Aceptas los <Link to='/' className="text-pink-600 hover:underline dark:text-blue-500">términos y condiciones</Link>.</label>
         </div>
         
         <button type="submit" disabled={enableRegistrationButton ? false: true} className={`text-white ${enableRegistrationButton ? 'bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer':'bg-blue-400 cursor-not-allowed'} font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}>Registrar</button>

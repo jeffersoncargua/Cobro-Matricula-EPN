@@ -1,32 +1,45 @@
-import {useRef, useState} from 'react';
-import Swal from 'sweetalert2';
+import {useRef} from 'react';
+import { UpdateUser } from '../../../../apiServices/UserServices';
+import { SwalFailed, SwalUpdated } from '../../../../sweetAlerts/SweetAlerts';
 
-export const ModalUpdatedUser = ({enableModal,setEnableModal}) => {
+export const ModalUpdatedUser = ({enableModal,setEnableModal,user}) => {
 
-    const [enablePass, setEnablePass] = useState(false);
-    const [enableConfirmPass, setEnableConfirmPass] = useState(false);
+    // const [enablePass, setEnablePass] = useState(false);
+    // const [enableConfirmPass, setEnableConfirmPass] = useState(false);
 
     const nameRef = useRef();
     const lastNameRef = useRef();
     const cityRef = useRef();
     const phoneRef = useRef()
     const emailRef = useRef();
-    const passRef = useRef();
-    const confirmPassRef = useRef();
+    //const passRef = useRef();
+    //const confirmPassRef = useRef();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
-        Swal.fire({
-        title: "Actualización Exitosa!!",
-        icon: "success",
-        draggable: true,
-        confirmButtonText: "Listo",
-        customClass:"text-sm"
-        }).then(result => {
-          if(result.isConfirmed){
-            setEnableModal(false);
-          }
-        });
+        var userUpdated = {
+            name: nameRef.current.value,
+            lastName : lastNameRef.current.value,
+            city: cityRef.current.value,
+            phone: phoneRef.current.value,
+            email: emailRef.current.value
+        }
+
+        var response = UpdateUser(userUpdated);
+
+        if(response.isSuccess){
+            const result = await SwalUpdated("Exito!!",'Tu información ha sido actualizada correctamente',"https://i.gifer.com/SWYA.gif");
+            if (result.isConfirmed) {
+                setEnableModal(false);
+            }
+            
+        }else{
+            const result = await SwalFailed('Oops',["No se pudo actualizar la información del usuario"],'Por favor, inténtalo más tarde');
+            if(result.isConfirmed){
+                setEnableModal(false);
+            }
+        }
+
     }
 
   return (
@@ -54,26 +67,26 @@ export const ModalUpdatedUser = ({enableModal,setEnableModal}) => {
                             <div className="grid gap-6 mb-6 md:grid-cols-2  ">
                                 <div>
                                     <label htmlFor="first_name" className="block mb-2 text-sm font-medium  dark:text-white">Nombre</label>
-                                    <input type="text" id="first_name" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Antonio" required ref={nameRef} />
+                                    <input type="text" id="first_name" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Antonio" defaultValue={user.name} required ref={nameRef} />
                                 </div>
                                 <div>
                                     <label htmlFor="last_name" className="block mb-2 text-sm font-medium  dark:text-white">Apellido</label>
-                                    <input type="text" id="last_name" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Sanchez" required ref={lastNameRef} />
+                                    <input type="text" id="last_name" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Sanchez" defaultValue={user.lastName} required ref={lastNameRef} />
                                 </div>
                                 <div>
                                     <label htmlFor="city" className="block mb-2 text-sm font-medium  dark:text-white">Ciudad</label>
-                                    <input type="text" id="city" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Quito" required ref={cityRef} />
+                                    <input type="text" id="city" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Quito" required defaultValue={user.city} ref={cityRef} />
                                 </div>  
                                 <div>
                                     <label htmlFor="phone" className="block mb-2 text-sm font-medium  dark:text-white">Telefono: +593</label>
-                                    <input type="tel" id="phone" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0987654321" pattern="[0-9]{10}" required ref={phoneRef} />
+                                    <input type="tel" id="phone" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0987654321" pattern="[0-9]{10}" defaultValue={user.phone} required ref={phoneRef} />
                                 </div>
                             </div>
                             <div className="mb-6">
                                 <label htmlFor="email" className="block mb-2 text-sm font-medium  dark:text-white">Correo Electrónico</label>
-                                <input type="email" id="email" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@example.com" required ref={emailRef} />
+                                <input disabled type="email" id="email" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@example.com" value={user.email} required ref={emailRef} />
                             </div> 
-                            <div className="mb-6">
+                            {/* <div className="mb-6">
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium  dark:text-white">Contraseña</label>
                                 <div className='w-full relative'>
                                     <input type={enablePass ? 'text':"password"} id="password" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required ref={passRef} />
@@ -117,7 +130,7 @@ export const ModalUpdatedUser = ({enableModal,setEnableModal}) => {
                                     </button>
                                 </div>
                                 
-                            </div>                            
+                            </div>*/}
                             <button type="submit" className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}>Editar</button>
                         </form>
                     </div>

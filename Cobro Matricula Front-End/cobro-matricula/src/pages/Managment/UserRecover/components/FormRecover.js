@@ -1,30 +1,45 @@
 import { useRef, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import Swal from "sweetalert2";
+import { useNavigate, useSearchParams } from 'react-router-dom';
+//import Swal from "sweetalert2";
+import { SwalFailed, SwalUpdated } from "../../../../sweetAlerts/SweetAlerts";
+import { ResetPass } from "../../../../apiServices/UserServices";
 
 export const FormRecover = () => {
 
     const [enablePass, setEnablePass] = useState(false);
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     const newPassRef = useRef();
     const confirmPassRef = useRef();
 
-    const handleChangePass = (e) => {
+    
+
+    const handleChangePass = async(e) => {
         e.preventDefault();
-        Swal.fire({
-        title: "Listo!",
-        text: "Tu contraseña ha sido actualizada!!",
-        imageUrl: "https://i.gifer.com/SWYA.gif",
-        imageWidth: 300,
-        imageHeight: 200,
-        imageAlt: "Custom image",
-        customClass: "text-sm"
-        }).then(result => {
-            if(result.isConfirmed){
+
+        var resetRequest = {
+            email : searchParams.get('email'),
+            token: searchParams.get('token'),
+            password : newPassRef.current.value,
+            confirmPassword: confirmPassRef.current.value
+        }
+
+        var response = ResetPass(resetRequest);
+
+        if (response.isSuccess) {
+            const result = await SwalUpdated("Listo!","Tu contraseña ha sido actualizada!!","https://i.gifer.com/SWYA.gif");
+            if (result.isConfirmed) {
                 navigate('/');
             }
-        });
+            
+        }else{
+            const result = await SwalFailed("Oopss..",["No se ha podido realizar tu solicitud de cambio de contraseña"],"Intenta nuevamente enviando una solicitud con tus datos válidos. Para mayor información solicita ayuda al administrador del sistema");
+            if (result.isConfirmed) {
+                navigate('/');    
+            }
+            
+        }
     }
 
   return (

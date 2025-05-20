@@ -9,8 +9,8 @@ export const AllRoutes = () => {
         <Route path="manage" element={<Managment/>} >
           <Route path="registration" element={<UserRegistration/>} />
           <Route path="users" element={<UserManagment/>} />
-           <Route path="forget" element={<UserRecover/>} />
-           <Route path="confimation" element={<UserConfirmation/>} />
+          <Route path="reset" element={<UserRecover/>} />
+          <Route path="confirmation" element={<UserConfirmation/>} />
         </Route>
     </Routes>
   )
