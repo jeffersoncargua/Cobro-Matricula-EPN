@@ -18,15 +18,17 @@ namespace Cobro_Matricula_EPN.Repository
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly string secretKey;
+        private readonly FrontEndConfig _frontConfig;
 
         public UserRepository(IMapper mapper,IEmailRepository emailRepo ,IConfiguration config,
-            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, FrontEndConfig frontConfig)
         {
             _mapper = mapper;
             _emailRepo = emailRepo;
             _userManager = userManager;
             _roleManager = roleManager;
             secretKey = config.GetValue<string>("APISettings:SecretKey")!;
+            _frontConfig = frontConfig;
         }
 
         public async Task<bool> ConfirmEmailAsync(string token, string email)
@@ -57,7 +59,7 @@ namespace Cobro_Matricula_EPN.Repository
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(userExist);
 
-            var forgetLink = $"{"Aqui va la url del la pagina del url para recuperar contraseña"}?token={token}&email={email}";
+            var forgetLink = $"{_frontConfig.Url}/manage/reset?token={token}&email={email}";
 
             var emailMessage = new Message([userExist.Email!], "Recuperacion de Contraseña", $"Para cambiar tu contraseña presiona este <a href='{forgetLink}'>enlace</a> ");
 
@@ -177,7 +179,7 @@ namespace Cobro_Matricula_EPN.Repository
 
                     var tokenEmail = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                    var confirmedEmail = $"{"Aqui va la url del front-end"}?token={tokenEmail}&email={user.Email}";
+                    var confirmedEmail = $"{_frontConfig.Url}/manage/confirmation?token={tokenEmail}&email={user.Email}";
 
                     var emailMessage = new Message([user.Email], "Verificación del correo electrónico", $"Para confirmar presiona el <a href='{confirmedEmail}'>enlace</a> ");
 
@@ -237,27 +239,25 @@ namespace Cobro_Matricula_EPN.Repository
             return true;
         }
 
-        public async Task<UserDto> UpdateUserAsync(UserDto user)
+        public async Task<UserDto> UpdateUserAsync(UpdateUserDto updateUserDto)
         {
-            var userExist = await _userManager.FindByEmailAsync(user.Email);
-            if(userExist == null)
+            var userUpdated = await _userManager.FindByEmailAsync(updateUserDto.Email);
+            if(userUpdated == null)
             {
                 return null;
             }
 
-            ApplicationUser userUpdated = _mapper.Map<ApplicationUser>(userExist);
-
-            userUpdated.Name= user.Name;
-            userUpdated.LastName = user.LastName;
-            userUpdated.City = user.City;
-            userUpdated.Phone = user.Phone;
+            userUpdated.Name= updateUserDto.Name;
+            userUpdated.LastName = updateUserDto.LastName;
+            userUpdated.City = updateUserDto.City;
+            userUpdated.Phone = updateUserDto.Phone;
 
 
             var result = await _userManager.UpdateAsync(userUpdated);
 
             if (result.Succeeded)
             {
-                return user;
+                return _mapper.Map<UserDto>(userUpdated);
             }
             
             return null;

@@ -17,6 +17,6 @@ namespace Cobro_Matricula_EPN.Repository.IRepository
 
         Task<bool> ResetPasswordAsync(ResetPasswordRequestDto resetPasswordRequestDto);
 
-        Task<UserDto> UpdateUserAsync(UserDto user);
+        Task<UserDto> UpdateUserAsync(UpdateUserDto updateUserDto);
     }
 }

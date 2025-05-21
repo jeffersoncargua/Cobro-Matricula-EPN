@@ -150,22 +150,35 @@ namespace Cobro_Matricula_EPN.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> ForgetPassword([FromBody] string email)
         {
-            var result = await _userRepo.ForgetPasswordAsyn(email);
-            if (result)
+            if(await _userRepo.IsConfirmEmail(email))
             {
-                _response.IsSuccess = true;
-                _response.Message.Add("Para cambiar tu contraseña revisa tu correo y sigue los pasos!!");
-                _response.StatusCode = HttpStatusCode.OK;
-                _response.Result = null;
-                return Ok(_response);
+                var result = await _userRepo.ForgetPasswordAsyn(email);
+                if (result)
+                {
+                    _response.IsSuccess = true;
+                    _response.Message.Add("Para cambiar tu contraseña revisa tu correo y sigue los pasos!!");
+                    _response.StatusCode = HttpStatusCode.OK;
+                    _response.Result = null;
+                    return Ok(_response);
 
+                }
+
+                _response.IsSuccess = false;
+                _response.Message.Add("El usuario no esta registrado!!!");
+                _response.StatusCode = HttpStatusCode.NotFound;
+                _response.Result = null;
+                return NotFound(_response);
+            }
+            else
+            {
+                _response.IsSuccess = false;
+                _response.Message.Add("El no ha verificado su cuenta o no esta registrado!!!");
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.Result = null;
+                return BadRequest(_response);
             }
 
-            _response.IsSuccess = false;
-            _response.Message.Add("El usuario no esta registrado!!!");
-            _response.StatusCode = HttpStatusCode.NotFound;
-            _response.Result = null;
-            return NotFound(_response);
+            
         }
 
         [HttpGet("ConfirmEmail")]
@@ -215,9 +228,9 @@ namespace Cobro_Matricula_EPN.Controllers
         [HttpPut("UpdateUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> UpdateUSer([FromBody] UserDto userDto)
+        public async Task<ActionResult<APIResponse>> UpdateUser([FromBody] UpdateUserDto updateUserDto)
         {
-            var result = await _userRepo.UpdateUserAsync(userDto);
+            var result = await _userRepo.UpdateUserAsync(updateUserDto);
             if (result != null)
             {
                 _response.Result = result;

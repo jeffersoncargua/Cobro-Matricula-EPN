@@ -47,6 +47,10 @@ builder.Services.AddSwaggerGen();
 var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
 builder.Services.AddSingleton(emailConfig);
 
+//Add Services Connection Front-End 
+var frontUrl = builder.Configuration.GetSection("FrontEndConfiguration").Get<FrontEndConfig>();
+builder.Services.AddSingleton(frontUrl);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
