@@ -17,11 +17,19 @@ export const UserManagment = () => {
   }
 
   useEffect(()=>{
-    var response = GetUsers();
-    if(response.isSuccess){
-      setUsers(response.result);
+
+    const fetchData = async() => {
+      var response = await GetUsers();
+      if(response.isSuccess){
+        setUsers(response.result);
+      }else{
+        setUsers([]);
+      }
     }
-  },[setUsers])
+
+    fetchData();
+    
+  },[setUsers, setUser])
   
   const handleDeletedUser = async(email) => {
     let responseSwal = await SwalDeleted();
@@ -30,7 +38,7 @@ export const UserManagment = () => {
       if(apiResponse.isSuccess){
         SwalConfirmed();
       }else{
-        SwalFailed('Oopss',["No se ha podido eliminar el registro"],'Solicita ayuda con el administrador');
+        SwalFailed('Oopss',apiResponse.message,'Solicita ayuda con el administrador');
       }
     }else{
       SwalCancel();

@@ -10,6 +10,27 @@ using Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Add provider and configuration to allow CORS configuration
+var provider = builder.Services.BuildServiceProvider();
+var configuration = provider.GetRequiredService<IConfiguration>();
+
+
+
+//Add services for CORS configuration
+builder.Services.AddCors(options =>
+{
+    var frontEndUrl = configuration.GetValue<string>("FrontEndConfiguration:Url");
+
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins(frontEndUrl)
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials();
+    });
+});
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -63,7 +84,11 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+
+
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 

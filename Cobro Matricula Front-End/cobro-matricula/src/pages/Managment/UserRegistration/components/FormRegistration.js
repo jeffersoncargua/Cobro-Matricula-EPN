@@ -1,84 +1,91 @@
-import { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { RegisterUser } from "../../../../apiServices/UserServices";
+import { useForm } from 'react-hook-form';
 import { SwalFailed, SwalSuccess } from "../../../../sweetAlerts/SweetAlerts";
+import { ButtonLoading } from "../../../../components";
+import { message,patterns } from "../../../../utility/Validation";
+import { ErrorMessageValidator } from "../../../../components";
+
 
 export const FormRegistration = () => {
 
-    //var user; // sirve para enviar los datos del formulario a la API
+    //Esta funcion permitira realizar las validaciones de los campos
+    //correspondientes y verificarlos cuando se realice el submit del formulario
+    const {register, handleSubmit,formState:{errors}, watch} = useForm({
+        defaultValues:{
+            role : 'Assistant'
+        }
+    });
+    
 
-    const [enableRegistrationButton, setEnableRegistrationButton] = useState(false);
+    //const [enableRegistrationButton, setEnableRegistrationButton] = useState(false);
     const [enablePass, setEnablePass] = useState(false);
     const [enableConfirmPass, setEnableConfirmPass] = useState(false);
-
+    const [showButtonLoading,setShowButtonLoading] = useState(false);
+    const password = watch('password');
     
-    const nameRef = useRef();
-    const lastNameRef = useRef();
-    const cityRef = useRef();
-    const phoneRef = useRef()
-    const emailRef = useRef();
-    const passRef = useRef();
-    const confirmPassRef = useRef();
     const navigate = useNavigate();
 
-    const handleSubmit = async(e) => {
-        e.preventDefault();
 
-        var registerUser = {
-            name: nameRef.current.value,
-            lastName: lastNameRef.current.value,
-            city: cityRef.current.value,
-            phone: phoneRef.current.value,
-            email: emailRef.current.value,
-            password : passRef.current.value,
-            confirmPassword : confirmPassRef.current.value
-        }
+    const HandleSubmit = async(registrationUser) => {
+        //e.preventDefault();
 
-        var response = RegisterUser(registerUser);
+        setShowButtonLoading(true);
 
-        if (response.isSuccess) {
-            const result = await SwalSuccess("Registro Exitoso!!",["Revisa tu correo para confirmar tu registro!!"]);
-            if(result.isConfirmed){
-                navigate('/');
+        var response = await RegisterUser(registrationUser);
+
+            console.log(response);
+
+            if (response.isSuccess) {
+                const result = await SwalSuccess("Registro Exitoso!!",response.message);
+                if(result.isConfirmed){
+                    navigate('/');
+                }
+            }else{
+                //const result = await SwalFailed('Oops...',response.message);
+                SwalFailed('Oops...',response.message);
+                console.log(response.message);
             }
-        }else{
-            const result = await SwalFailed('Oops...',["No se pudo realizar el registro"],'Por favor inténtalo más tarde');
-            if (result.isConfirmed) {
-                navigate('/');    
-            }
-            
-        }
+
+        
+        setShowButtonLoading(false);
     }
 
 
   return (
-    <form className="w-full md:w-1/2 text-slate-900 p-4 m-4 border border-slate-100 rounded-lg bg-gradient-to-r from-indigo-500/75 from-10% via-sky-500 via-30% to-emerald-500/75 to-90%" onSubmit={handleSubmit}>
+    <form className=" w-full md:w-1/2 text-slate-900 p-4 m-4 border border-slate-100 rounded-lg bg-gradient-to-r from-indigo-500/75 from-10% via-sky-500 via-30% to-emerald-500/75 to-90%" onSubmit={handleSubmit(HandleSubmit)}  >
         <div className="grid gap-6 mb-6 md:grid-cols-2  ">
             <div>
-                <label htmlFor="first_name" className="block mb-2 text-sm font-medium  dark:text-white">Nombre</label>
-                <input type="text" id="first_name" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Roberta" required ref={nameRef} />
+                <label htmlFor="name" className="block mb-2 text-sm font-medium ">Nombre</label>
+                <input type="text" name="name" {...register("name",{required: message.req.name,pattern:{value:patterns.letters,message:message.name}})} className={` bg-gray-50 border  ${errors.name ? 'text-red-500  focus:outline-red-700' : 'text-slate-800 focus:outline-blue-500'} text-sm rounded-lg block w-full p-2.5 `} placeholder="Roberta"  />
+                {errors.name && ( <ErrorMessageValidator message={errors.name.message} /> )}
             </div>
             <div>
-                <label htmlFor="last_name" className="block mb-2 text-sm font-medium  dark:text-white">Apellido</label>
-                <input type="text" id="last_name" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mendez" required ref={lastNameRef} />
+                <label htmlFor="lastName" className="block mb-2 text-sm font-medium dark:text-white">Apellido</label>
+                <input type="text" name="lastName" {...register("lastName",{required: message.req.lastName,pattern:{value:patterns.letters,message:message.lastName}})} className={` bg-gray-50 border  ${errors.lastName ? 'text-red-500  focus:outline-red-700' : 'text-slate-800 focus:outline-blue-500'} text-sm rounded-lg block w-full p-2.5 `} placeholder="Mendez"  />
+                {errors.lastName && ( <ErrorMessageValidator message={errors.lastName.message} /> )}
             </div>
             <div>
                 <label htmlFor="city" className="block mb-2 text-sm font-medium  dark:text-white">Ciudad</label>
-                <input type="text" id="city" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Guayaquil" required ref={cityRef} />
+                <input type="text" name="city" {...register("city",{required: message.req.city})} className={` bg-gray-50 border  ${errors.city ? 'text-red-500  focus:outline-red-700' : 'text-slate-800 focus:outline-blue-500'} text-sm rounded-lg block w-full p-2.5 `} placeholder='Guayaquil'/>
+                {errors.city && ( <ErrorMessageValidator message={errors.city.message} /> )}
             </div>  
             <div>
                 <label htmlFor="phone" className="block mb-2 text-sm font-medium  dark:text-white">Telefono: +593</label>
-                <input type="tel" id="phone" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="0987654321" pattern="[0-9]{10}" required ref={phoneRef} />
+                <input type="tel" name="phone" {...register("phone",{required: message.req.phone, pattern:{value:patterns.numbers,message:message.phone}})} className={` bg-gray-50 border  ${errors.phone ? 'text-red-500  focus:outline-red-700' : 'text-slate-800 focus:outline-blue-500'} text-sm rounded-lg block w-full p-2.5 `} placeholder="0987654321"  />
+                {errors.phone && ( <ErrorMessageValidator message={errors.phone.message} /> )}
             </div>
         </div>
         <div className="mb-6">
             <label htmlFor="email" className="block mb-2 text-sm font-medium  dark:text-white">Correo Electrónico</label>
-            <input type="email" id="email" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="example@example.com" required ref={emailRef} />
+            <input type="email" name="email" {...register("email",{required: message.req.email, pattern:{value:patterns.email,message:message.email}})} className={` bg-gray-50 border  ${errors.email ? 'text-red-500  focus:outline-red-700' : 'text-slate-800 focus:outline-blue-500'} text-sm rounded-lg block w-full p-2.5 `} placeholder="example@example.com"  />
+            {errors.email && ( <ErrorMessageValidator message={errors.email.message} /> )}            
         </div> 
         <div className="mb-6">
             <label htmlFor="password" className="block mb-2 text-sm font-medium  dark:text-white">Contraseña</label>
             <div className="w-full relative">
-                <input type={enablePass ? 'text':"password" } id="password" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required ref={passRef} />
+                <input type={enablePass ? 'text':"password" } name="password" {...register("password",{required: message.req.password,pattern:{value:patterns.password,message:message.password}})}  className={` bg-gray-50 border  ${errors.password ? 'text-red-500  focus:outline-red-700' : 'text-slate-800 focus:outline-blue-500'} text-sm rounded-lg block w-full p-2.5 `} placeholder="•••••••••"   />
                 <button type="button" onClick={() =>setEnablePass(!enablePass)} className="absolute inset-y-0 end-0 flex items-center pe-2.5 text-black hover:text-cyan-600">
                     {enablePass ? 
                     (
@@ -96,12 +103,13 @@ export const FormRegistration = () => {
                     )}
                 </button>
             </div>
+            {errors.password && ( <ErrorMessageValidator message={errors.password.message} /> )}
             
         </div> 
         <div className="mb-6 ">
-            <label htmlFor="confirm_password" className="block mb-2 text-sm font-medium  dark:text-white">Confirmar Contraseña</label>
+            <label htmlFor="confirmPass" className="block mb-2 text-sm font-medium  dark:text-white">Confirmar Contraseña</label>
             <div className="w-full relative ">
-                <input type={enableConfirmPass ? 'text':"password"} id="confirm_password" className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required ref={confirmPassRef} />
+                <input type={enableConfirmPass ? 'text':"password"} name="confirmPass" {...register("confirmPass",{required: message.req.confirmPass, validate: (value) => value === password || message.confirmPass })} className={` bg-gray-50 border  ${errors.confirmPass ? 'text-red-500  focus:outline-red-700' : 'text-slate-800 focus:outline-blue-500'} text-sm rounded-lg block w-full p-2.5 `} placeholder="•••••••••"  />
                 <button type="button" onClick={() => setEnableConfirmPass(!enableConfirmPass)} className="absolute inset-y-0 end-0 flex items-center pe-2.5 text-black hover:text-cyan-600" >
                 {enableConfirmPass ? 
                 (
@@ -118,16 +126,26 @@ export const FormRegistration = () => {
                 )}
                 </button>
             </div>
-            
+            {errors.confirmPass && ( <ErrorMessageValidator message={errors.confirmPass.message} /> )}
         </div> 
-        <div className="flex items-start mb-6">
+        {/* <div className="flex items-start mb-6">
             <div className="flex items-center h-5">
-            <input id="remember" type="checkbox" value="" onChange={() => setEnableRegistrationButton(!enableRegistrationButton)} className="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required />
+            <input id="remember" type="checkbox" value="" onChange={() => setEnableRegistrationButton(!enableRegistrationButton)} className="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 " />
             </div>
             <label htmlFor="remember" className="ms-2 text-sm font-medium  dark:text-gray-300">Aceptas los <Link to='/' className="text-pink-600 hover:underline dark:text-blue-500">términos y condiciones</Link>.</label>
-        </div>
+        </div> */}
+
+            
+
+            {!showButtonLoading ? 
+            (
+                <button type="submit"  className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center  `}>Registrar</button>
+            )
+            :
+            (
+                <ButtonLoading/>
+            )}
         
-        <button type="submit" disabled={enableRegistrationButton ? false: true} className={`text-white ${enableRegistrationButton ? 'bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer':'bg-blue-400 cursor-not-allowed'} font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}>Registrar</button>
     </form>
   )
 }
