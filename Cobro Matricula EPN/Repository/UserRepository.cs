@@ -3,8 +3,10 @@ using Cobro_Matricula_EPN.Repository.IRepository;
 using Entity.DTO.User;
 using Entity.Entities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Text;
 using Utility;
@@ -18,15 +20,17 @@ namespace Cobro_Matricula_EPN.Repository
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly string secretKey;
-
+        private readonly FrontEndConfig _frontConfig;
         public UserRepository(IMapper mapper,IEmailRepository emailRepo ,IConfiguration config,
-            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, FrontEndConfig frontConfig)
         {
             _mapper = mapper;
             _emailRepo = emailRepo;
             _userManager = userManager;
             _roleManager = roleManager;
             secretKey = config.GetValue<string>("APISettings:SecretKey")!;
+            _frontConfig = frontConfig;
+            
         }
 
         public async Task<bool> ConfirmEmailAsync(string token, string email)
@@ -37,6 +41,8 @@ namespace Cobro_Matricula_EPN.Repository
                 return false;
             }
 
+
+            token = token.Replace(" ","+");
             var result = await _userManager.ConfirmEmailAsync(userExist, token);
             if (result.Succeeded)
             {
@@ -47,26 +53,44 @@ namespace Cobro_Matricula_EPN.Repository
 
         }
 
-        public async Task<bool> ForgetPasswordAsyn(string email)
+        public async Task<ForgetResponseDto> ForgetPasswordAsyn(string email)
         {
             var userExist = await _userManager.FindByEmailAsync(email);
             if (userExist == null)
             {
-                return false;
+                return new ForgetResponseDto() { 
+                    Success = false,
+                    Message = "El usuario no se encuentra registrado"
+                };
             }
+
+            var isConfirmEmail = await IsConfirmEmail(email);
+            if (!isConfirmEmail)
+            {
+                return new ForgetResponseDto()
+                {
+                    Success = false,
+                    Message = "El usuario no ha confirmado su cuenta. Por favor revise su correo para verificar la cuenta"
+                };
+            }
+
 
             var token = await _userManager.GeneratePasswordResetTokenAsync(userExist);
 
-            var forgetLink = $"{"Aqui va la url del la pagina del url para recuperar contraseña"}?token={token}&email={email}";
+            var forgetLink = $"{_frontConfig.Url}/manage/reset?token={token}&email={email}";
 
             var emailMessage = new Message([userExist.Email!], "Recuperacion de Contraseña", $"Para cambiar tu contraseña presiona este <a href='{forgetLink}'>enlace</a> ");
 
             _emailRepo.SendEmail(emailMessage);
 
-            return true;
+            return new ForgetResponseDto()
+            {
+                Success = true,
+                Message = "Solicitud aceptada. Por favor revice su correo para continuar con el proceso de cambio de contraseña"
+            };
         }
 
-        public async Task<bool> IsConfirmEmail(string email)
+        private async Task<bool> IsConfirmEmail(string email)
         {
             var userExist = await _userManager.FindByEmailAsync(email);
             if (userExist == null) 
@@ -77,7 +101,7 @@ namespace Cobro_Matricula_EPN.Repository
             return await _userManager.IsEmailConfirmedAsync(userExist);
         }
 
-        public async Task<bool> IsUnique(string email)
+        private async Task<bool> IsUnique(string email)
         {
             //var result = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
             //Permite obtener el usuario a partir del email
@@ -96,13 +120,27 @@ namespace Cobro_Matricula_EPN.Repository
         {
             //var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == loginRequestDto.Email && u.Password == loginRequestDto.Password);
             //var userExist = await _db.Users.FirstOrDefaultAsync(u => u.Email == loginRequestDto.Email);
+            
+            
             var userExist = await _userManager.FindByEmailAsync(loginRequestDto.Email);
             if (userExist == null)
             {
                 return new LoginResponseDto
                 {
                     User = null,
-                    Token = ""
+                    Token = "",
+                    Message = "El usuario no esta registrado o el correo es incorrecto"
+                };
+            }
+
+            var isConfirmEmail = await IsConfirmEmail(loginRequestDto.Email);
+            if (!isConfirmEmail)
+            {
+                return new LoginResponseDto
+                {
+                    User = null,
+                    Token = "",
+                    Message = "El usuario no ha verificado su cuenta. Revise su correo para confirmar su cuenta antes de realizar el login"
                 };
             }
 
@@ -114,6 +152,7 @@ namespace Cobro_Matricula_EPN.Repository
                 {
                     User = null,
                     Token = "",
+                    Message = "La contraseña esta incorrecta"
                 };
             }
 
@@ -141,18 +180,29 @@ namespace Cobro_Matricula_EPN.Repository
             {
                 User = userDto,
                 Token = tokenhandler.WriteToken(token),
+                Message = "Login exitoso"
             };
 
             return response;
         }
 
-        public async Task<bool> Register(RegistrationRequestDto registrationRequestDto)
+        public async Task<RegisterResponseDto> Register(RegistrationRequestDto registrationRequestDto)
         {
             try
             {
                 //var registration = _mapper.Map<User>(registrationRequestDto);
 
-                if (await _roleManager.RoleExistsAsync(registrationRequestDto.Role))
+                var isUnique = await IsUnique(registrationRequestDto.Email);
+                if (!isUnique) {
+                    return new RegisterResponseDto()
+                    {
+                        Success = false,
+                        MessageResponse = new List<string>() { "Ya existe un registro con ese correo" }
+                    };
+                }
+
+                var roleExist = await _roleManager.RoleExistsAsync(registrationRequestDto.Role);
+                if (roleExist)
                 {
                     ApplicationUser user = new()
                     {
@@ -163,36 +213,51 @@ namespace Cobro_Matricula_EPN.Repository
                         City = registrationRequestDto.City,
                         Phone = registrationRequestDto.Phone,
                         NormalizedEmail = registrationRequestDto.Email.ToUpper(),
-                        PasswordHash = registrationRequestDto.Password,
+                        //PasswordHash = registrationRequestDto.Password,
                     };
 
                     var result = await _userManager.CreateAsync(user, registrationRequestDto.Password);
 
                     if (!result.Succeeded)
                     {
-                        return false;
+                        return new RegisterResponseDto() {
+                            Success = false,
+                            MessageResponse = (List<string>)result.Errors
+                        };
                     }
 
                     await _userManager.AddToRoleAsync(user, registrationRequestDto.Role);
 
                     var tokenEmail = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                    var confirmedEmail = $"{"Aqui va la url del front-end"}?token={tokenEmail}&email={user.Email}";
+                    var confirmedEmail = $"{_frontConfig.Url}/manage/confirmation?token={tokenEmail}&email={user.Email}";
 
                     var emailMessage = new Message([user.Email], "Verificación del correo electrónico", $"Para confirmar presiona el <a href='{confirmedEmail}'>enlace</a> ");
 
                     _emailRepo.SendEmail(emailMessage);
 
-                    return true;
+                    return new RegisterResponseDto
+                    {
+                        Success = true,
+                        MessageResponse= new List<string>() {"Registro Exitoso"}
+                    };
                 }
 
-                return false;
+                return new RegisterResponseDto
+                {
+                    Success = false,
+                    MessageResponse = new List<string>() { "No existe el rol" }
+                };
 
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return false;
+                return new RegisterResponseDto
+                {
+                    Success = false,
+                    MessageResponse = new List<string>() { ex.ToString() }
+                };
             }
 
         }
@@ -220,48 +285,67 @@ namespace Cobro_Matricula_EPN.Repository
             }
         }
 
-        public async Task<bool> ResetPasswordAsync(ResetPasswordRequestDto resetPasswordRequestDto)
+        public async Task<ResetPasswordResponseDto> ResetPasswordAsync(ResetPasswordRequestDto resetPasswordRequestDto)
         {
             var userExist = await _userManager.FindByEmailAsync(resetPasswordRequestDto.Email);
             if (userExist == null)
             {
-                return false;
+                return new ResetPasswordResponseDto() { 
+                    Success = false,
+                    Message = "El usuario no se encuentra registrado"
+                };
             }
+
+            resetPasswordRequestDto.Token = resetPasswordRequestDto.Token.Replace(" ","+");
 
             var result = await _userManager.ResetPasswordAsync(userExist,resetPasswordRequestDto.Token,resetPasswordRequestDto.Password);
             if (!result.Succeeded)
             {
-                return false;
+                return new ResetPasswordResponseDto()
+                {
+                    Success = false,
+                    Message = "Ha ocurrido un error al cambiar su contraseña. Intentelo nuevamente"
+                };
             }
 
-            return true;
+            return new ResetPasswordResponseDto()
+            {
+                Success = true,
+                Message = "Se ha actualizado su contraseña. Por favor, intente iniciar sesion"
+            };
         }
 
-        public async Task<UserDto> UpdateUserAsync(UserDto user)
+        public async Task<UserDto> UpdateUserAsync(UpdateUserDto updateUserDto)
         {
-            var userExist = await _userManager.FindByEmailAsync(user.Email);
-            if(userExist == null)
+            var userUpdated = await _userManager.FindByEmailAsync(updateUserDto.Email);
+            if(userUpdated == null)
             {
                 return null;
             }
 
-            ApplicationUser userUpdated = _mapper.Map<ApplicationUser>(userExist);
-
-            userUpdated.Name= user.Name;
-            userUpdated.LastName = user.LastName;
-            userUpdated.City = user.City;
-            userUpdated.Phone = user.Phone;
+            userUpdated.Name= updateUserDto.Name;
+            userUpdated.LastName = updateUserDto.LastName;
+            userUpdated.City = updateUserDto.City;
+            userUpdated.Phone = updateUserDto.Phone;
 
 
             var result = await _userManager.UpdateAsync(userUpdated);
 
             if (result.Succeeded)
             {
-                return user;
+                return _mapper.Map<UserDto>(userUpdated);
             }
             
             return null;
 
+        }
+
+        public async Task<List<UserDto>> GetUsers(Expression<Func<ApplicationUser, bool>>? filter = null)
+        {
+            
+            var users = await _userManager.Users.Where(filter).ToListAsync();
+
+            return _mapper.Map<List<UserDto>>(users);
         }
     }
 }

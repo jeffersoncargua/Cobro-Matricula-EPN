@@ -1,49 +1,53 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useSearchParams } from 'react-router-dom';
 //import Swal from "sweetalert2";
 import { SwalFailed, SwalUpdated } from "../../../../sweetAlerts/SweetAlerts";
 import { ResetPass } from "../../../../apiServices/UserServices";
+import { useForm } from "react-hook-form";
+import { ButtonLoading } from "../../../../components";
+import { message, patterns } from "../../../../utility/Validation";
+import { ErrorMessageValidator } from "../../../../components";
 
 export const FormRecover = () => {
 
     const [enablePass, setEnablePass] = useState(false);
+    const [enablePass2, setEnablePass2] = useState(false);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
+    const [showButtonLoading, setShowButtonLoading] = useState(false);
 
-    const newPassRef = useRef();
-    const confirmPassRef = useRef();
-
-    
-
-    const handleChangePass = async(e) => {
-        e.preventDefault();
-
-        var resetRequest = {
+    const {register, handleSubmit, formState:{errors}, watch} = useForm({
+        defaultValues:{
             email : searchParams.get('email'),
-            token: searchParams.get('token'),
-            password : newPassRef.current.value,
-            confirmPassword: confirmPassRef.current.value
+            token: searchParams.get('token'), 
         }
+    });   
+    
+    const password = watch('password');
 
-        var response = ResetPass(resetRequest);
+    const handleChangePass = async(resetPasswordRequest) => {
+        
+        setShowButtonLoading(true);
+
+        var response = await ResetPass(resetPasswordRequest);
 
         if (response.isSuccess) {
-            const result = await SwalUpdated("Listo!","Tu contraseña ha sido actualizada!!","https://i.gifer.com/SWYA.gif");
+            const result = await SwalUpdated("Listo!",response.message,"https://i.gifer.com/SWYA.gif");
             if (result.isConfirmed) {
                 navigate('/');
             }
             
         }else{
-            const result = await SwalFailed("Oopss..",["No se ha podido realizar tu solicitud de cambio de contraseña"],"Intenta nuevamente enviando una solicitud con tus datos válidos. Para mayor información solicita ayuda al administrador del sistema");
-            if (result.isConfirmed) {
-                navigate('/');    
-            }
+            SwalFailed("Oopss..",response.message,"Intenta nuevamente enviando una solicitud con tus datos válidos. Para mayor información solicita ayuda al administrador del sistema");
             
         }
+            
+        setShowButtonLoading(false);
+
     }
 
   return (
-    <form className='border border-slate-600 p-2 rounded-lg w-80 text-sm space-y-4 bg-gray-500/50' onSubmit={handleChangePass} >                    
+    <form className='border border-slate-600 p-2 rounded-lg w-80 text-sm space-y-4 bg-gray-500/50' onSubmit={handleSubmit(handleChangePass)} >                    
         <label htmlFor="password" className=" text-center block mb-2 font-medium text-slate-100 dark:text-white">Ingresar tu nueva contraseña</label>
         <div className="flex">
             <span className="inline-flex items-center px-3 text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
@@ -53,7 +57,7 @@ export const FormRecover = () => {
                 </svg>
             </span>
             <div className='relative w-full'>
-                <input type={!enablePass ? 'password':'text'} id="password" className="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mjug&/%113" ref={newPassRef} />
+                <input type={!enablePass ? 'password':'text'} name="password" {...register('password',{required:message.req.password, pattern:{value:patterns.password, message: message.password}})} className="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mjug&/%113" />
                 <button type='button' className='absolute inset-y-0 end-0 flex items-center pe-2.5 ' onClick={()=>setEnablePass(!enablePass)}>
                     {!enablePass ? 
                     (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-eye-fill hover:text-gray-500" viewBox="0 0 16 16">
@@ -67,6 +71,8 @@ export const FormRecover = () => {
                 </button>
             </div>
         </div>
+        {errors.password && (<ErrorMessageValidator message={errors.password.message} />)}
+        <label htmlFor="password" className=" text-center block mb-2 font-medium text-slate-100 dark:text-white">Confirmar Contraseña</label>
         <div className="flex">
             <span className="inline-flex items-center px-3 text-gray-900 bg-gray-200 border rounded-e-0 border-gray-300 border-e-0 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
                 <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -75,9 +81,9 @@ export const FormRecover = () => {
                 </svg>
             </span>
             <div className='relative w-full'>
-                <input type={!enablePass ? 'password':'text'} id="password" className="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mjug&/%113" ref={confirmPassRef} />
-                <button type='button' className='absolute inset-y-0 end-0 flex items-center pe-2.5 ' onClick={()=>setEnablePass(!enablePass)}>
-                    {!enablePass ? 
+                <input type={!enablePass2 ? 'password':'text'} name="confirmPassword" {...register('confirmPassword',{required:message.req.password, validate: (value) => value === password || message.confirmPass })} className="rounded-none rounded-e-lg bg-gray-50 border text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full border-gray-300 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Mjug&/%113"  />
+                <button type='button' className='absolute inset-y-0 end-0 flex items-center pe-2.5 ' onClick={() => setEnablePass2(!enablePass2)}>
+                    {!enablePass2 ? 
                     (<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-eye-fill hover:text-gray-500" viewBox="0 0 16 16">
                         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
                         <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
@@ -89,10 +95,20 @@ export const FormRecover = () => {
                 </button>
             </div>
         </div>
-        <div className='mt-2 flex flex-col'>
-            <button type='submit' className='px-2.5 py-2.5 text-center bg-cyan-500 hover:bg-cyan-600 hover:text-white rounded-lg'>Confirmar</button>            
-        </div>
-        
+        {errors.confirmPassword && (<ErrorMessageValidator message={errors.confirmPassword.message} />)}
+        { showButtonLoading ?
+            (
+                <ButtonLoading />
+            )
+            :
+            (
+                <div className='mt-2 flex flex-col'>
+                    <button type='submit' className='px-2.5 py-2.5 text-center bg-cyan-500 hover:bg-cyan-600 hover:text-white rounded-lg'>Confirmar</button>            
+                </div>
+            )
+        }
+            
     </form>
   )
 }
+

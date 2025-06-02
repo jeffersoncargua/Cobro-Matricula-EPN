@@ -21,6 +21,21 @@ namespace Cobro_Matricula_EPN.Controllers
             _userRepo = userRepo;
         }
 
+        [HttpGet("GetUsers")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<APIResponse>> GetAll([FromQuery] string query= null)
+        {
+            var users = await _userRepo.GetUsers(u => u.Name == query);
+
+            _response.IsSuccess = true;
+            _response.Message.Add("Se envio la lista de usuarios");
+            _response.Result = users;
+            _response.StatusCode = HttpStatusCode.OK;
+            return Ok(_response);
+        }
+
         [HttpPost("Login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -38,38 +53,28 @@ namespace Cobro_Matricula_EPN.Controllers
                 //    return BadRequest(_response);
                 //}
 
-                if(await _userRepo.IsConfirmEmail(loginRequestDto.Email))
+                var result = await _userRepo.Login(loginRequestDto);
+                if (result.User == null && string.IsNullOrEmpty(result.Token))
                 {
-                    var result = await _userRepo.Login(loginRequestDto);
-                    if (result.User == null && string.IsNullOrEmpty(result.Token))
-                    {
-                        _response.IsSuccess = false;
-                        _response.Message.AddRange(["Ha ocurrido un error en el servidor"]);
-                        _response.Result = null;
-                        _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
+                    _response.Message.Add(result.Message);
+                    _response.Result = null;
+                    _response.StatusCode = HttpStatusCode.BadRequest;
 
-                        return BadRequest(_response);
-                    }
-
-                    _response.IsSuccess = true;
-                    _response.Message.AddRange(["Login Exitoso!!"]);
-                    _response.Result = result;
-                    _response.StatusCode = HttpStatusCode.OK;
-                    return Ok(_response);
+                    return BadRequest(_response);
                 }
 
-                _response.IsSuccess = false;
-                _response.Message.AddRange(["El usuario no ha verificado su cuenta. Verifique su correo electronico"]);
-                _response.Result = null;
-                _response.StatusCode = HttpStatusCode.BadRequest;
-
-                return BadRequest(_response);
+                _response.IsSuccess = true;
+                _response.Message.Add(result.Message);
+                _response.Result = result;
+                _response.StatusCode = HttpStatusCode.OK;
+                return Ok(_response);
 
             }
             catch (Exception ex)
             {
                 _response.IsSuccess = true;
-                _response.Message.Add("El usuario ha sido eliminado de la base de datos!!!");
+                _response.Message.Add("El usuario no existe o ha sido eliminado de la base de datos!!!");
                 _response.Result = null;
                 return NotFound(_response);
             }
@@ -94,29 +99,19 @@ namespace Cobro_Matricula_EPN.Controllers
             //    return BadRequest(_response);
             //}
 
-            var isUnique = await _userRepo.IsUnique(registrationRequestDto.Email);
-            if (!isUnique)
-            {
-                _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.IsSuccess = false;
-                _response.Message.Add("El usuario ya existe!!!");
-                _response.Result = null;
-                return BadRequest(_response);
-            }
-
             var result = await _userRepo.Register(registrationRequestDto);
-            if (!result)
+            if (!result.Success)
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
-                _response.IsSuccess = false;
-                _response.Message.Add(ModelState.ToString());
+                _response.IsSuccess = result.Success;
+                _response.Message = result.MessageResponse;
                 _response.Result = null;
                 return BadRequest(_response);
             }
 
             _response.StatusCode = HttpStatusCode.Created;
-            _response.IsSuccess = true;
-            _response.Message.Add("Registro exitoso!!!");
+            _response.IsSuccess = result.Success;
+            _response.Message = result.MessageResponse;
             _response.Result = null;
             return Ok(_response);
         }
@@ -151,10 +146,10 @@ namespace Cobro_Matricula_EPN.Controllers
         public async Task<ActionResult<APIResponse>> ForgetPassword([FromBody] string email)
         {
             var result = await _userRepo.ForgetPasswordAsyn(email);
-            if (result)
+            if (result.Success)
             {
                 _response.IsSuccess = true;
-                _response.Message.Add("Para cambiar tu contraseña revisa tu correo y sigue los pasos!!");
+                _response.Message.Add(result.Message);
                 _response.StatusCode = HttpStatusCode.OK;
                 _response.Result = null;
                 return Ok(_response);
@@ -162,10 +157,11 @@ namespace Cobro_Matricula_EPN.Controllers
             }
 
             _response.IsSuccess = false;
-            _response.Message.Add("El usuario no esta registrado!!!");
+            _response.Message.Add(result.Message);
             _response.StatusCode = HttpStatusCode.NotFound;
             _response.Result = null;
             return NotFound(_response);
+
         }
 
         [HttpGet("ConfirmEmail")]
@@ -196,18 +192,18 @@ namespace Cobro_Matricula_EPN.Controllers
         public async Task<ActionResult<APIResponse>> ResetPassword([FromBody] ResetPasswordRequestDto resetPasswordRequestDto)
         {
             var result = await _userRepo.ResetPasswordAsync(resetPasswordRequestDto);
-            if (result)
+            if (result.Success)
             {
                 _response.IsSuccess = true;
                 _response.StatusCode = HttpStatusCode.OK;
-                _response.Message.Add("Su contraseña ha sido actualizada");
+                _response.Message.Add(result.Message);
                 _response.Result = null;
                 return Ok(_response);
             }
 
             _response.IsSuccess = false;
             _response.StatusCode = HttpStatusCode.BadRequest;
-            _response.Message.Add("No es posible actualizar su contraseña. Por favor comuniquese con el administrador!!");
+            _response.Message.Add(result.Message);
             _response.Result = null;
             return BadRequest(_response);
         }
@@ -215,9 +211,9 @@ namespace Cobro_Matricula_EPN.Controllers
         [HttpPut("UpdateUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> UpdateUSer([FromBody] UserDto userDto)
+        public async Task<ActionResult<APIResponse>> UpdateUser([FromBody] UpdateUserDto updateUserDto)
         {
-            var result = await _userRepo.UpdateUserAsync(userDto);
+            var result = await _userRepo.UpdateUserAsync(updateUserDto);
             if (result != null)
             {
                 _response.Result = result;
@@ -237,3 +233,4 @@ namespace Cobro_Matricula_EPN.Controllers
     }
  
 }
+

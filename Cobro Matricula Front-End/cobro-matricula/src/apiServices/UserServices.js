@@ -3,7 +3,7 @@ import { useFetch } from "../hooks/useFetch";
 export async function LoginUser (loginRequest) {
 
     const verbose = 'POST';
-    const route = 'User/Login';
+    const route = 'api/User/Login';
     
     var response = await useFetch({verbose:verbose,route:route,objectRequest:loginRequest});
 
@@ -12,7 +12,7 @@ export async function LoginUser (loginRequest) {
 
 export async function RegisterUser(registerRequest) {
     const verbose = 'POST';
-    const route = 'User/Registration';
+    const route = 'api/User/Registration';
 
     var response = await useFetch({verbose:verbose,route:route,objectRequest:registerRequest});
 
@@ -21,7 +21,7 @@ export async function RegisterUser(registerRequest) {
 
 export async function ForgetPass(forgetRequest) {
     const verbose = 'POST';
-    const route = 'User/ForgetPassword';
+    const route = 'api/User/ForgetPassword';
 
     var response = await useFetch({verbose:verbose,route:route,objectRequest:forgetRequest});
 
@@ -30,7 +30,7 @@ export async function ForgetPass(forgetRequest) {
 
 export async function ResetPass(resetRequest) {
     const verbose = 'POST';
-    const route = 'User/ResetPassword';
+    const route = 'api/User/ResetPassword';
 
     var response = await useFetch({verbose:verbose,route:route,objectRequest:resetRequest});
 
@@ -39,8 +39,8 @@ export async function ResetPass(resetRequest) {
 
 export async function ConfirmationUser(confirmRequest) {
     const verbose = 'GET';
-    const route = `User/ConfirmEmail`;
-    const query = `?token=${confirmRequest.token}&email=${confirmRequest.email}`;
+    const route = `api/User/ConfirmEmail`;
+    const query = `?token=${confirmRequest.get('token')}&email=${confirmRequest.get('email')}`;
 
     var response = await useFetch({verbose:verbose,route:route,query:query});
 
@@ -49,7 +49,7 @@ export async function ConfirmationUser(confirmRequest) {
 
 export async function GetUsers() {
     const verbose = 'GET';
-    const route = 'User/GetUsers';
+    const route = 'api/User/GetUsers';
     
     var response = await useFetch({verbose:verbose,route:route});
     
@@ -58,7 +58,7 @@ export async function GetUsers() {
 
 export async function DeleteUser(email){
     const verbose = 'DELETE';    
-    const route = "User/DeleteUser";
+    const route = "api/User/DeleteUser";
     const query = `?email=${email}`;
 
     var response = await useFetch({verbose:verbose,route:route,query:query});
@@ -68,13 +68,14 @@ export async function DeleteUser(email){
 
 export async function UpdateUser(user) {
     const verbose = 'PUT';
-    const route = 'User/UpdateUser'
+    const route = 'api/User/UpdateUser'
     const query = `?email=${user.email}`;
 
     var response = await useFetch({verbose:verbose,route:route,objectRequest:user,query:query});
 
     return response;
 }
+
 
 
 
