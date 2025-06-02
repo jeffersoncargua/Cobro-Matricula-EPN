@@ -3,17 +3,19 @@ import {  useState } from 'react';
 //import {useNavigate} from 'react-router-dom';
 import {LoginUser} from '../../../apiServices/UserServices';
 //import { useFetch } from '../../../hooks/useFetch';
+import { useDispatch } from 'react-redux';
 import { SwalFailed, SwalSuccess } from '../../../sweetAlerts/SweetAlerts';
-import { ErrorMessageValidator } from '../../../components';
-import { useForm } from 'react-hook-form';
-import { message, patterns } from '../../../utility/Validation';
+import { login } from '../../../redux/userSlice';
+
 
 export const Login = ({setEnableForm, setEnableModalRecover}) => {
 
     const [enablePass, setEnablePass] = useState(false);
     const [showButtonLoading,setShowButtonLoading] = useState(false);
-
-    const { register, handleSubmit, formState:{errors}} = useForm();
+    const userRef = useRef();
+    const passReff = useRef();
+    const navigate = useNavigate();
+    const dispath = useDispatch();
 
     //const navigate = useNavigate();
 
@@ -21,9 +23,18 @@ export const Login = ({setEnableForm, setEnableModalRecover}) => {
 
         setShowButtonLoading(true);
 
-        var response = await LoginUser(logiRequest);
+        var userRequest = {
+            email : userRef.current.value,
+            password : passReff.current.value
+        }
+
+        var response = LoginUser(userRequest);
+        console.log(response);
 
         if(response.isSuccess){
+            //Aqui se almacena el token de usuario
+            dispath(login(response.result));
+            
             //Aqui va el swalSuccess
             const result = await SwalSuccess("Correcto!!",response.message,'Bienvenido a la Universidad XYZ');
             if(result.isConfirmed){

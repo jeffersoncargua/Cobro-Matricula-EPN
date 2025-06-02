@@ -1,11 +1,31 @@
 import {NavLink, Link} from 'react-router-dom';
 import Logo from '../assets/logo.png';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getUser, logout } from '../redux/userSlice';
+
 
 export const Header = () => {
 
   const [enableDrop, setEnableDrop] = useState(false);
-  const [enableMenu, setEnableMenu] = useState(false)
+  const [enableMenu, setEnableMenu] = useState(false);
+  const dispatch = useDispatch();
+
+  const user = useSelector(state => state.userState);
+
+  console.log(user);
+
+  useEffect(() => {
+    dispatch(getUser())
+    
+  }, [dispatch])
+
+  const handleLogout = () => {
+    dispatch(logout());
+    setEnableDrop(false);
+    setEnableMenu(false)
+  }
+  
 
   return (
     
@@ -32,33 +52,45 @@ export const Header = () => {
             <li>
               <NavLink to={'/'} onClick={()=>{setEnableMenu(false)}} className="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent" aria-current="page" end>Inicio</NavLink>
             </li>
-            <li>
-                <button id="dropdownNavbarNavLink" data-dropdown-toggle="dropdownNavbar" onMouseOver={() => setEnableDrop(true)} onMouseLeave={() => setEnableDrop(false)} className="flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Gestion de Usuarios 
-                  <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
-                  </svg>
-                </button>
-                {/* <!-- Dropdown menu --> */}
-                <div id="dropdownNavbar" onMouseOver={() => setEnableDrop(true)} onMouseLeave={() => setEnableDrop(false)} className={`z-10 md:absolute ${!enableDrop && 'hidden'} font-normal bg-white divide-y divide-gray-100 rounded-lg md:border md:border-slate-500 shadow-sm md:w-44 dark:bg-gray-700 dark:divide-gray-600`}  >
-                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLargeButton">
-                      <li>
-                        <NavLink to='/manage/registration' onClick={()=>{setEnableDrop(false);setEnableMenu(false)}} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Crear Usuarios</NavLink>
-                      </li>
-                      <li>
-                        <NavLink to='/manage/users' onClick={()=>{setEnableDrop(false);setEnableMenu(false)}} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editar/Eliminar Usuarios</NavLink>
-                      </li>
-                    </ul>
-                    {/* <div className="py-1">
-                      <NavLink to='/' className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</NavLink>
-                    </div> */}
-                </div>
-            </li>
-            <li>
-              <NavLink to='/' onClick={()=>{setEnableDrop(false);setEnableMenu(false)}} className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Parametros Base</NavLink>
-            </li>
-            <li>
-              <NavLink to='/' onClick={()=>{setEnableDrop(false);setEnableMenu(false)}} className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Cerrar Sesión</NavLink>
-            </li>
+            { (user.role === process.env.REACT_APP_ROLEMANAGE || user.role === process.env.REACT_APP_ROLECOLLAB) && 
+            (
+              <>
+                <li>
+                  <button id="dropdownNavbarNavLink" data-dropdown-toggle="dropdownNavbar" onMouseOver={() => setEnableDrop(true)} onMouseLeave={() => setEnableDrop(false)} className="flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Gestion de Usuarios 
+                    <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
+                    </svg>
+                  </button>
+                  {/* <!-- Dropdown menu --> */}
+                  <div id="dropdownNavbar" onMouseOver={() => setEnableDrop(true)} onMouseLeave={() => setEnableDrop(false)} className={`z-10 md:absolute ${!enableDrop && 'hidden'} font-normal bg-white divide-y divide-gray-100 rounded-lg md:border md:border-slate-500 shadow-sm md:w-44 dark:bg-gray-700 dark:divide-gray-600`}  >
+                      <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLargeButton">
+                        <li>
+                          <NavLink to='/manage/registration' onClick={()=>{setEnableDrop(false);setEnableMenu(false)}} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Crear Usuarios</NavLink>
+                        </li>
+                        <li>
+                          <NavLink to='/manage/users' onClick={()=>{setEnableDrop(false);setEnableMenu(false)}} className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Editar/Eliminar Usuarios</NavLink>
+                        </li>
+                      </ul>
+                      {/* <div className="py-1">
+                        <NavLink to='/' className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</NavLink>
+                      </div> */}
+                  </div>
+                </li>
+                <li>
+                  <NavLink to='/' onClick={()=>{setEnableDrop(false);setEnableMenu(false)}} className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Parametros Base</NavLink>
+                </li>
+              </>
+              
+            )
+            }
+            {(user.user !== null) && 
+              (
+              <li>
+                <button onClick={() => handleLogout()} className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Cerrar Sesión</button>
+              </li>
+            )
+            }
+            
           </ul>
         </div>
       </div>

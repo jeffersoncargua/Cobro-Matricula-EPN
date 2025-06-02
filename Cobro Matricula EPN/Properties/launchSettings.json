@@ -10,7 +10,7 @@
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5086"
     },
-    "Cobro Matricula EPN": {
+    "Cobro Matricula": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
