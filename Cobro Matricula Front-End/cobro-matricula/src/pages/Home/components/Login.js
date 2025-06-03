@@ -3,8 +3,11 @@ import {  useState } from 'react';
 //import {useNavigate} from 'react-router-dom';
 import {LoginUser} from '../../../apiServices/UserServices';
 //import { useFetch } from '../../../hooks/useFetch';
-import { useDispatch } from 'react-redux';
 import { SwalFailed, SwalSuccess } from '../../../sweetAlerts/SweetAlerts';
+import { ErrorMessageValidator } from '../../../components';
+import { useForm } from 'react-hook-form';
+import { message, patterns } from '../../../utility/Validation';
+import { useDispatch } from 'react-redux';
 import { login } from '../../../redux/userSlice';
 
 
@@ -12,9 +15,8 @@ export const Login = ({setEnableForm, setEnableModalRecover}) => {
 
     const [enablePass, setEnablePass] = useState(false);
     const [showButtonLoading,setShowButtonLoading] = useState(false);
-    const userRef = useRef();
-    const passReff = useRef();
-    const navigate = useNavigate();
+    const { register, handleSubmit, formState:{errors}} = useForm();
+
     const dispath = useDispatch();
 
     //const navigate = useNavigate();
@@ -23,12 +25,7 @@ export const Login = ({setEnableForm, setEnableModalRecover}) => {
 
         setShowButtonLoading(true);
 
-        var userRequest = {
-            email : userRef.current.value,
-            password : passReff.current.value
-        }
-
-        var response = LoginUser(userRequest);
+        var response = await LoginUser(logiRequest);
         console.log(response);
 
         if(response.isSuccess){
