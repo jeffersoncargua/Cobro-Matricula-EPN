@@ -7,13 +7,17 @@ import { SwalFailed, SwalSuccess } from '../../../sweetAlerts/SweetAlerts';
 import { ErrorMessageValidator } from '../../../components';
 import { useForm } from 'react-hook-form';
 import { message, patterns } from '../../../utility/Validation';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../redux/userSlice';
+
 
 export const Login = ({setEnableForm, setEnableModalRecover}) => {
 
     const [enablePass, setEnablePass] = useState(false);
     const [showButtonLoading,setShowButtonLoading] = useState(false);
-
     const { register, handleSubmit, formState:{errors}} = useForm();
+
+    const dispath = useDispatch();
 
     //const navigate = useNavigate();
 
@@ -22,8 +26,12 @@ export const Login = ({setEnableForm, setEnableModalRecover}) => {
         setShowButtonLoading(true);
 
         var response = await LoginUser(logiRequest);
+        console.log(response);
 
         if(response.isSuccess){
+            //Aqui se almacena el token de usuario
+            dispath(login(response.result));
+            
             //Aqui va el swalSuccess
             const result = await SwalSuccess("Correcto!!",response.message,'Bienvenido a la Universidad XYZ');
             if(result.isConfirmed){
