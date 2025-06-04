@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Loading } from "./components";
+import { Loading } from "./components/Loading";
 import './style/UserConfirmation.css';
 import { ConfirmationUser } from "../../../apiServices/UserServices";
 import { SwalFailed, SwalSuccess } from "../../../sweetAlerts/SweetAlerts";
@@ -19,7 +19,6 @@ export const UserConfirmation = () => {
 
         setShowInfo(true);
 
-        
         const ConfirmCount = async() => {            
             
             var response = await ConfirmationUser(params);

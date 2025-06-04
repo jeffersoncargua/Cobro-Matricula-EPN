@@ -19,11 +19,12 @@ namespace Entity.DTO.User
         public string LastName { get; set; }
 
         [Required]
-        //[RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "El correo no tiene el formato adecuado")]
         [DataType(DataType.EmailAddress)]
         [EmailAddress]
         public string Email { get; set; }
 
+        [Required]
         public string? City { get; set; }
 
         [Required]

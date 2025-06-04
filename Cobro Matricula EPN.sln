@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entity", "Entity\Entity.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{CFFB7E59-EF70-4459-A0C4-42936B1F188A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CobroMatriculaEPN.UnitTest", "CobroMatriculaEPN.UnitTest\CobroMatriculaEPN.UnitTest.csproj", "{FBD68CC9-AEE8-47E7-B79A-9D7D0DEB064D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +31,16 @@ Global
 		{CFFB7E59-EF70-4459-A0C4-42936B1F188A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFFB7E59-EF70-4459-A0C4-42936B1F188A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFFB7E59-EF70-4459-A0C4-42936B1F188A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBD68CC9-AEE8-47E7-B79A-9D7D0DEB064D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBD68CC9-AEE8-47E7-B79A-9D7D0DEB064D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBD68CC9-AEE8-47E7-B79A-9D7D0DEB064D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBD68CC9-AEE8-47E7-B79A-9D7D0DEB064D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FBD68CC9-AEE8-47E7-B79A-9D7D0DEB064D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {96B75DFC-77EF-4CCE-9611-1ADCC792B04B}
