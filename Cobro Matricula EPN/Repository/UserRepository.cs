@@ -204,6 +204,8 @@ namespace Cobro_Matricula_EPN.Repository
                 var roleExist = await _roleManager.RoleExistsAsync(registrationRequestDto.Role);
                 if (roleExist)
                 {
+
+                    //Cuando se realicen las pruebas unitarias se debe mapear para saber si no da inconvenientes al insertar data en la base de datos
                     ApplicationUser user = new()
                     {
                         Name = registrationRequestDto.Name,

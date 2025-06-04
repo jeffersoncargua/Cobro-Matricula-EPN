@@ -13,6 +13,7 @@ namespace Cobro_Matricula_EPN.Mapping
             //CreateMap<UserDto, User>();
 
             CreateMap<ApplicationUser, UserDto>().ReverseMap();
+            CreateMap<ApplicationUser, UpdateUserDto>();
             CreateMap<UserDto, UpdateUserDto>().ReverseMap();
         }
     }
