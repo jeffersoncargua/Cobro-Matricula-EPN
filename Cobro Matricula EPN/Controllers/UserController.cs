@@ -11,12 +11,12 @@ namespace Cobro_Matricula_EPN.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly IRepository _repo;
+        //private readonly IRepository _repo;
         private readonly IUserRepository _userRepo;
         protected APIResponse _response;
-        public UserController(IRepository repo, IUserRepository userRepo)
+        public UserController(IUserRepository userRepo)
         {
-            _repo = repo;
+            //_repo = repo;
             this._response = new();
             _userRepo = userRepo;
         }
@@ -73,9 +73,10 @@ namespace Cobro_Matricula_EPN.Controllers
             }
             catch (Exception ex)
             {
-                _response.IsSuccess = true;
+                _response.IsSuccess = false;
                 _response.Message.Add("El usuario no existe o ha sido eliminado de la base de datos!!!");
                 _response.Result = null;
+                _response.StatusCode = HttpStatusCode.NotFound;
                 return NotFound(_response);
             }
             
@@ -112,7 +113,7 @@ namespace Cobro_Matricula_EPN.Controllers
             _response.StatusCode = HttpStatusCode.Created;
             _response.IsSuccess = result.Success;
             _response.Message = result.MessageResponse;
-            _response.Result = null;
+            _response.Result = result.Token;
             return Ok(_response);
         }
 
@@ -151,7 +152,7 @@ namespace Cobro_Matricula_EPN.Controllers
                 _response.IsSuccess = true;
                 _response.Message.Add(result.Message);
                 _response.StatusCode = HttpStatusCode.OK;
-                _response.Result = null;
+                _response.Result = result.Token;
                 return Ok(_response);
 
             }
@@ -160,14 +161,14 @@ namespace Cobro_Matricula_EPN.Controllers
             _response.Message.Add(result.Message);
             _response.StatusCode = HttpStatusCode.NotFound;
             _response.Result = null;
-            return NotFound(_response);
+            return BadRequest(_response);
 
         }
 
         [HttpGet("ConfirmEmail")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> ConfirmEmail(string token, string email)
+        public async Task<ActionResult<APIResponse>> ConfirmEmail(string? token = null, string? email= null)
         {
             var result = await _userRepo.ConfirmEmailAsync(token, email);
             if (result)
@@ -211,22 +212,22 @@ namespace Cobro_Matricula_EPN.Controllers
         [HttpPut("UpdateUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> UpdateUser([FromBody] UpdateUserDto updateUserDto)
+        public async Task<ActionResult<APIResponse>> UpdateUser(string email,[FromBody] UpdateUserDto updateUserDto)
         {
-            var result = await _userRepo.UpdateUserAsync(updateUserDto);
-            if (result != null)
+            var result = await _userRepo.UpdateUserAsync(updateUserDto, email);
+            if (result.Success)
             {
-                _response.Result = result;
-                _response.IsSuccess = true;
+                _response.Result = result.User;
+                _response.IsSuccess = result.Success;
                 _response.StatusCode = HttpStatusCode.OK;
-                _response.Message.Add("Su información ha sido actualizada");
+                _response.Message.Add(result.Message);
                 return Ok(_response);
             }
 
             _response.Result = null;
-            _response.IsSuccess = false;
+            _response.IsSuccess = result.Success;
             _response.StatusCode = HttpStatusCode.BadRequest;
-            _response.Message.Add("Ha ocurrido un error en el servidor. No se pudo actualizar su informacion!!");
+            _response.Message.Add(result.Message);
             return BadRequest(_response);
         }
 

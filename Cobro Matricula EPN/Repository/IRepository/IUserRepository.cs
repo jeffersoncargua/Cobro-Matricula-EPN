@@ -19,7 +19,7 @@ namespace Cobro_Matricula_EPN.Repository.IRepository
 
         Task<ResetPasswordResponseDto> ResetPasswordAsync(ResetPasswordRequestDto resetPasswordRequestDto);
 
-        Task<UserDto> UpdateUserAsync(UpdateUserDto updateUserDto);
+        Task<UpdateUserResponseDto> UpdateUserAsync(UpdateUserDto updateUserDto, string email);
 
         //Task<bool> UserExist(string email);
 
