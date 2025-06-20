@@ -13,6 +13,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{02EA681E-C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CobroMatriculaEPN.UnitTest", "CobroMatriculaEPN.UnitTest\CobroMatriculaEPN.UnitTest.csproj", "{FBD68CC9-AEE8-47E7-B79A-9D7D0DEB064D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CobroMatriculaEPN.IntegratedTest", "CobroMatriculaEPN.IntegratedTest\CobroMatriculaEPN.IntegratedTest.csproj", "{1C8E0FB1-A3C6-4F63-913C-D4A22831DCCE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CobroMatriculaEPN.SharedDatabaseSetup", "CobroMatriculaEPN.SharedDatabase\CobroMatriculaEPN.SharedDatabaseSetup.csproj", "{134A473B-A506-4B04-9EB2-5D1EC16DA48E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CobroMatriculaEPN.FunctionalTest", "CobroMatriculaEPN.FunctionalTest\CobroMatriculaEPN.FunctionalTest.csproj", "{F6042095-2DAC-463E-842F-B2757EE1F059}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,12 +41,27 @@ Global
 		{FBD68CC9-AEE8-47E7-B79A-9D7D0DEB064D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBD68CC9-AEE8-47E7-B79A-9D7D0DEB064D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBD68CC9-AEE8-47E7-B79A-9D7D0DEB064D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C8E0FB1-A3C6-4F63-913C-D4A22831DCCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C8E0FB1-A3C6-4F63-913C-D4A22831DCCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C8E0FB1-A3C6-4F63-913C-D4A22831DCCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C8E0FB1-A3C6-4F63-913C-D4A22831DCCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{134A473B-A506-4B04-9EB2-5D1EC16DA48E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{134A473B-A506-4B04-9EB2-5D1EC16DA48E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{134A473B-A506-4B04-9EB2-5D1EC16DA48E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{134A473B-A506-4B04-9EB2-5D1EC16DA48E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6042095-2DAC-463E-842F-B2757EE1F059}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6042095-2DAC-463E-842F-B2757EE1F059}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6042095-2DAC-463E-842F-B2757EE1F059}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6042095-2DAC-463E-842F-B2757EE1F059}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FBD68CC9-AEE8-47E7-B79A-9D7D0DEB064D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{1C8E0FB1-A3C6-4F63-913C-D4A22831DCCE} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{134A473B-A506-4B04-9EB2-5D1EC16DA48E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F6042095-2DAC-463E-842F-B2757EE1F059} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {96B75DFC-77EF-4CCE-9611-1ADCC792B04B}

@@ -56,6 +56,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IEmailRepository, EmailRepository>();
+
 //Add Service AutoMapper 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 
@@ -95,3 +96,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

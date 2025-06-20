@@ -14,10 +14,19 @@ namespace Utility
         public string Content { get; set; }
         public Message(IEnumerable<string> to, string subject, string content)
         {
-            To = new List<MailboxAddress>();
-            To.AddRange(to.Select(x => new MailboxAddress("email", x)));
-            Subject = subject;
-            Content = content;
+            try
+            {
+                To = new List<MailboxAddress>();
+                To.AddRange(to.Select(x => new MailboxAddress("email", x)));
+                Subject = subject;
+                Content = content;
+            }
+            catch (Exception)
+            {
+
+                throw new Exception();
+            }
+            
         }
     }
 }

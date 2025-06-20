@@ -47,7 +47,7 @@ namespace Cobro_Matricula_EPN.Repository
             catch (Exception)
             {
 
-                throw;
+                throw new InvalidOperationException();
             }
             finally
             {

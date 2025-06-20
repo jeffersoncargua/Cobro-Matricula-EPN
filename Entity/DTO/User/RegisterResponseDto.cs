@@ -14,5 +14,7 @@ namespace Entity.DTO.User
         //}
         public bool Success { get; set; }
         public List<string> MessageResponse { get; set; }
+
+        public string Token { get; set; }
     }
 }

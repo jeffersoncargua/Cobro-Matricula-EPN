@@ -19,7 +19,7 @@ namespace Cobro_Matricula_EPN.Repository
         private readonly IEmailRepository _emailRepo;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly string secretKey;
+        private string secretKey;
         private readonly FrontEndConfig _frontConfig;
         public UserRepository(IMapper mapper,IEmailRepository emailRepo ,IConfiguration config,
             UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, FrontEndConfig frontConfig)
@@ -28,12 +28,18 @@ namespace Cobro_Matricula_EPN.Repository
             _emailRepo = emailRepo;
             _userManager = userManager;
             _roleManager = roleManager;
-            secretKey = config.GetValue<string>("APISettings:SecretKey")!;
+            this.secretKey = config.GetValue<string>("APISettings:SecretKey");
             _frontConfig = frontConfig;
             
         }
 
-        public async Task<bool> ConfirmEmailAsync(string token, string email)
+        /// <summary>
+        /// Esta funcion permite verificar el token que se envia al usuario para confirmar su cuenta
+        /// </summary>
+        /// <param name="token">Es un string generado con Identity GenerateToken en el Register que permite verificar la cuenta de un usuario</param>
+        /// <param name="email">Es el correo del usuario que se registro en la plataforma y con el cual se va a verificar con el token </param>
+        /// <returns></returns>
+        public async Task<bool> ConfirmEmailAsync(string? token = null, string? email = null)
         {
             var userExist = await _userManager.FindByEmailAsync(email);
             if (userExist == null)
@@ -42,6 +48,12 @@ namespace Cobro_Matricula_EPN.Repository
             }
 
 
+            if (string.IsNullOrEmpty(token)) 
+            {
+                return false;
+            }
+
+            //Nota: se debe reemplazar los espacios por '+' en blanco ya que al recibir el token se cambian estos caracteres y luego no pueden ser reconocidos para validar el token
             token = token.Replace(" ","+");
             var result = await _userManager.ConfirmEmailAsync(userExist, token);
             if (result.Succeeded)
@@ -60,7 +72,8 @@ namespace Cobro_Matricula_EPN.Repository
             {
                 return new ForgetResponseDto() { 
                     Success = false,
-                    Message = "El usuario no se encuentra registrado"
+                    Message = "El usuario no se encuentra registrado",
+                    Token = null
                 };
             }
 
@@ -70,7 +83,8 @@ namespace Cobro_Matricula_EPN.Repository
                 return new ForgetResponseDto()
                 {
                     Success = false,
-                    Message = "El usuario no ha confirmado su cuenta. Por favor revise su correo para verificar la cuenta"
+                    Message = "El usuario no ha confirmado su cuenta. Por favor revise su correo para verificar la cuenta",
+                    Token = null
                 };
             }
 
@@ -86,11 +100,12 @@ namespace Cobro_Matricula_EPN.Repository
             return new ForgetResponseDto()
             {
                 Success = true,
-                Message = "Solicitud aceptada. Por favor revice su correo para continuar con el proceso de cambio de contraseña"
+                Message = "Solicitud aceptada. Por favor revice su correo para continuar con el proceso de cambio de contraseña",
+                Token = token
             };
         }
 
-        private async Task<bool> IsConfirmEmail(string email)
+        public async Task<bool> IsConfirmEmail(string email)
         {
             var userExist = await _userManager.FindByEmailAsync(email);
             if (userExist == null) 
@@ -112,7 +127,7 @@ namespace Cobro_Matricula_EPN.Repository
             }
             else
             {
-                return true;
+                return false;
             }
         }
 
@@ -128,7 +143,7 @@ namespace Cobro_Matricula_EPN.Repository
                 return new LoginResponseDto
                 {
                     User = null,
-                    Token = "",
+                    Token = null,
                     Message = "El usuario no esta registrado o el correo es incorrecto"
                 };
             }
@@ -139,7 +154,7 @@ namespace Cobro_Matricula_EPN.Repository
                 return new LoginResponseDto
                 {
                     User = null,
-                    Token = "",
+                    Token = null,
                     Message = "El usuario no ha verificado su cuenta. Revise su correo para confirmar su cuenta antes de realizar el login"
                 };
             }
@@ -151,7 +166,7 @@ namespace Cobro_Matricula_EPN.Repository
                 return new LoginResponseDto
                 {
                     User = null,
-                    Token = "",
+                    Token = null,
                     Message = "La contraseña esta incorrecta"
                 };
             }
@@ -197,15 +212,21 @@ namespace Cobro_Matricula_EPN.Repository
                     return new RegisterResponseDto()
                     {
                         Success = false,
-                        MessageResponse = new List<string>() { "Ya existe un registro con ese correo" }
+                        MessageResponse = new List<string>() { "Ya existe un registro con ese correo" },
+                        Token = null
                     };
+                }
+
+                if (string.IsNullOrEmpty(registrationRequestDto.Role))
+                {
+                    registrationRequestDto.Role = "Assistant";
                 }
 
                 var roleExist = await _roleManager.RoleExistsAsync(registrationRequestDto.Role);
                 if (roleExist)
                 {
 
-                    //Cuando se realicen las pruebas unitarias se debe mapear para saber si no da inconvenientes al insertar data en la base de datos
+                    //ApplicationUser no se puede mapear ya que no es permitido que queden campos vacios 
                     ApplicationUser user = new()
                     {
                         Name = registrationRequestDto.Name,
@@ -219,12 +240,19 @@ namespace Cobro_Matricula_EPN.Repository
                     };
 
                     var result = await _userManager.CreateAsync(user, registrationRequestDto.Password);
-
+                    
                     if (!result.Succeeded)
                     {
-                        return new RegisterResponseDto() {
+                        List<string> errorsIdentity = new();
+                        foreach (var error in result.Errors)
+                        {
+                            errorsIdentity.Add(error.Description);
+                        }
+                        return new RegisterResponseDto()
+                        {
                             Success = false,
-                            MessageResponse = (List<string>)result.Errors
+                            MessageResponse = errorsIdentity,
+                            Token = null
                         };
                     }
 
@@ -241,24 +269,25 @@ namespace Cobro_Matricula_EPN.Repository
                     return new RegisterResponseDto
                     {
                         Success = true,
-                        MessageResponse= new List<string>() {"Registro Exitoso"}
+                        MessageResponse= new List<string>() {"Registro Exitoso"},
+                        Token = tokenEmail
                     };
                 }
 
                 return new RegisterResponseDto
                 {
                     Success = false,
-                    MessageResponse = new List<string>() { "No existe el rol" }
+                    MessageResponse = new List<string>() { "No existe el rol" },
+                    Token = null
                 };
 
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
                 return new RegisterResponseDto
                 {
                     Success = false,
-                    MessageResponse = new List<string>() { ex.ToString() }
+                    MessageResponse = ["Se ha lanzado una excepcion"] 
                 };
             }
 
@@ -317,28 +346,51 @@ namespace Cobro_Matricula_EPN.Repository
             };
         }
 
-        public async Task<UserDto> UpdateUserAsync(UpdateUserDto updateUserDto)
+        public async Task<UpdateUserResponseDto> UpdateUserAsync(UpdateUserDto updateUserDto,string email)
         {
             var userUpdated = await _userManager.FindByEmailAsync(updateUserDto.Email);
             if(userUpdated == null)
             {
-                return null;
+                return new UpdateUserResponseDto () { Message = "El usuario no existe", User = null};
             }
 
-            userUpdated.Name= updateUserDto.Name;
+            //Se debe actualizar los campos del objeto ApplicationUser para poder actualizar la informacion
+            //del usuario para que no de errores con el metodo UpdateAsync de Identity
+            userUpdated.Name = updateUserDto.Name;
             userUpdated.LastName = updateUserDto.LastName;
             userUpdated.City = updateUserDto.City;
             userUpdated.Phone = updateUserDto.Phone;
 
+            if (email != updateUserDto.Email)
+            {
+                return new UpdateUserResponseDto() 
+                { 
+                    Success = false,
+                    Message = "Ha ocurrido un error. No se pudo actualizar el usuario",
+                    User = null 
+                };
+            }
 
             var result = await _userManager.UpdateAsync(userUpdated);
 
             if (result.Succeeded)
             {
-                return _mapper.Map<UserDto>(userUpdated);
+                //return _mapper.Map<UserDto>(userUpdated);
+                return new UpdateUserResponseDto () 
+                { 
+                    Success = true,
+                    Message = "Su información ha sido actualizada", 
+                    User = _mapper.Map<UserDto>(userUpdated) 
+                };
+
             }
-            
-            return null;
+
+            return new UpdateUserResponseDto() 
+            {
+                Success = false,
+                Message = "Ha ocurrido un error en el servidor. No se pudo actualizar el usuario" ,
+                User = null
+            };
 
         }
 
