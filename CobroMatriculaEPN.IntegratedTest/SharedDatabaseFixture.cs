@@ -1,7 +1,10 @@
 ﻿using Cobro_Matricula_EPN.Context;
+using Cobro_Matricula_EPN.Repository;
+using Cobro_Matricula_EPN.Repository.IRepository;
 using CobroMatriculaEPN.SharedDatabaseSetup;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -60,6 +63,6 @@ namespace CobroMatriculaEPN.IntegratedTest
             }
         }
         public void Dispose() => Connection.Dispose();
-        
+
     }
 }
