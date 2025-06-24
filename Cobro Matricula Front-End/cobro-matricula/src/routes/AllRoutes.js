@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Home,Managment } from "../pages";
+import { Home,Managment,BaseParameters } from "../pages";
 import { UserRegistration,UserManagment, UserRecover,UserConfirmation } from "../pages/Managment";
 
 export const AllRoutes = () => {
@@ -12,6 +12,7 @@ export const AllRoutes = () => {
           <Route path="reset" element={<UserRecover/>} />
           <Route path="confirmation" element={<UserConfirmation/>} />
         </Route>
+        <Route path="parameters/:type" element={<BaseParameters/>} />
     </Routes>
   )
 }
