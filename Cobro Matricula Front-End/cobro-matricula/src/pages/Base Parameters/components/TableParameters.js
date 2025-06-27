@@ -1,6 +1,15 @@
-import { ButtonDelete } from "./ButtonDelete"
+import { useEffect } from "react";
 
 export const TableParameters = () => {
+
+
+    useEffect(() => {
+        var valorRef = document.querySelectorAll('tr td:nth-child(2)');
+        valorRef.forEach((valor) => {
+            valor.classList.add('text-right');
+        });
+    }, [])
+
   return (
     <div className="relative overflow-x-auto border shadow-md sm:rounded-lg mb-10">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -12,9 +21,6 @@ export const TableParameters = () => {
                     <th scope="col" className="px-6 py-3">
                         Valor Referencial
                     </th>
-                    <th scope="col" className="px-6 py-3">
-                        Acciones
-                    </th>
                 </tr>
             </thead>
             <tbody className="bg-transparent/50 text-white">
@@ -25,9 +31,6 @@ export const TableParameters = () => {
                     <td className="px-6 py-4">
                         $2999
                     </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
-                    </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
                     <td className="px-6 py-4">
@@ -35,9 +38,6 @@ export const TableParameters = () => {
                     </td>
                     <td className="px-6 py-4">
                         $2999
-                    </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -47,9 +47,6 @@ export const TableParameters = () => {
                     <td className="px-6 py-4">
                         $2999
                     </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
-                    </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
                     <td className="px-6 py-4">
@@ -57,9 +54,6 @@ export const TableParameters = () => {
                     </td>
                     <td className="px-6 py-4">
                         $2999
-                    </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -69,9 +63,6 @@ export const TableParameters = () => {
                     <td className="px-6 py-4">
                         $2999
                     </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
-                    </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
                     <td className="px-6 py-4">
@@ -79,9 +70,6 @@ export const TableParameters = () => {
                     </td>
                     <td className="px-6 py-4">
                         $2999
-                    </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -91,9 +79,6 @@ export const TableParameters = () => {
                     <td className="px-6 py-4">
                         $2999
                     </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
-                    </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
                     <td className="px-6 py-4">
@@ -101,9 +86,6 @@ export const TableParameters = () => {
                     </td>
                     <td className="px-6 py-4">
                         $2999
-                    </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -113,9 +95,6 @@ export const TableParameters = () => {
                     <td className="px-6 py-4">
                         $2999
                     </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
-                    </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
                     <td className="px-6 py-4">
@@ -124,9 +103,6 @@ export const TableParameters = () => {
                     <td className="px-6 py-4">
                         $2999
                     </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
-                    </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
                     <td className="px-6 py-4">
@@ -134,9 +110,6 @@ export const TableParameters = () => {
                     </td>
                     <td className="px-6 py-4">
                         $2999
-                    </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -146,9 +119,6 @@ export const TableParameters = () => {
                     <td className="px-6 py-4">
                         $2999
                     </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
-                    </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
                     <td className="px-6 py-4">
@@ -156,9 +126,6 @@ export const TableParameters = () => {
                     </td>
                     <td className="px-6 py-4">
                         $2999
-                    </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -168,9 +135,6 @@ export const TableParameters = () => {
                     <td className="px-6 py-4">
                         $2999
                     </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
-                    </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
                     <td className="px-6 py-4">
@@ -178,9 +142,6 @@ export const TableParameters = () => {
                     </td>
                     <td className="px-6 py-4">
                         $2999
-                    </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -190,9 +151,6 @@ export const TableParameters = () => {
                     <td className="px-6 py-4">
                         $2999
                     </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
-                    </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
                     <td className="px-6 py-4">
@@ -200,9 +158,6 @@ export const TableParameters = () => {
                     </td>
                     <td className="px-6 py-4">
                         $2999
-                    </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -212,9 +167,6 @@ export const TableParameters = () => {
                     <td className="px-6 py-4">
                         $2999
                     </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
-                    </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
                     <td className="px-6 py-4">
@@ -222,9 +174,6 @@ export const TableParameters = () => {
                     </td>
                     <td className="px-6 py-4">
                         $2999
-                    </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -234,9 +183,6 @@ export const TableParameters = () => {
                     <td className="px-6 py-4">
                         $2999
                     </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
-                    </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
                     <td className="px-6 py-4">
@@ -244,9 +190,6 @@ export const TableParameters = () => {
                     </td>
                     <td className="px-6 py-4">
                         $2999
-                    </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -256,9 +199,6 @@ export const TableParameters = () => {
                     <td className="px-6 py-4">
                         $2999
                     </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
-                    </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
                     <td className="px-6 py-4">
@@ -266,9 +206,6 @@ export const TableParameters = () => {
                     </td>
                     <td className="px-6 py-4">
                         $2999
-                    </td>
-                    <td className="px-6 py-4">
-                        <ButtonDelete />
                     </td>
                 </tr>
             </tbody>
