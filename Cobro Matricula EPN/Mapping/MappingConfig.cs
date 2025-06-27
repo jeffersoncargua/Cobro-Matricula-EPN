@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Entity.DTO.BaseParameter;
 using Entity.DTO.User;
 using Entity.Entities;
 
@@ -15,6 +16,7 @@ namespace Cobro_Matricula_EPN.Mapping
             CreateMap<ApplicationUser, UserDto>().ReverseMap();
             CreateMap<ApplicationUser, UpdateUserDto>();
             CreateMap<UserDto, UpdateUserDto>().ReverseMap();
+            CreateMap<BaseParameter,BaseParameterDto>().ReverseMap();
         }
     }
 }
