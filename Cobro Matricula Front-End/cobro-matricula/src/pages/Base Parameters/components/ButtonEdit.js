@@ -1,6 +1,9 @@
 import React from 'react'
 
-export const ButtonDelete = () => {
+export const ButtonEdit = () => {
+
+  
+
   return (
     // <!-- From Uiverse.io by Javierrocadev --> 
     <button class="overflow-hidden relative w-16 p-2 h-10 bg-purple-500 text-white border-none rounded-md text-sm cursor-pointer relative z-10 group">
