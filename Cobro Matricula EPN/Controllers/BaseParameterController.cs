@@ -44,5 +44,26 @@ namespace Cobro_Matricula_EPN.Controllers
             return NotFound(_response);
 
         }
+
+        [HttpPut("UpdateParameters/{id:int}", Name = "UpdateParameters")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> UpdateParameters(int id, [FromBody] UpdatedBaseParameterRequestDto updatedBaseParameter)
+        {
+            
+            var result = await _baseParameterRepository.UpdateAsync(id, updatedBaseParameter);
+            if (result.Success)
+            {
+                _response.StatusCode = HttpStatusCode.OK;
+                _response.IsSuccess = true;
+                _response.Message.Add(result.Message);
+                return Ok(_response);
+            }
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.IsSuccess = false;
+            _response.Message.Add(result.Message);
+            return BadRequest(_response);
+        }
     }
 }
