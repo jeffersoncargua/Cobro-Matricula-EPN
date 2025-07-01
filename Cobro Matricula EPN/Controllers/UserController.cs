@@ -42,44 +42,23 @@ namespace Cobro_Matricula_EPN.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<APIResponse>> Login([FromBody] LoginRequestDto loginRequestDto)
         {
-            try
-            {
-                //if (!ModelState.IsValid)
-                //{
-                //    _response.IsSuccess = false;
-                //    _response.Message.Add(ModelState.ToString());
-                //    _response.Result = null;
-                //    _response.StatusCode = HttpStatusCode.BadRequest;
-                //    return BadRequest(_response);
-                //}
-
-                var result = await _userRepo.Login(loginRequestDto);
-                if (result.User == null && string.IsNullOrEmpty(result.Token))
-                {
-                    _response.IsSuccess = false;
-                    _response.Message.Add(result.Message);
-                    _response.Result = null;
-                    _response.StatusCode = HttpStatusCode.BadRequest;
-
-                    return BadRequest(_response);
-                }
-
-                _response.IsSuccess = true;
-                _response.Message.Add(result.Message);
-                _response.Result = result;
-                _response.StatusCode = HttpStatusCode.OK;
-                return Ok(_response);
-
-            }
-            catch (Exception ex)
+            var result = await _userRepo.Login(loginRequestDto);
+            if (result.User == null && string.IsNullOrEmpty(result.Token))
             {
                 _response.IsSuccess = false;
-                _response.Message.Add("El usuario no existe o ha sido eliminado de la base de datos!!!");
+                _response.Message.Add(result.Message);
                 _response.Result = null;
-                _response.StatusCode = HttpStatusCode.NotFound;
-                return NotFound(_response);
+                _response.StatusCode = HttpStatusCode.BadRequest;
+
+                return BadRequest(_response);
             }
-            
+
+            _response.IsSuccess = true;
+            _response.Message.Add(result.Message);
+            _response.Result = result;
+            _response.StatusCode = HttpStatusCode.OK;
+            return Ok(_response);
+
         }
 
 

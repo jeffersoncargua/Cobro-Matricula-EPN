@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Cobro_Matricula_EPN.Repository.IRepository;
 using Entity.DTO.BaseParameter;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Utility;
@@ -25,6 +26,9 @@ namespace Cobro_Matricula_EPN.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [Authorize(Roles = "Admin,Assistant")]
         public async Task<ActionResult<APIResponse>> GetParameters(int id)
         {
             var parameters = await _baseParameterRepository.GetAsync(u => u.Id == id);
@@ -49,6 +53,9 @@ namespace Cobro_Matricula_EPN.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<APIResponse>> UpdateParameters(int id, [FromBody] UpdatedBaseParameterRequestDto updatedBaseParameter)
         {
             

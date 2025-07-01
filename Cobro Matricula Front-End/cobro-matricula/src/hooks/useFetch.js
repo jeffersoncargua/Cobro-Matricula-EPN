@@ -1,5 +1,5 @@
 
-export const useFetch = async({verbose,route,objectRequest = null,query = ''}) => {
+export const useFetch = async({verbose,route,objectRequest = null,query = '', authToken = null}) => {
   
     //verbose - Es el verbo que se va a utilizar para realizar la peticion al API : GET,POST,PUT y DELETE
     //route - Esta puede incluir los queries que se emplearan en las solicitudes
@@ -14,7 +14,8 @@ export const useFetch = async({verbose,route,objectRequest = null,query = ''}) =
                         method: verbose,
                         headers:{
                             'Content-Type': 'application/json',
-                            'Accept' : 'application/json'
+                            'Accept' : 'application/json',
+                            'Authorization' : authToken !== null ? `Bearer ${authToken}` : '',
                         }             
                     });
                     response = apiResponse.json();
@@ -27,7 +28,8 @@ export const useFetch = async({verbose,route,objectRequest = null,query = ''}) =
                         headers:{
                             'Content-Type': 'application/json',
                             'Accept' : 'application/json',
-                            'Access-Control-Allow-Origin' : `${apiUrl}`
+                            'Access-Control-Allow-Origin' : `${apiUrl}`,
+                            'Authorization' : authToken !== null ? `Bearer ${authToken}` : '',
                         },
                         body : JSON.stringify(objectRequest)
                     });
