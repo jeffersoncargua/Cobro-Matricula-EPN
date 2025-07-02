@@ -11,11 +11,13 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../../redux/userSlice';
 
 
-export const Login = ({setEnableForm, setEnableModalRecover}) => {
+
+export const Login = ({setEnableForm, setEnableModalRecover, setLoading}) => {
 
     const [enablePass, setEnablePass] = useState(false);
     const [showButtonLoading,setShowButtonLoading] = useState(false);
     const { register, handleSubmit, formState:{errors}} = useForm();
+    
 
     const dispath = useDispatch();
 
@@ -24,9 +26,9 @@ export const Login = ({setEnableForm, setEnableModalRecover}) => {
     const HandleLogin = async(logiRequest) => {
 
         setShowButtonLoading(true);
+        setLoading(true);
 
         var response = await LoginUser(logiRequest);
-        console.log(response);
 
         if(response.isSuccess){
             //Aqui se almacena el token de usuario
@@ -48,6 +50,7 @@ export const Login = ({setEnableForm, setEnableModalRecover}) => {
         }
 
         setShowButtonLoading(false);    
+        setLoading(false);
     }
 
   return (
@@ -101,8 +104,9 @@ export const Login = ({setEnableForm, setEnableModalRecover}) => {
                 </>  
             )}
             
-            
         </div>
+
+        
         
     </form>
   )

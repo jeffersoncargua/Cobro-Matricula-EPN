@@ -7,7 +7,7 @@ export async function LoginUser (loginRequest) {
     
     var response = await useFetch({verbose:verbose,route:route,objectRequest:loginRequest});
 
-    return response;
+    return response.json();
 }
 
 export async function RegisterUser(registerRequest) {
@@ -16,7 +16,7 @@ export async function RegisterUser(registerRequest) {
 
     var response = await useFetch({verbose:verbose,route:route,objectRequest:registerRequest});
 
-    return response;
+    return response.json();
 }
 
 export async function ForgetPass(forgetRequest) {
@@ -25,7 +25,7 @@ export async function ForgetPass(forgetRequest) {
 
     var response = await useFetch({verbose:verbose,route:route,objectRequest:forgetRequest});
 
-    return response;
+    return response.json();
 }
 
 export async function ResetPass(resetRequest) {
@@ -34,7 +34,7 @@ export async function ResetPass(resetRequest) {
 
     var response = await useFetch({verbose:verbose,route:route,objectRequest:resetRequest});
 
-    return response;
+    return response.json();
 }
 
 export async function ConfirmationUser(confirmRequest) {
@@ -44,7 +44,7 @@ export async function ConfirmationUser(confirmRequest) {
 
     var response = await useFetch({verbose:verbose,route:route,query:query});
 
-    return response;
+    return response.json();
 }
 
 export async function GetUsers() {
@@ -53,7 +53,7 @@ export async function GetUsers() {
     
     var response = await useFetch({verbose:verbose,route:route});
     
-    return response;
+    return response.json();
 }
 
 export async function DeleteUser(email){
@@ -63,7 +63,7 @@ export async function DeleteUser(email){
 
     var response = await useFetch({verbose:verbose,route:route,query:query});
 
-    return response;
+    return response.json();
 }
 
 export async function UpdateUser(user) {
@@ -73,7 +73,7 @@ export async function UpdateUser(user) {
 
     var response = await useFetch({verbose:verbose,route:route,objectRequest:user,query:query});
 
-    return response;
+    return response.json();
 }
 
 

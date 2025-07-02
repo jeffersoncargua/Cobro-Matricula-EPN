@@ -18,7 +18,11 @@ export const useFetch = async({verbose,route,objectRequest = null,query = '', au
                             'Authorization' : authToken !== null ? `Bearer ${authToken}` : '',
                         }             
                     });
-                    response = apiResponse.json();
+
+                    console.log(apiResponse);
+
+                    //response = apiResponse.json();
+                    response = apiResponse;
 
             break;
     
@@ -33,7 +37,8 @@ export const useFetch = async({verbose,route,objectRequest = null,query = '', au
                         },
                         body : JSON.stringify(objectRequest)
                     });
-                    response= apiResponse2.json();
+                    //response= apiResponse2.json();
+                    response= apiResponse2;
             break;
     }
 

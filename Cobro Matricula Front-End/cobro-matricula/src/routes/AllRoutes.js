@@ -12,7 +12,7 @@ export const AllRoutes = () => {
           <Route path="reset" element={<UserRecover/>} />
           <Route path="confirmation" element={<UserConfirmation/>} />
         </Route>
-        <Route path="parameters/:type" element={<BaseParameters/>} />
+        <Route path="parameters" element={<BaseParameters/>} />
     </Routes>
   )
 }

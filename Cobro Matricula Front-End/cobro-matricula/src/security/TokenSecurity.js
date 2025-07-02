@@ -1,3 +1,4 @@
+// para utilizar js-cookie se debe instalar su paquete mediante el comando: npm install js-cookie --save
 import Cookies from 'js-cookie';
 
 function SendToken(token) {
@@ -11,7 +12,6 @@ function SendToken(token) {
 
 function GetToken(){
     const token = Cookies.get('jwtToken');
-    console.log(token);
     if (token !== null) {
         return token;
     }
