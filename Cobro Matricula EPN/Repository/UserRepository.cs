@@ -132,73 +132,84 @@ namespace Cobro_Matricula_EPN.Repository
         }
 
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
-        {
-            //var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == loginRequestDto.Email && u.Password == loginRequestDto.Password);
-            //var userExist = await _db.Users.FirstOrDefaultAsync(u => u.Email == loginRequestDto.Email);
-            
-            
-            var userExist = await _userManager.FindByEmailAsync(loginRequestDto.Email);
-            if (userExist == null)
+        { 
+            try
             {
+                var userExist = await _userManager.FindByEmailAsync(loginRequestDto.Email);
+                if (userExist == null)
+                {
+                    return new LoginResponseDto
+                    {
+                        User = null,
+                        Token = null,
+                        Message = "El usuario no esta registrado o el correo es incorrecto"
+                    };
+                }
+
+                var isConfirmEmail = await IsConfirmEmail(loginRequestDto.Email);
+                if (!isConfirmEmail)
+                {
+                    return new LoginResponseDto
+                    {
+                        User = null,
+                        Token = null,
+                        Message = "El usuario no ha verificado su cuenta. Revise su correo para confirmar su cuenta antes de realizar el login"
+                    };
+                }
+
+                //var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == loginRequestDto.Email && u.Password == loginRequestDto.Password);
+                var userIsValid = await _userManager.CheckPasswordAsync(userExist, loginRequestDto.Password);
+                if (!userIsValid)
+                {
+                    return new LoginResponseDto
+                    {
+                        User = null,
+                        Token = null,
+                        Message = "La contraseña esta incorrecta"
+                    };
+                }
+
+                
+                var roles = await _userManager.GetRolesAsync(userExist);
+                var tokenhandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(secretKey);
+
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(
+                    [
+                        new(ClaimTypes.Name, userExist.Email!.ToString()),
+                    new(ClaimTypes.Role, roles.FirstOrDefault()) //es posible que se produzca una excepcion si no existe un rol asigando al usuario
+                    ]),
+                    Expires = DateTime.UtcNow.AddDays(1),
+                    SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+
+                };
+
+                var token = tokenhandler.CreateToken(tokenDescriptor);
+
+                var userDto = _mapper.Map<UserDto>(userExist);
+
+                LoginResponseDto response = new()
+                {
+                    User = userDto,
+                    Token = tokenhandler.WriteToken(token),
+                    Message = "Login exitoso"
+                };
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+                //La excepcion se puede presentar si el rol de usuario no esta registrado en la base de datos
+                //producto de la migracion, por favor revise la base de datos para verificar que los datos esten correctos
                 return new LoginResponseDto
                 {
                     User = null,
                     Token = null,
-                    Message = "El usuario no esta registrado o el correo es incorrecto"
+                    Message = "Error. Ha ocurrido un error mientras se realizaba la operación."
                 };
-            }
-
-            var isConfirmEmail = await IsConfirmEmail(loginRequestDto.Email);
-            if (!isConfirmEmail)
-            {
-                return new LoginResponseDto
-                {
-                    User = null,
-                    Token = null,
-                    Message = "El usuario no ha verificado su cuenta. Revise su correo para confirmar su cuenta antes de realizar el login"
-                };
-            }
-
-            //var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == loginRequestDto.Email && u.Password == loginRequestDto.Password);
-            var userIsValid = await _userManager.CheckPasswordAsync(userExist, loginRequestDto.Password);
-            if (!userIsValid)
-            {
-                return new LoginResponseDto
-                {
-                    User = null,
-                    Token = null,
-                    Message = "La contraseña esta incorrecta"
-                };
-            }
-
-            var roles = await _userManager.GetRolesAsync(userExist);
-            var tokenhandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(secretKey);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(
-                [
-                    new(ClaimTypes.Name, userExist.Email!.ToString()),
-                    new(ClaimTypes.Role, roles.FirstOrDefault())
-                ]),
-                Expires = DateTime.UtcNow.AddDays(1),
-                SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-
-            };
-
-            var token = tokenhandler.CreateToken(tokenDescriptor);
-
-            var userDto = _mapper.Map<UserDto>(userExist);
-
-            LoginResponseDto response = new()
-            {
-                User = userDto,
-                Token = tokenhandler.WriteToken(token),
-                Message = "Login exitoso"
-            };
-
-            return response;
+            }            
         }
 
         public async Task<RegisterResponseDto> Register(RegistrationRequestDto registrationRequestDto)

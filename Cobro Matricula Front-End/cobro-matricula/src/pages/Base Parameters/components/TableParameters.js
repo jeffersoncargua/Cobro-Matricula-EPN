@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 
-export const TableParameters = () => {
+export const TableParameters = ({baseParameters}) => {
 
 
+    //Este useEffect permite que la segunda columna de la tabla tenga el texto alineado a la derecha
+    //Esto se hace para que los valores monetarios y porcentajes se vean mejor en la tabla
     useEffect(() => {
         var valorRef = document.querySelectorAll('tr td:nth-child(2)');
         valorRef.forEach((valor) => {
@@ -29,7 +31,7 @@ export const TableParameters = () => {
                         Costo Óptimo
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        $ {baseParameters.costoOptimo.toFixed(2) || '00.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -37,7 +39,7 @@ export const TableParameters = () => {
                         Costo Óptimo Periodo
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        $ {baseParameters.costoOptimoPeriodo.toFixed(2) || '00.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -45,7 +47,7 @@ export const TableParameters = () => {
                         Valor Mínimo
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        $ {baseParameters.valorMin.toFixed(2) || '00.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -53,7 +55,7 @@ export const TableParameters = () => {
                         Valor Matrícula Mínimo
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        $ {baseParameters.valorMatriculaMin.toFixed(2) || '00.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -61,7 +63,7 @@ export const TableParameters = () => {
                         Valor Arancel Mínimo
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        $ {baseParameters.valorArancelMin.toFixed(2) || '00.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -69,7 +71,7 @@ export const TableParameters = () => {
                         Valor Máximo
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        $ {baseParameters.valorMax.toFixed(2) || '00.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -77,7 +79,7 @@ export const TableParameters = () => {
                         Valor Matrícula Máximo
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        $ {baseParameters.valorMatriculaMax.toFixed(2) || '00.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -85,7 +87,7 @@ export const TableParameters = () => {
                         Valor Arancel Máximo
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        $ {baseParameters.valorArancelMax.toFixed(2) || '00.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -93,7 +95,7 @@ export const TableParameters = () => {
                         Hora Periodo Academico
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        {baseParameters.horaPeriodoAcademico || '0'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -101,15 +103,7 @@ export const TableParameters = () => {
                         Hora Promedio Periodo Academico
                     </td>
                     <td className="px-6 py-4">
-                        $2999
-                    </td>
-                </tr>
-                <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
-                    <td className="px-6 py-4">
-                        Hora Promedio Periodo Academico
-                    </td>
-                    <td className="px-6 py-4">
-                        $2999
+                        { Math.ceil(baseParameters.horaPromedioPeriodoAcademico) || '0'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -117,15 +111,23 @@ export const TableParameters = () => {
                         Creditos Periodo Academico
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        {baseParameters.creditoPeriodoAcademico || '0'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
                     <td className="px-6 py-4">
-                        Creditos Periodo Temporal
+                        Creditos Perdida Temporal
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        {baseParameters.creditoPerdidaTemporal || '0'}
+                    </td>
+                </tr>
+                <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
+                    <td className="px-6 py-4">
+                        Costo Hora Periodo
+                    </td>
+                    <td className="px-6 py-4">
+                        $ {baseParameters.costoHoraPeriodo.toFixed(2) || '00.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -133,7 +135,7 @@ export const TableParameters = () => {
                         Porcentaje Costo Optimo Anual
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        % {baseParameters.porcentajeCostoOptimoAnual*100 || '%0.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -141,7 +143,7 @@ export const TableParameters = () => {
                         Porcentaje Valor Mínimo
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        % {baseParameters.porcentajeValorMin*100 || '%0.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -149,7 +151,7 @@ export const TableParameters = () => {
                         Porcentaje Valor Máximo
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        % {baseParameters.porcentajeValorMax*100 || '%0.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -157,7 +159,7 @@ export const TableParameters = () => {
                         Porcentaje Valor Arancel
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        % {baseParameters.porcentajeValorArancel*100 || '%0.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -165,7 +167,7 @@ export const TableParameters = () => {
                         Porcentaje Promedio Academico
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        % {baseParameters.porcentajePromedioAcademico*100 || '%0.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -173,7 +175,7 @@ export const TableParameters = () => {
                         Procentaje Perdida Temporal
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        % {baseParameters.porcentajePerdidaTemporal*100 || '%0.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -181,7 +183,7 @@ export const TableParameters = () => {
                         Procentaje Matricula Extraordinario
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        % {baseParameters.porcentajeMatriculaExtraordinario*100 || '%0.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -189,7 +191,7 @@ export const TableParameters = () => {
                         Procentaje Matricula Especial
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        % {baseParameters.porcentajeMatriculaEspecial*100 || '%0.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -197,7 +199,7 @@ export const TableParameters = () => {
                         Procentaje Recargo Segunda
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        % {baseParameters.porcentajeRecargoSegunda*100 || '%0.00'}
                     </td>
                 </tr>
                 <tr className="border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-transparent/80">
@@ -205,7 +207,7 @@ export const TableParameters = () => {
                         Procentaje Recargo Tercera
                     </td>
                     <td className="px-6 py-4">
-                        $2999
+                        % {baseParameters.porcentajeRecargoTercera*100 || '%0.00'}
                     </td>
                 </tr>
             </tbody>
