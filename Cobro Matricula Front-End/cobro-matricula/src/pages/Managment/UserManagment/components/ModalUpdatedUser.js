@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { UpdateUser } from '../../../../apiServices/UserServices';
 import { SwalFailed, SwalUpdated } from '../../../../sweetAlerts/SweetAlerts';
-import { message,patterns } from '../../../../utility/Validation';
+import { message,patterns } from '../../../../utility/ValidationUser';
 import { ButtonLoading } from '../../../../components';
 import { useForm } from 'react-hook-form';
 import { ErrorMessageValidator } from '../../../../components';

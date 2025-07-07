@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import { TableParameters, TextPressure , ButtonEdit} from "./components"
+import { TableParameters, TextPressure , ButtonEdit, ModalEditParameters} from "./components"
 import { useCallback,useRef,useState } from "react";
 import { GetBaseParameters } from "../../apiServices/BaseParametersServices";
 import { SwalFailed } from "../../sweetAlerts/SweetAlerts";
@@ -14,6 +14,7 @@ export const BaseParameters = () => {
   const [loading, setLoading] = useState(false);
   const titleRef = useRef('');
   const [baseParameters, setBaseParameters] = useState(null);
+  const [enableModalParameters, setEnableModalParameters] = useState(false);
 
   const handleSetTitle = useCallback(async() => { 
 
@@ -47,7 +48,10 @@ export const BaseParameters = () => {
    },[setBaseParameters])
 
    
-
+   const handleEditParameters = () => {
+      alert('Se Editaron los parametros base');
+      setEnableModalParameters(false);
+   }
 
 
 
@@ -76,13 +80,15 @@ export const BaseParameters = () => {
                       <option value="2"> Tecnología </option>
                     </select>
 
-                    <ButtonEdit />
+                    <ButtonEdit setEnableModalParameters={setEnableModalParameters}/>
 
                 </div>
 
                 {loading && (<LoadingSquid />)}
 
                 {baseParameters !== null && (<TableParameters baseParameters={baseParameters} />)}  
+
+                {enableModalParameters && (<ModalEditParameters enableModalParameters={enableModalParameters} setEnableModalParameters={setEnableModalParameters} handleEditParameters={handleEditParameters} />)}
                 
             </div>
         </div>

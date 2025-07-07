@@ -77,7 +77,7 @@ namespace Entity.DTO.BaseParameter
         //public float CostoHoraPeriodo { get; set; }
 
         [Required(ErrorMessage = "El campo del porcentaje costo costo óptimo anual es requerido")]
-        [Range(0f, 1000f, ErrorMessage = "Debe ser un numero decimal entre 0 y 1000")]
+        [Range(0f, 100f, ErrorMessage = "Debe ser un numero decimal entre 0 y 1000")]
         [RegularExpression(@"^[+-]?\d*(\.\d+)?([eE][+-]?\d+)?$", ErrorMessage = "Debe ser un número decimal")]
         public float PorcentajeCostoOptimoAnual { get; set; }
 
@@ -114,7 +114,7 @@ namespace Entity.DTO.BaseParameter
         [Required(ErrorMessage = "El campo del porcentaje arancel especial es requerido")]
         [Range(0f, 100f, ErrorMessage = "Debe ser un numero decimal entre 0 y 100")]
         [RegularExpression(@"^[+-]?\d*(\.\d+)?([eE][+-]?\d+)?$", ErrorMessage = "Debe ser un número decimal")]
-        public float PorcentajeArancelEspecial { get; set; }
+        public float PorcentajematriculaEspecial { get; set; }
 
         [Required(ErrorMessage = "El campo del porcentaje recargo segunda es requerido")]
         [Range(0f, 100f, ErrorMessage = "Debe ser un numero decimal entre 0 y 100")]

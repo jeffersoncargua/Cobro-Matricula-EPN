@@ -6,7 +6,7 @@ import {LoginUser} from '../../../apiServices/UserServices';
 import { SwalFailed, SwalSuccess } from '../../../sweetAlerts/SweetAlerts';
 import { ErrorMessageValidator } from '../../../components';
 import { useForm } from 'react-hook-form';
-import { message, patterns } from '../../../utility/Validation';
+import { message, patterns } from '../../../utility/ValidationUser';
 import { useDispatch } from 'react-redux';
 import { login } from '../../../redux/userSlice';
 
