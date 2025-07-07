@@ -42,13 +42,14 @@ export const Home = () => {
                 {enableForm && (
                     <Login setEnableForm={setEnableForm} setEnableModalRecover={setEnableModalRecover} setLoading={setLoading} />    
                 )}
-                {enableModalRecover && (
-                    <ModalRecover enableModalRecover={enableModalRecover} setEnableModalRecover={setEnableModalRecover} />
-                )}
+                
                 <UserCard Photo={Student} User={'Estudiante'} Action={'Calcular'} handleOption={handleOption} enableForm={enableForm} />
             </div>
         </div>
-
+        
+        {enableModalRecover && (
+            <ModalRecover enableModalRecover={enableModalRecover} setEnableModalRecover={setEnableModalRecover} />
+        )}
         {loading && (<LoadingSquid />)}
         
     </div>

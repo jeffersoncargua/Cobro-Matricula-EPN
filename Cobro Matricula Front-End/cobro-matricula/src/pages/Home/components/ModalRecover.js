@@ -6,7 +6,7 @@ import { ErrorMessageValidator } from '../../../components';
 //import { useNavigate } from 'react-router-dom';
 import { SwalSuccess, SwalFailed } from '../../../sweetAlerts/SweetAlerts';
 import { useForm } from 'react-hook-form';
-import { message, patterns } from '../../../utility/Validation';
+import { message, patterns } from '../../../utility/ValidationUser';
 
 export const ModalRecover = ({enableModalRecover,setEnableModalRecover}) => {
 

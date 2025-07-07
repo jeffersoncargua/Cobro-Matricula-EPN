@@ -1,12 +1,12 @@
 import React from 'react'
 
-export const ButtonEdit = () => {
+export const ButtonEdit = ({setEnableModalParameters}) => {
 
   
 
   return (
     // <!-- From Uiverse.io by Javierrocadev --> 
-    <button class="overflow-hidden relative w-16 p-2 h-10 bg-purple-500 text-white border-none rounded-md text-sm cursor-pointer relative z-10 group">
+    <button onClick={() => setEnableModalParameters(true)} class="overflow-hidden relative w-16 p-2 h-10 bg-purple-500 text-white border-none rounded-md text-sm cursor-pointer relative z-10 group">
       <span className='font-semibold'>Editar</span>    
       <span class="absolute w-36 h-32 -top-8 -left-2 bg-white rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-500 duration-1000 origin-left"></span>
       <span class="absolute w-36 h-32 -top-8 -left-2 bg-blue-400 rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-700 duration-700 origin-left"></span>

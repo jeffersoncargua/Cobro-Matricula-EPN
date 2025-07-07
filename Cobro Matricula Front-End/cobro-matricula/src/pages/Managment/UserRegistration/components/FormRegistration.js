@@ -4,7 +4,7 @@ import { RegisterUser } from "../../../../apiServices/UserServices";
 import { useForm } from 'react-hook-form';
 import { SwalFailed, SwalSuccess } from "../../../../sweetAlerts/SweetAlerts";
 import { ButtonLoading } from "../../../../components";
-import { message,patterns } from "../../../../utility/Validation";
+import { message,patterns } from "../../../../utility/ValidationUser";
 import { ErrorMessageValidator } from "../../../../components";
 
 
