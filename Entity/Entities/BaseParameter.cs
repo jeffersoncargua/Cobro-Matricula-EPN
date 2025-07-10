@@ -35,7 +35,7 @@ namespace Entity.Entities
         public float PorcentajePromedioAcademico { get; set; }
         public float PorcentajePerdidaTemporal { get; set; }
         public float PorcentajeMatriculaExtraordinario { get; set; }
-        public float PorcentajeArancelEspecial { get; set; }
+        public float PorcentajeMatriculaEspecial { get; set; }
         public float PorcentajeRecargoSegunda { get; set; }
         public float PorcentajeRecargoTercera { get; set; }
 

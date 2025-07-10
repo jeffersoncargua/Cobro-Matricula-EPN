@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom"
 import { TableParameters, TextPressure , ButtonEdit, ModalEditParameters} from "./components"
-import { useCallback,useRef,useState } from "react";
-import { GetBaseParameters } from "../../apiServices/BaseParametersServices";
-import { SwalFailed } from "../../sweetAlerts/SweetAlerts";
+import { useRef,useState } from "react";
+import { GetBaseParameters, UpdateParameters } from "../../apiServices/BaseParametersServices";
+import { SwalFailed, SwalSuccess } from "../../sweetAlerts/SweetAlerts";
 import { LoadingSquid } from '../../components';
 
 
@@ -16,17 +16,9 @@ export const BaseParameters = () => {
   const [baseParameters, setBaseParameters] = useState(null);
   const [enableModalParameters, setEnableModalParameters] = useState(false);
 
-  const handleSetTitle = useCallback(async() => { 
-
-    if (titleRef.current.value === '1') {
-      setTitle('Ingeniería');
-      
-    }else if (titleRef.current.value === '2') {
-      setTitle('Tecnología');
-    }else {
-      setTitle('Parámetros Base');
-    }
-
+  
+  const handleFetchData = async() => {
+    
     setLoading(true);
     var response = await GetBaseParameters(+titleRef.current.value);
 
@@ -36,7 +28,10 @@ export const BaseParameters = () => {
         SwalFailed("Aviso",response.message,"No lo vuelva a hacer!!!");
     }else if(response.statusCode === 404){
         SwalFailed("Error",response.message,"Por favor intente más tarde");
+    }else if(response.statusCode === 500){
+        SwalFailed("Error",response.message,"Por favor intente más tarde");
     }
+    
     if (response.isSuccess) {
         setBaseParameters(response.result);
     }else{
@@ -45,12 +40,61 @@ export const BaseParameters = () => {
     
     setLoading(false);
 
-   },[setBaseParameters])
+  }
+  
+  const handleChangeParameters = async() => { 
+
+    switch (titleRef.current.value) {
+      case "1":
+        setTitle('Ingeniería');
+        handleFetchData();
+        break;
+      
+      case "2":
+        setTitle('Tecnología');
+        handleFetchData();
+        break;
+      default:
+        setTitle('Parámetros Base');
+        setBaseParameters(null);
+        break;
+    }    
+
+   }
 
    
-   const handleEditParameters = () => {
-      alert('Se Editaron los parametros base');
-      setEnableModalParameters(false);
+   
+   const handleEditParameters = async(updateParameters) => {
+
+    setLoading(true);
+    setEnableModalParameters(false);
+    console.log(updateParameters);
+      
+    let response = await UpdateParameters(updateParameters.id, updateParameters);
+
+    console.log(response);
+
+    if (response.statusCode === 401) {
+      SwalFailed("Aviso",response.message,"No lo vuelva a hacer!!!");
+    }else if(response.statusCode === 404){
+      SwalFailed("Error",response.message,"Por favor intente más tarde");
+    }else if(response.statusCode === 400){
+      SwalFailed("Error",response.message,"Por favor intente más tarde");
+    }
+
+    if (response.isSuccess) {
+      let result = await SwalSuccess("Éxito",response.message,"Parámetros actualizados correctamente");
+        if (result.isConfirmed) {
+          setBaseParameters(response.result);
+        }
+    }else{
+        setBaseParameters(null);
+        setTitle('Parámetros Base');
+    }
+      
+    setEnableModalParameters(false);
+    setLoading(false);
+    
    }
 
 
@@ -74,13 +118,13 @@ export const BaseParameters = () => {
                 />
 
                 <div className="w-full flex items-center justify-between gap-x-3 p-8 bg-white/90 rounded-lg">
-                    <select name="" id="" className="p-2.5 rounded-lg text-sm text-center bg-transparent/10" onChange={() => handleSetTitle()} ref={titleRef} >
+                    <select name="" id="" className="p-2.5 rounded-lg text-sm text-center bg-transparent/10" onChange={() => handleChangeParameters()} ref={titleRef} >
                       <option value="" className="italic bg-transparent/40">--- Seleccione la formación académica ---</option>
                       <option value="1"> Ingeniería </option>
                       <option value="2"> Tecnología </option>
                     </select>
 
-                    <ButtonEdit setEnableModalParameters={setEnableModalParameters}/>
+                    {baseParameters !== null && <ButtonEdit setEnableModalParameters={setEnableModalParameters}/>}
 
                 </div>
 
@@ -88,7 +132,7 @@ export const BaseParameters = () => {
 
                 {baseParameters !== null && (<TableParameters baseParameters={baseParameters} />)}  
 
-                {enableModalParameters && (<ModalEditParameters enableModalParameters={enableModalParameters} setEnableModalParameters={setEnableModalParameters} handleEditParameters={handleEditParameters} />)}
+                {enableModalParameters && (<ModalEditParameters enableModalParameters={enableModalParameters} setEnableModalParameters={setEnableModalParameters} handleEditParameters={handleEditParameters} baseParameters={baseParameters} />)}
                 
             </div>
         </div>

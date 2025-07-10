@@ -12,7 +12,7 @@ function SendToken(token) {
 
 function GetToken(){
     const token = Cookies.get('jwtToken');
-    if (token !== null) {
+    if (token !== null && token !== undefined) {
         return token;
     }
 

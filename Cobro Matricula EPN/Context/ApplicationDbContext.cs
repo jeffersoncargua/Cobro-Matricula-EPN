@@ -61,7 +61,7 @@ namespace Cobro_Matricula_EPN.Context
                     PorcentajePromedioAcademico = 0.52f,
                     PorcentajePerdidaTemporal = 0.6f,
                     PorcentajeMatriculaExtraordinario = 0.25f,
-                    PorcentajeArancelEspecial = 0.25f,
+                    PorcentajeMatriculaEspecial = 0.25f,
                     PorcentajeRecargoSegunda = 0.1f,
                     PorcentajeRecargoTercera = 0.21f
                 },
@@ -89,7 +89,7 @@ namespace Cobro_Matricula_EPN.Context
                     PorcentajePromedioAcademico = 0.56f,
                     PorcentajePerdidaTemporal = 0.6f,
                     PorcentajeMatriculaExtraordinario = 0.25f,
-                    PorcentajeArancelEspecial = 0.25f,
+                    PorcentajeMatriculaEspecial = 0.25f,
                     PorcentajeRecargoSegunda = 0.1f,
                     PorcentajeRecargoTercera = 0.21f
                 }
