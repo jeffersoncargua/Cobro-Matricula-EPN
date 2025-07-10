@@ -24,13 +24,27 @@ export async function GetBaseParameters(id) {
         return { isSuccess: false, message: ['Acceso Denagado. El usuario tendrá problemas'], result: null, statusCode: 401 };
     }
 
+    if (response.status === 500) {
+        return { isSuccess: false, message: ['Ha ocurrido un error con el servidor'], result: null, statusCode: 500 };
+    }
+
     return response.json();    
 }
 
-// export async function UpdateParameters(id, parameters) {
-//     const verbose = 'PUT';
-//     const route = `api/BaseParameters/UpdateParameters/${id}`;
-//     var response = await useFetch({verbose:verbose,route:route,objectRequest:parameters, authToken: token});
+export async function UpdateParameters(id, parameters) {
+    var token = GetToken();
+    
+    const verbose = 'PUT';
+    const route = `api/BaseParameter/UpdateParameters/${id}`;
+    var response = await useFetch({verbose:verbose,route:route,objectRequest:parameters, authToken: token});
 
-//     return response;
-// }
+    if (response.status === 401 || response.status === 403) {
+        return { isSuccess: false, message: ['Acceso Denagado. El usuario tendrá problemas'], result: null, statusCode: 401 };
+    }
+
+    if (response.status === 500) {
+        return { isSuccess: false, message: ['Ha ocurrido un error con el servidor'], result: null, statusCode: 500 };
+    }
+
+    return response.json();
+}

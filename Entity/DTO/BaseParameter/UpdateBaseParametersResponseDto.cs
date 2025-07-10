@@ -10,6 +10,7 @@ namespace Entity.DTO.BaseParameter
     {
         public bool Success { get; set; }
         public string Message { get; set; }
+        public BaseParameterDto Result { get; set; }
 
     }
 }

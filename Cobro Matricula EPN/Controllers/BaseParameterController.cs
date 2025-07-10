@@ -58,18 +58,20 @@ namespace Cobro_Matricula_EPN.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<APIResponse>> UpdateParameters(int id, [FromBody] UpdatedBaseParameterRequestDto updatedBaseParameter)
         {
-            
             var result = await _baseParameterRepository.UpdateAsync(id, updatedBaseParameter);
+
             if (result.Success)
             {
                 _response.StatusCode = HttpStatusCode.OK;
                 _response.IsSuccess = true;
                 _response.Message.Add(result.Message);
+                _response.Result = result.Result;
                 return Ok(_response);
             }
             _response.StatusCode = HttpStatusCode.BadRequest;
             _response.IsSuccess = false;
             _response.Message.Add(result.Message);
+            _response.Result = null;
             return BadRequest(_response);
         }
     }
