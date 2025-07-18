@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Cobro_Matricula_EPN.Mapping;
+using Entity.DTO.BaseParameter;
 using Entity.DTO.User;
 using Entity.Entities;
 using System;
@@ -45,6 +46,8 @@ namespace CobroMatriculaEPN.UnitTest.Mapping
         [InlineData(typeof(ApplicationUser), typeof(UserDto))]
         [InlineData(typeof(UserDto), typeof(ApplicationUser))]
         [InlineData(typeof(ApplicationUser), typeof(UpdateUserDto))]
+        [InlineData(typeof(BaseParameter), typeof(BaseParameterDto))]
+        [InlineData(typeof(BaseParameterDto), typeof(BaseParameter))]
         //[InlineData(typeof(ApplicationUser), typeof(RegistrationRequestDto))] //El mapeo de una clase que hereda Identity no se puede mapear porque no se fuciona correctamente y quedan campos vacios que no son permitidos
         //[InlineData(typeof(UpdateUserDto), typeof(ApplicationUser))]
         public void Mapping_SourceTodestination_ExistsConfiguration(Type source, Type destination)

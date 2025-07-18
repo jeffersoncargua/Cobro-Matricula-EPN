@@ -20,10 +20,9 @@ namespace Cobro_Matricula_EPN.Repository
         {
             try
             {
-                if (id == updatedBaseParameter.Id && updatedBaseParameter != null)
+                if (id !=0  && updatedBaseParameter != null)
                 {
-                    if (await _db.BaseParameters.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id) != null)
-
+                    if (await _db.BaseParameters.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id) != null && id == updatedBaseParameter.Id)
                     {
                         BaseParameter newBaseParameter = new()
                         {
@@ -95,9 +94,6 @@ namespace Cobro_Matricula_EPN.Repository
                     Result = null
                 };
             }
-
-           
-
            
         }
     }
