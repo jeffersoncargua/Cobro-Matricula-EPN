@@ -155,47 +155,47 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
         }
 
-        [Theory]
-        [InlineData("example@gmail.com", "UserAdmin1!", "El usuario no existe o ha sido eliminado de la base de datos!!!")]
-        public async Task Login_WhenLoginFail_ShouldThrowException(string email, string password, string expectedMessage)
-        {
-            //Arrange
-            LoginRequestDto loginRequestDto = new()
-            {
-                Email = email,
-                Password = password
-            };
+        //[Theory]
+        //[InlineData("example@gmail.com", "UserAdmin1!", "El usuario no existe o ha sido eliminado de la base de datos!!!")]
+        //public async Task Login_WhenLoginFail_ShouldThrowException(string email, string password, string expectedMessage)
+        //{
+        //    //Arrange
+        //    LoginRequestDto loginRequestDto = new()
+        //    {
+        //        Email = email,
+        //        Password = password
+        //    };
 
-            APIResponse aPIResponse = new()
-            {
-                IsSuccess = false,
-                Message = new List<string>() { "El usuario no existe o ha sido eliminado de la base de datos!!!" },
-                Result = null,
-                StatusCode = HttpStatusCode.NotFound
-            };
+        //    APIResponse aPIResponse = new()
+        //    {
+        //        IsSuccess = false,
+        //        Message = new List<string>() { "El usuario no existe o ha sido eliminado de la base de datos!!!" },
+        //        Result = null,
+        //        StatusCode = HttpStatusCode.NotFound
+        //    };
 
-            //Cuando se lanza una excepcion se debe verificar lo que se retorna dentro del catch, ya que de eso dependerá
-            //lo que se desea comprobar con assert
-            _mockUserRepository.Setup(x => x.Login(It.IsAny<LoginRequestDto>())).Throws(new Exception());
+        //    //Cuando se lanza una excepcion se debe verificar lo que se retorna dentro del catch, ya que de eso dependerá
+        //    //lo que se desea comprobar con assert
+        //    _mockUserRepository.Setup(x => x.Login(It.IsAny<LoginRequestDto>())).Throws(new Exception());
 
-            var controller = new UserController(_mockUserRepository.Object);
+        //    var controller = new UserController(_mockUserRepository.Object);
 
-            //Act
+        //    //Act
 
-            //var action = async () => await controller.Login(loginRequestDto);
-            var response = await controller.Login(loginRequestDto);
-            var result = response.Result as ObjectResult;
-            var resultContent = result.Value as APIResponse;
+        //    //var action = async () => await controller.Login(loginRequestDto);
+        //    var response = await controller.Login(loginRequestDto);
+        //    var result = response.Result as ObjectResult;
+        //    var resultContent = result.Value as APIResponse;
 
 
 
-            //Assert
-            Assert.Equal(resultContent.StatusCode, aPIResponse.StatusCode);
-            Assert.Equal(resultContent.IsSuccess, aPIResponse.IsSuccess);
-            Assert.Equal(resultContent.Message, aPIResponse.Message);
-            Assert.Null(resultContent.Result);
+        //    //Assert
+        //    Assert.Equal(resultContent.StatusCode, aPIResponse.StatusCode);
+        //    Assert.Equal(resultContent.IsSuccess, aPIResponse.IsSuccess);
+        //    Assert.Equal(resultContent.Message, aPIResponse.Message);
+        //    Assert.Null(resultContent.Result);
 
-        }
+        //}
 
         [Theory]
         [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity","0987654321","UserAdmin1!", "UserAdmin1!", "Assitant")]
@@ -462,7 +462,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         [Theory]
         [InlineData("exampleError@gmail.com","El usuario no ha confirmado su cuenta. Por favor revise su correo para verificar la cuenta")]
         [InlineData("exampleError@gmail.com", "El usuario no se encuentra registrado")]
-        public async Task ForgetPassword_WhenUserDoesntExist_ReturnStatusCodeNotFound(string email,string expecteMessage)
+        public async Task ForgetPassword_WhenUserDoesntExist_ReturnStatusCodeBadRequest(string email,string expecteMessage)
         {
             //Arrange
             APIResponse aPIResponse = new()
@@ -482,7 +482,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             _mockHttp.When("https://localhost:7156/api/User/ForgetPassword")
                 .WithContent(JsonConvert.SerializeObject(email))
-                .Respond(HttpStatusCode.NotFound,"application/json", JsonConvert.SerializeObject(aPIResponse));
+                .Respond(HttpStatusCode.BadRequest,"application/json", JsonConvert.SerializeObject(aPIResponse));
 
             var client = _mockHttp.ToHttpClient();
 

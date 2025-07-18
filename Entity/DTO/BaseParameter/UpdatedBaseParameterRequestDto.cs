@@ -29,7 +29,7 @@ namespace Entity.DTO.BaseParameter
         //[Required(ErrorMessage = "El campo del valor matrícula mínimo es requerido")]
         //[Range(0f, 10000f, ErrorMessage = "Debe ser un numero decimal")]
         //[RegularExpression(@"^[+-]?\d*(\.\d+)?([eE][+-]?\d+)?$")]
-        //public float ValorMatriculaMin { get; set; }
+        //public float ValorMatricula Min { get; set; }
 
         //[Required(ErrorMessage = "El campo del valor arancel mínimo es requerido")]
         //[Range(0f, 10000f, ErrorMessage = "Debe ser un numero decimal")]
