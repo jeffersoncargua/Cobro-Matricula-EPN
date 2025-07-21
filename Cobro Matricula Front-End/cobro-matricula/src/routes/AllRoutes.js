@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { Home,Managment,BaseParameters } from "../pages";
+import { Home,Managment,BaseParameters , Students} from "../pages";
 import { UserRegistration,UserManagment, UserRecover,UserConfirmation } from "../pages/Managment";
 
 export const AllRoutes = () => {
@@ -13,6 +13,7 @@ export const AllRoutes = () => {
           <Route path="confirmation" element={<UserConfirmation/>} />
         </Route>
         <Route path="parameters" element={<BaseParameters/>} />
+        <Route path="calculator" element={<Students/>} />
     </Routes>
   )
 }
