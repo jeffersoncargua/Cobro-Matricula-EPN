@@ -23,7 +23,7 @@ export const Home = () => {
         switch(selected){
             case 'Ingresar' : setEnableForm(!enableForm);
                 break;
-            case 'Calcular': navigate('/calculadora');
+            case 'Calcular': navigate('/calculator');
                 break;
             case 'Cancelar': setEnableForm(!enableForm);
                 break;
