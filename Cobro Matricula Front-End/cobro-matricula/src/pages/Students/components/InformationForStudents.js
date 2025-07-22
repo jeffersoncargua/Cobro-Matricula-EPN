@@ -2,7 +2,7 @@
 
 export const InformationForStudents = () => {
   return (
-    <div className="container w-full mt-4 bg-emerald-950/80 p-4 rounded-lg mb-10">
+    <div className="container w-full mt-4 bg-emerald-950/80 p-4 rounded-lg">
         <h1 className="text-white underline underline-offset-4 font-bold">Información Importante</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 mt-6 gap-y-2 md:gap-y-0">
             <section className="w-[90%] mx-auto text-white text-sm border rounded-lg p-4 md:hover:-translate-y-2 md:hover:-translate-x-4 md:hover:scale-[1.08] md:hover:shadow-lg md:hover:shadow-white md:transition md:delay-150 md:duration-300 md:ease-in-out">
@@ -24,7 +24,7 @@ export const InformationForStudents = () => {
                 </ul>
             </section>
             <section className="w-[90%] mx-auto text-sm text-white border rounded-lg p-4 md:hover:-translate-y-2 md:hover:translate-x-4 md:hover:scale-[1.08] md:hover:shadow-lg md:hover:shadow-white md:transition md:delay-150 md:duration-300 md:ease-in-out">
-                <h3 className="underline underline-offset-4 flex flex-row items-center text-center">
+                <h3 className="underline underline-offset-4 flex flex-row justify-center items-center text-center mb-4">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-info-circle-fill text-green-500 w-5 h-5 me-2.5" viewBox="0 0 16 16">
                       <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2"/>
                     </svg>    

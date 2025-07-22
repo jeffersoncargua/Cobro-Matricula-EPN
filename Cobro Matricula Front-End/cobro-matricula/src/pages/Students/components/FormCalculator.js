@@ -1,15 +1,11 @@
 import { message,patterns } from "../../../utility/ValidationFormCalc";
 import {useForm} from 'react-hook-form';
 import { ErrorMessageValidator } from "../../../components";
-export const FormCalculator = () => {
+
+
+export const FormCalculator = ({HandleCalculator}) => {
 
     const {register, handleSubmit, formState: {errors},reset} = useForm();
-
-    const HandleCalculator = () => {
-        //Aqui va el servicio para calcular el valor a pagar
-        console.log("Si se esta calculando");
-        console.log(errors);
-    }
     
     const handleCleanForm = () => {
         reset({
