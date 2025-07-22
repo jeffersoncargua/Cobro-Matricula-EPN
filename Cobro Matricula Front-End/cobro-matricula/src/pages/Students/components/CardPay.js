@@ -44,7 +44,7 @@ export const CardPay = ({title, gratuidad, payment ,recargoExtraordinaria = null
                         </tr>
                     </tbody>
                     <tfoot className="">
-                        <hr className="border border-transparent mt-2" />
+                        <tr className="h-1"></tr>
                         <tr className="">
                             <td className="underline underline-offset-4 p-0.5">Total a Pagar:</td>
                             <td className='text-white hover:scale-[1.1] bg-gradient-to-r from-red-700 from-20% via-orange-500 via-25% to-yellow-400 to-80% p-0.5' >

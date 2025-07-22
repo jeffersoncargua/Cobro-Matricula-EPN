@@ -3,7 +3,7 @@ import { DrawCircleText, FormCalculator, InformationForStudents, Pay } from "./c
 
 export const Students = () => {
 
-  const [showPay, setShowPay] = useState(false);
+  const [showPay, setShowPay] = useState(true);
 
   const HandleCalculator = (calculatorRequest) => {
     console.log(calculatorRequest);
