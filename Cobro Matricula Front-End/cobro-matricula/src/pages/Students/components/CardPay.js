@@ -2,10 +2,10 @@
 
 export const CardPay = ({title, gratuidad, payment ,recargoExtraordinaria = null}) => {
   return (
-    <section className={`w-[70%] mx-auto text-white text-sm text-start ${recargoExtraordinaria !== null && ('md:mt-0 mt-4')}`}>
+    <section className={`w-[70%] mx-auto text-white text-sm text-start ${recargoExtraordinaria !== null && ('md:mt-0 mt-4')} `}>
         <h2 className="underline underline-offset-4 mb-4">Matricula {title}:</h2>
         <span className="">Condicion de Gratuidad: <b className="font-bold italic text-red-600" >{gratuidad}</b></span>
-        <div className='bg-slate-50/90 mt-2 rounded-r-md hover:scale-[1.05] transition delay-150 duration-300 ease-in-out relative'>
+        <div className='bg-slate-50/90 mt-2 rounded-r-md hover:scale-[1.05] transition delay-150 duration-300 ease-in-out relative hover:shadow-lg hover:shadow-white/50'>
             <div className="border-l-[10px] border-indigo-500 mix-blend-multiply p-2 pb-4">
                 <table className="w-[90%] mx-auto text-slate-950 text-center ">
                     <thead className="">
@@ -46,8 +46,10 @@ export const CardPay = ({title, gratuidad, payment ,recargoExtraordinaria = null
                     <tfoot className="">
                         <hr className="border border-transparent mt-2" />
                         <tr className="">
-                            <td className="underline underline-offset-4 ">Total a Pagar:</td>
-                            <td className='outline outline-offset-2 outline-2 outline-green-500 text-white bg-blue-500 rounded-full hover:scale-[1.1]' > $ 45,56</td>
+                            <td className="underline underline-offset-4 p-0.5">Total a Pagar:</td>
+                            <td className='text-white hover:scale-[1.1] bg-gradient-to-r from-red-700 from-20% via-orange-500 via-25% to-yellow-400 to-80% p-0.5' >
+                                <div className="w-full bg-white text-black hover:text-white hover:bg-gradient-to-r hover:from-red-700 hover:from-19% hover:via-orange-500 hover:via-24% hover:to-yellow-400 hover:to-79% "> $ 45,56 </div>
+                            </td>
                         </tr>
                     </tfoot>
                 </table>
