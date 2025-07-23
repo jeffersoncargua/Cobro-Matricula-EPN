@@ -61,6 +61,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBaseParameterRepository, BaseParameterRepository>();
 builder.Services.AddScoped<IEmailRepository, EmailRepository>();
+builder.Services.AddScoped<ICalculatorRepository, CalculatorRepository>();
 
 //Add Service AutoMapper 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
