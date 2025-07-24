@@ -62,6 +62,8 @@ namespace Cobro_Matricula_EPN.Repository
                             Message = "Los Parametros han sido actualizados correctamente.",
                             Result = _mapper.Map<BaseParameterDto>(newBaseParameter)
                         };
+
+                        
                     }
                     else
                     {
