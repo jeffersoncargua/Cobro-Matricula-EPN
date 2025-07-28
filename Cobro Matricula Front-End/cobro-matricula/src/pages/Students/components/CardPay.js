@@ -17,11 +17,11 @@ export const CardPay = ({title, gratuidad, payment ,recargoExtraordinaria = null
                     <tbody className="border-b-2 border-slate-600">
                         <tr>
                             <td>Valor Matrícula</td>
-                            <td> $ 45,56</td>
+                            <td> $ {payment.valorMatricula}</td>
                         </tr>
                         <tr>
                             <td>Valor Arancel</td>
-                            <td> $ 45,56</td>
+                            <td> $ {payment.valorArancel}</td>
                         </tr>
                         {recargoExtraordinaria !=null && (
                             <tr>
@@ -32,15 +32,15 @@ export const CardPay = ({title, gratuidad, payment ,recargoExtraordinaria = null
                         
                         <tr>
                             <td>Recargo Segunda Matricula</td>
-                            <td> $ 45,56</td>
+                            <td> $ {payment.recargoSegunda}</td>
                         </tr>
                         <tr>
                             <td>Recargo Tercera Matricula</td>
-                            <td> $ 45,56</td>
+                            <td> $ {payment.recargoTercera}</td>
                         </tr>
                         <tr>
                             <td>Bancario</td>
-                            <td> $ 45,56</td>
+                            <td> $ {payment.bancario}</td>
                         </tr>
                     </tbody>
                     <tfoot className="">
@@ -48,7 +48,7 @@ export const CardPay = ({title, gratuidad, payment ,recargoExtraordinaria = null
                         <tr className="">
                             <td className="underline underline-offset-4 p-0.5">Total a Pagar:</td>
                             <td className='text-white hover:scale-[1.1] bg-gradient-to-r from-red-700 from-20% via-orange-500 via-25% to-yellow-400 to-80% p-0.5' >
-                                <div className="w-full bg-white text-black hover:text-white hover:bg-gradient-to-r hover:from-red-700 hover:from-19% hover:via-orange-500 hover:via-24% hover:to-yellow-400 hover:to-79% "> $ 45,56 </div>
+                                <div className="w-full bg-white text-black hover:text-white hover:bg-gradient-to-r hover:from-red-700 hover:from-19% hover:via-orange-500 hover:via-24% hover:to-yellow-400 hover:to-79% "> $ {recargoExtraordinaria ===null ? payment.valorTotal : payment.valorTotal+recargoExtraordinaria} </div>
                             </td>
                         </tr>
                     </tfoot>

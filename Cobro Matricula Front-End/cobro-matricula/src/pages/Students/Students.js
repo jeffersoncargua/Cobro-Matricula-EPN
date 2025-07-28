@@ -1,13 +1,36 @@
 import { useState } from "react"
-import { DrawCircleText, FormCalculator, InformationForStudents, Pay } from "./components"
+import { DrawCircleText, FormCalculator, InformationForStudents, Pay } from "./components";
+import { CalculatorPay } from "../../apiServices/CalculatorServices";
+
 
 export const Students = () => {
 
   const [showPay, setShowPay] = useState(true);
+  const [payment, setPayment] = useState({});
 
-  const HandleCalculator = (calculatorRequest) => {
-    console.log(calculatorRequest);
-    setShowPay(true);
+  const HandleCalculator = async(calculatorRequest) => {
+    
+    var response = await CalculatorPay(calculatorRequest);
+
+    if(response.isSuccess){
+      //Se debe configurar el sweet alert de exito
+      
+      //Se setea payment para obtener los valores calculados del pago
+      setPayment(response.result);
+      
+      //Se setea el valor de showPay a true en caso de exito
+      setShowPay(true);
+    }else{
+      //Se debe configurar el sweet alert de error
+      
+      //Se setea payment a un objeto vacio en caso de error
+      setPayment(null);
+      
+      //Se setea el valor de showPay a false en caso de error
+      setShowPay(false);
+    }
+
+    
   }
 
   return (
@@ -16,7 +39,7 @@ export const Students = () => {
           <DrawCircleText />
           <FormCalculator HandleCalculator={HandleCalculator}/>
           <InformationForStudents />
-          {showPay && <Pay />}
+          {(showPay && payment !==null)  && <Pay payment={payment} />}
         </div> 
     </div>
   )
