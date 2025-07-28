@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { DrawCircleText, FormCalculator, InformationForStudents, Pay } from "./components";
 import { CalculatorPay } from "../../apiServices/CalculatorServices";
+import { SwalSuccess, SwalFailed } from "../../sweetAlerts/SweetAlerts";
 
 
 export const Students = () => {
@@ -14,7 +15,8 @@ export const Students = () => {
 
     if(response.isSuccess){
       //Se debe configurar el sweet alert de exito
-      
+      SwalSuccess("Exito",response.message[0]);
+
       //Se setea payment para obtener los valores calculados del pago
       setPayment(response.result);
       
@@ -22,7 +24,8 @@ export const Students = () => {
       setShowPay(true);
     }else{
       //Se debe configurar el sweet alert de error
-      
+      SwalFailed("Error",response.message);
+
       //Se setea payment a un objeto vacio en caso de error
       setPayment(null);
       
@@ -39,7 +42,7 @@ export const Students = () => {
           <DrawCircleText />
           <FormCalculator HandleCalculator={HandleCalculator}/>
           <InformationForStudents />
-          {(showPay && payment !==null)  && <Pay payment={payment} />}
+          {(showPay && payment !== null)  && <Pay payment={payment} />}
         </div> 
     </div>
   )
