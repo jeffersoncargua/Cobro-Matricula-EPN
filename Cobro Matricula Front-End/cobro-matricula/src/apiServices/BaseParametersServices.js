@@ -18,7 +18,7 @@ export async function GetBaseParameters(id) {
     const route = `api/BaseParameter/GetParameters/${id}`;
     var response = await useFetch({verbose:verbose,route:route, authToken: token});
     
-    console.log(response.status);
+    //console.log(response.status);
 
     if (response.status === 401) {
         return { isSuccess: false, message: ['Acceso Denagado. El usuario tendrá problemas'], result: null, statusCode: 401 };
