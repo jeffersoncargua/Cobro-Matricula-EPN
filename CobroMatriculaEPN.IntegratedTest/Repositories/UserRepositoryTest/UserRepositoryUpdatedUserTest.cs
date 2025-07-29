@@ -42,7 +42,7 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.UserRepositoryTest
             var response = await repository.UpdateUserAsync(updateUserDto,email);
 
             //Assert
-            Assert.IsType<UserDto>(response);
+            Assert.IsType<UpdateUserResponseDto>(response);
         }
 
         [Theory]
@@ -76,7 +76,7 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.UserRepositoryTest
             var response = await repository.UpdateUserAsync(updateUserDto,email);
 
             //Assert
-            Assert.Null(response);
+            Assert.Null(response.User);
         }
     }
 }

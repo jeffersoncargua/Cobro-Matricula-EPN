@@ -1,14 +1,13 @@
 import {useFetch} from '../hooks/useFetch';
 
-const  CalculatorPay = async(calculatorRequest) => {
+export async function CalculatorPay (calculatorRequest)  {
     const verbose = "POST";
     const route = "api/Calculator/CalculatorPay";
 
-    var response = await useFetch({verbose:verbose, route:route,objectRequest:calculatorRequest});
+    var response = await useFetch({verbose:verbose, route:route, objectRequest:calculatorRequest});
 
-    console.log(response.json());
+    console.log(response);
 
     return response.json();
 }
 
-export {CalculatorPay};

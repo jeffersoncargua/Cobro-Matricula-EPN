@@ -13,9 +13,10 @@ namespace Entity.DTO.Calculator
         [RegularExpression(@"^\d+$",ErrorMessage = "Debe elegir la Formación Académica")]
         public int FormacionAcademica { get; set; }
         [Required(ErrorMessage = "Debe elegir alguna opcion del Regimen de estudio")]
+        [RegularExpression(@"^[a-z]+$", ErrorMessage ="El regimen solo acepta cadenas de letras")]
         public string Regimen { get; set; }
         [Required(ErrorMessage ="Debe elegir laguna opcion del quintil al que pertenece")]
-        [RegularExpression(@"^\d+$",ErrorMessage ="Debe elegir su quintil")]
+        [RegularExpression(@"^[1-5]$", ErrorMessage ="Debe elegir su quintil")]
         public int Quintil { get; set; }
         [Required(ErrorMessage ="Debe seleccionar si tiene o no Gratuidad")]
         public bool Gratuidad { get; set; }
@@ -28,9 +29,6 @@ namespace Entity.DTO.Calculator
         [Required(ErrorMessage = "Debe colocar algun valor en el campo de Tercera Matricula")]
         [RegularExpression(@"^\d+$", ErrorMessage = "El campo de Tercera Matricula debe ser un numero entero positivo")]
         public int Tercera { get; set; }
-
-
-
 
     }
 }
