@@ -4,7 +4,6 @@ import { CalculatorPay } from "../../apiServices/CalculatorServices";
 import { SwalSuccess, SwalFailed } from "../../sweetAlerts/SweetAlerts";
 import { LoadingSquid } from "../../components";
 
-
 export const Students = () => {
 
   const [showPay, setShowPay] = useState(false);
@@ -36,6 +35,7 @@ export const Students = () => {
       setPayment(response.result);
       if(result.isConfirmed){
         setElementFocus(paymentSection);
+
       }
       
     }else{
@@ -52,13 +52,14 @@ export const Students = () => {
     setLoading(false);
   }
   
-  
+
   useEffect(() => {
     //Se emplea el setTimeout para darle un poco de tiempo para la transicion del foco para
     //mostrar los calculos correspondintes en el componente Pay
     setTimeout(() => {
       if(elementFocus !== null){
-        elementFocus.scrollIntoView({top: elementFocus.getBoundingClientRect().top, left: elementFocus.getBoundingClientRect().left ,behavior: "smooth"});
+        //elementFocus.scrollIntoView({top: elementFocus.getBoundingClientRect().top, left: elementFocus.getBoundingClientRect().left , behavior: 'smooth'});
+        elementFocus.scrollIntoView({behavior: 'smooth'});
       }
     },1000)
     
@@ -67,7 +68,7 @@ export const Students = () => {
 
   return (
     <div className="container mx-auto">
-        <div className="w-full min-h-screen flex flex-col gap-y-4 justify-center items-center">
+        <div className="w-full min-h-screen flex flex-col gap-y-4 justify-center items-center snap-y snap-mandatory">
           <DrawCircleText />
           <FormCalculator HandleCalculator={HandleCalculator} setShowPay={setShowPay} setElementFocus={setElementFocus}  />
           <InformationForStudents />

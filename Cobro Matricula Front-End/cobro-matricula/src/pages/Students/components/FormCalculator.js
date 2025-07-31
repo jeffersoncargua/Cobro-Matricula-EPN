@@ -26,7 +26,7 @@ export const FormCalculator = ({HandleCalculator,setShowPay,setElementFocus}) =>
     
 
   return (
-    <form className="w-[90%] md:w-full mx-auto bg-emerald-950/50 p-2" onSubmit={handleSubmit(HandleCalculator)}>
+    <form className="w-[90%] md:w-full mx-auto bg-emerald-950/50 p-2 snap-always snap-center" onSubmit={handleSubmit(HandleCalculator)}>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-y-0 ">
             <section className="p-4">
                 <div className="flex flex-col gap-y-2 text-start">

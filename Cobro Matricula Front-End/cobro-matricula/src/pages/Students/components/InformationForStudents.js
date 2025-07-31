@@ -2,7 +2,7 @@
 
 export const InformationForStudents = () => {
   return (
-    <div className="container w-full mt-4 bg-emerald-950/80 p-4 rounded-lg">
+    <div className="container w-full mt-4 bg-emerald-950/80 p-4 rounded-lg snap-always snap-center">
         <h1 className="text-white underline underline-offset-4 font-bold">Información Importante</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 mt-6 gap-y-2 md:gap-y-0">
             <section className="w-[90%] mx-auto text-white text-sm border rounded-lg p-4 md:hover:-translate-y-2 md:hover:-translate-x-4 md:hover:scale-[1.08] md:hover:shadow-lg md:hover:shadow-white md:transition md:delay-150 md:duration-300 md:ease-in-out">
