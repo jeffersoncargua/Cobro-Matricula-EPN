@@ -6,8 +6,6 @@ export async function CalculatorPay (calculatorRequest)  {
 
     var response = await useFetch({verbose:verbose, route:route, objectRequest:calculatorRequest});
 
-    console.log(response);
-
     return response.json();
 }
 
