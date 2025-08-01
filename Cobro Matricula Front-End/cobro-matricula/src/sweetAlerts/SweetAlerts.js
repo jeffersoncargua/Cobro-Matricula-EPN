@@ -1,5 +1,4 @@
 import Swal from "sweetalert2";
-
 var result;
 
 export async function SwalSuccess(title,text,footer=''){
@@ -22,6 +21,8 @@ export async function SwalSuccess(title,text,footer=''){
     //     }
     // });
 }
+
+
 
 export async function SwalFailed(title,message,footer=''){
     result = await Swal.fire({

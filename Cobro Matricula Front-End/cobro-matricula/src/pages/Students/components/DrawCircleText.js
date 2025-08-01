@@ -3,7 +3,7 @@ import { motion } from "motion/react";
 
 export const DrawCircleText = () => {
   return (
-    <div className="mx-auto grid place-content-center bg-emerald-950/50 px-4 py-8 text-yellow-50">
+    <div className="mx-auto grid place-content-center bg-emerald-950/50 px-4 py-8 text-yellow-50 snap-always snap-center">
       <h1 className="max-w-2xl text-center text-5xl leading-snug">
         <span className="relative">
           Calculadora

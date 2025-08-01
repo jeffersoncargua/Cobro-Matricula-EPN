@@ -35,3 +35,7 @@ input::-ms-reveal,
 input::-ms-clear {
   display: none;
 }
+
+html {
+  scroll-behavior: smooth;
+}
