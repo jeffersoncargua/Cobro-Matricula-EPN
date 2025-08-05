@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CobroMatriculaEPN.FunctionalTest
 {
-    [CollectionDefinition("My Collection2")]
+    [CollectionDefinition("My Collection 2")]
     public class DatabaseCollection : ICollectionFixture<CustomWebApplicationFactory<Program>>
     {
 
