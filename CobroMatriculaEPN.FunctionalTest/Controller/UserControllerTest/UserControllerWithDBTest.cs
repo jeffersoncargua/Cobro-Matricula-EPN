@@ -18,9 +18,10 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 {
     public class UserControllerWithDBTest : BaseControllerTest
     {
+        private readonly HttpClient client;
         public UserControllerWithDBTest(CustomWebApplicationFactory<Program> factory) : base(factory)
         {
-
+            client = this.GetNewClient();
         }
 
 
@@ -37,12 +38,12 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         /// <param name="role">Este parametro si permite ser un valor null para generar un nuevo usuario</param>
         /// <returns></returns>
         [Theory]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assistant")]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null)]
+        [InlineData("exampleFiveName", "exampleLastFiveName", "exampleFive@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assistant")]
+        [InlineData("exampleTwoName", "exampleLastTwoName", "exampleTwo@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null)]
         public async Task Register_WhenSendCorrectRequest_ReturnStatusCodeCreated(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role)
         {
             //Arrange 
-            var client = this.GetNewClient();
+            //var client = this.GetNewClient();
 
             RegistrationRequestDto registrationRequestDto = new()
             {
@@ -60,7 +61,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
 
             //Act
-            var response = await client.PostAsync("api/User/Registration", stringContent);
+            var response = await client.PostAsync("/api/User/Registration", stringContent);
             response.EnsureSuccessStatusCode();
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<APIResponse>(content);
@@ -74,11 +75,11 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
 
         [Theory]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assistant", "Ya existe un registro con ese correo")]
+        [InlineData("exampleSixName", "exampleLastSixName", "exampleSix@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assistant", "Ya existe un registro con ese correo")]
         public async Task Register_WhenUserExist_ReturnStatusCodeBadRequest(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role, string expectedMessage)
         {
             //Arrange
-            var client = this.GetNewClient();
+            //var client = this.GetNewClient();
 
             RegistrationRequestDto registrationRequestDto = new()
             {
@@ -95,11 +96,12 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var stringContent = new StringContent(JsonConvert.SerializeObject(registrationRequestDto),Encoding.UTF8,"application/json");
 
             //Act
-            var response = await client.PostAsync("api/User/Registration",stringContent);
+            //1. se crea el usuario 
+            var response = await client.PostAsync("/api/User/Registration",stringContent);
             response.EnsureSuccessStatusCode();
 
-            
-            var response2 = await client.PostAsync("api/User/Registration", stringContent);
+            //2. se rea el mismo usuario para que genere el error
+            var response2 = await client.PostAsync("/api/User/Registration", stringContent);
             var content = await response2.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<APIResponse>(content);
             var statusCode = (int)response2.StatusCode;
@@ -127,12 +129,15 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         /// <param name="role"></param>
         /// <returns></returns>
         [Theory]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1", "UserAdmin1", "Assistant")]
+        [InlineData("exampleName1", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1", "UserAdmin1", "Assistant")]
         [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assistant1")]
         [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654asd", "UserAdmin1!", "UserAdmin1!", null)]
         public async Task Register_WhenSendInvalidModelOrIncorrectRequest_ReturnStatusCodeBadRequest(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role)
         {
             //Arrange
+
+            //var client = this.GetNewClient();
+
             RegistrationRequestDto registrationRequestDto = new()
             {
                 Name = name,
@@ -147,11 +152,9 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var stringContent = new StringContent(JsonConvert.SerializeObject(registrationRequestDto), Encoding.UTF8,"application/json");
 
-            var client = this.GetNewClient();
-
 
             //Act
-            var response = await client.PostAsync("api/User/Registration",stringContent);
+            var response = await client.PostAsync("/api/User/Registration",stringContent);
             //var content = response.Content.ReadAsStringAsync().Result;
             //var result = JsonConvert.DeserializeObject(content);
             var statusCode = (int)response.StatusCode;
@@ -180,10 +183,13 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         /// <param name="role"></param>
         /// <returns></returns>
         [Theory]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null)]
+        [InlineData("exampleEightName", "exampleLastEightName", "exampleEight@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null)]
         public async Task Login_WhenSendCorrectRequest_ReturnStatusCodeOk(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role)
         {
             //Arrange
+
+            //var client = this.GetNewClient();
+
             RegistrationRequestDto registrationRequestDto = new()
             {
                 Name = name,
@@ -206,13 +212,11 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var stringContentLogin = new StringContent(JsonConvert.SerializeObject(loginRequestDto), Encoding.UTF8, "application/json");
 
-            var client = this.GetNewClient();
-
             //Act
 
             //1. Register
 
-            var responseRegister = await client.PostAsync("api/User/Registration",stringContentRegister);
+            var responseRegister = await client.PostAsync("/api/User/Registration",stringContentRegister);
             //EnsureSuccessStatusCode perite asegurarse de que la peticion se haya realizado correctamente
             responseRegister.EnsureSuccessStatusCode();
             //Se convierte a string el contenido de la respuesta de la peticion Post
@@ -225,14 +229,15 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             //2. Confirm Email with Token
 
-            var responseConfirmEmail = await client.GetAsync($"api/User/ConfirmEmail?token={token}&email={email}");
+            var responseConfirmEmail = await client.GetAsync($"/api/User/ConfirmEmail?token={token}&email={email}");
             responseConfirmEmail.EnsureSuccessStatusCode();
            
 
             //3.Login
 
-            var responseLogin = await client.PostAsync("api/User/Login",stringContentLogin);
+            var responseLogin = await client.PostAsync("/api/User/Login",stringContentLogin);
             responseLogin.EnsureSuccessStatusCode();
+
             var content = await responseLogin.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<APIResponse>(content);
             //Nota: como el content se lee como un string el campo Result del objeto APIResponse tambien se debe deserializar
@@ -250,10 +255,12 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         }
 
         [Theory]
-        [InlineData("example@gmail.com","UserAdmin1!", "El usuario no esta registrado o el correo es incorrecto")]
+        [InlineData("exampleForteen@gmail.com","UserAdmin1!", "El usuario no esta registrado o el correo es incorrecto")]
         public async Task Login_WhenUserDoesntExist_ReturnStatusCodeBadRequest(string email, string password, string expectedMessage)
         {
             //Arrange
+            //var client = this.GetNewClient();
+
             LoginRequestDto loginRequest = new() 
             {
                 Email = email,
@@ -262,10 +269,8 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var stringContent = new StringContent(JsonConvert.SerializeObject(loginRequest),Encoding.UTF8,"application/json");
 
-            var client = this.GetNewClient();
-
             //Act
-            var response = await client.PostAsync("api/User/Login",stringContent);
+            var response = await client.PostAsync("/api/User/Login",stringContent);
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<APIResponse>(content);
             var statusCode = (int)response.StatusCode;
@@ -277,10 +282,13 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         }
 
         [Theory]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null, "La contraseña esta incorrecta")]
+        [InlineData("exampleNineName", "exampleLastNineName", "exampleNine@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null, "La contraseña esta incorrecta")]
         public async Task Login_WhenSendIncorrectPassword_ReturnStatusCodeBadRequest(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role, string expectedMessage)
         {
             //Arrange
+
+            //var client = this.GetNewClient();
+
             RegistrationRequestDto registrationRequestDto = new()
             {
                 Name = name,
@@ -304,23 +312,21 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var stringContentLogin = new StringContent(JsonConvert.SerializeObject(loginRequestDto), Encoding.UTF8, "application/json");
 
-            var client = this.GetNewClient();
-
             //Act
             //1. Register
 
-            var responseRegister = await client.PostAsync("api/User/Registration",stringContentRegister);
+            var responseRegister = await client.PostAsync("/api/User/Registration",stringContentRegister);
             responseRegister.EnsureSuccessStatusCode();
             var contentRegister = await responseRegister.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<APIResponse>(contentRegister);
             var token = apiResponse.Result;
 
             //2. ConfirmEmail
-            var responseConfirmEmail = await client.GetAsync($"api/User/ConfirmEmail?token={token}&email={email}");
+            var responseConfirmEmail = await client.GetAsync($"/api/User/ConfirmEmail?token={token}&email={email}");
             responseConfirmEmail.EnsureSuccessStatusCode();
 
             //3. Login
-            var response = await client.PostAsync("api/User/Login",stringContentLogin);
+            var response = await client.PostAsync("/api/User/Login",stringContentLogin);
             var contentLogin = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<APIResponse>(contentLogin);
             var statusCode = (int)response.StatusCode;
@@ -332,10 +338,13 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         }
 
         [Theory]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null)]
+        [InlineData("exampleElevenName", "exampleLastElevenName", "exampleEleven@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null)]
         public async Task ResetPassword_WhenUserExistAndSendValidToken_ReturnStatusCodeOk(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role)
         {
             //Arrange
+
+            //var client = this.GetNewClient();
+
             RegistrationRequestDto registrationRequestDto = new()
             {
                 Name = name,
@@ -358,25 +367,22 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
                 Password = "NewPassword1!",
                 ConfirmPassword = "NewPassword1!",
             };
-
-            var client = this.GetNewClient();
-
             
             //Act
             //1. Register
-            var responseRegister = await client.PostAsync("api/User/Registration",stringContentRegister);
+            var responseRegister = await client.PostAsync("/api/User/Registration",stringContentRegister);
             responseRegister.EnsureSuccessStatusCode();
             var content = await responseRegister.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<APIResponse>(content);
             var tokenConfirmEmail = apiResponse.Result;
 
             //2. Confirm Email
-            var responseConfirmEmail = await client.GetAsync($"api/User/ConfirmEmail?token={tokenConfirmEmail}&email={email}");
+            var responseConfirmEmail = await client.GetAsync($"/api/User/ConfirmEmail?token={tokenConfirmEmail}&email={email}");
             responseConfirmEmail.EnsureSuccessStatusCode();
 
 
             //3. ForgetPassword
-            var responseForget = await client.PostAsync("api/User/ForgetPassword",stringContentForget);
+            var responseForget = await client.PostAsync("/api/User/ForgetPassword",stringContentForget);
             responseForget.EnsureSuccessStatusCode();
             var contentForget = await responseForget.Content.ReadAsStringAsync();
             var resultForget = JsonConvert.DeserializeObject<APIResponse>(contentForget);
@@ -387,7 +393,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var stringContentReset = new StringContent(JsonConvert.SerializeObject(resetPasswordRequestDto),Encoding.UTF8,"application/json");
 
-            var responseResetPass = await client.PostAsync("api/User/ResetPassword",stringContentReset);
+            var responseResetPass = await client.PostAsync("/api/User/ResetPassword",stringContentReset);
             responseResetPass.EnsureSuccessStatusCode();
             var contentResetPass = await responseResetPass.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<APIResponse>(contentResetPass);
@@ -400,11 +406,14 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         }
 
         [Theory]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null,true,false, "El usuario no ha confirmado su cuenta. Por favor revise su correo para verificar la cuenta")]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null,false,false, "El usuario no se encuentra registrado")]
+        [InlineData("exampleThirteenName", "exampleLastThirteenName", "exampleThirteen@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null,true,false, "El usuario no ha confirmado su cuenta. Por favor revise su correo para verificar la cuenta")]
+        [InlineData("exampleFourName", "exampleLastFourName", "exampleFour@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null,false,false, "El usuario no se encuentra registrado")]
         public async Task ForgetPassword_WhenUserDoesntExistAndUserDoesntConfirmeEmail_ReturnStatusCodeBadRequest(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role, bool userExist, bool isConfirmEmail, string expectedMessage)
         {
             //Arrange
+
+            //var client = this.GetNewClient();
+
             RegistrationRequestDto registrationRequestDto = new()
             {
                 Name = name,
@@ -428,12 +437,9 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             //    ConfirmPassword = "NewPassword1!",
             //};
 
-            var client = this.GetNewClient();
-
-
             //Act
             //1. Register
-            var responseRegister = await client.PostAsync("api/User/Registration", stringContentRegister);
+            var responseRegister = await client.PostAsync("/api/User/Registration", stringContentRegister);
             
             var content = await responseRegister.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<APIResponse>(content);
@@ -442,11 +448,11 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             //2. Confirm Email
             if (isConfirmEmail) 
             {
-                var responseConfirmEmail = await client.GetAsync($"api/User/ConfirmEmail?token={tokenConfirmEmail}&email={email}");
+                var responseConfirmEmail = await client.GetAsync($"/api/User/ConfirmEmail?token={tokenConfirmEmail}&email={email}");
             }
             
             //3. ForgetPassword
-            var responseForget = await client.PostAsync("api/User/ForgetPassword", stringContentForget);
+            var responseForget = await client.PostAsync("/api/User/ForgetPassword", stringContentForget);
             var contentForget = await responseForget.Content.ReadAsStringAsync();
             var resultForget = JsonConvert.DeserializeObject<APIResponse>(contentForget);
             //string tokenResetPass = resultForget.Result.ToString();
@@ -460,10 +466,13 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
         [Theory]
         [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null, false, "El usuario no se encuentra registrado")]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null, true ,"Ha ocurrido un error al cambiar su contraseña. Intentelo nuevamente")]
-        public async Task ResetPassword_WhenUserDoesntExistOrInvalidToken(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role, bool userExist, string expectedMessage)
+        [InlineData("exampleThreeName", "exampleLastThreeName", "exampleThree@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null, true ,"Ha ocurrido un error al cambiar su contraseña. Intentelo nuevamente")]
+        public async Task ResetPassword_WhenUserDoesntExistOrInvalidToken_ReturnStatusCodeBadRequest(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role, bool userExist, string expectedMessage)
         {
             //Arrange
+
+            //var client = this.GetNewClient();
+
             RegistrationRequestDto registrationRequestDto = new()
             {
                 Name = name,
@@ -488,20 +497,18 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var stringContentResetPass = new StringContent(JsonConvert.SerializeObject(resetPasswordRequestDto), Encoding.UTF8, "application/json");
 
-            var client = this.GetNewClient();
-
             //Act
 
             //1. Register
 
             if (userExist)
             {
-                var responseRegister = await client.PostAsync("api/User/Registration",stringContentRegister);
+                var responseRegister = await client.PostAsync("/api/User/Registration",stringContentRegister);
                 responseRegister.EnsureSuccessStatusCode();
             }
 
             //2. ResetPassword
-            var responseReset = await client.PostAsync("api/User/ResetPassword",stringContentResetPass);
+            var responseReset = await client.PostAsync("/api/User/ResetPassword",stringContentResetPass);
 
             var content = await responseReset.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<APIResponse>(content);
@@ -519,6 +526,9 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         public async Task UpdateUser_WhenSendCorrectRequest_ReturnStatusCodeOk(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role)
         {
             //Arrange
+
+            //var client = this.GetNewClient();
+
             RegistrationRequestDto registrationRequestDto = new()
             {
                 Name = name,
@@ -544,17 +554,15 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var stringContentUpdateUser = new StringContent(JsonConvert.SerializeObject(updateUserDto), Encoding.UTF8, "application/json");
 
-            var client = this.GetNewClient();
-
             //Act
 
             //1. Register
-            var responseRegister = await client.PostAsync("api/User/Registration", stringContentRegister);
+            var responseRegister = await client.PostAsync("/api/User/Registration", stringContentRegister);
             responseRegister.EnsureSuccessStatusCode();
 
 
             //2. UpdateUser
-            var responseUpdateUser = await client.PutAsync($"api/User/UpdateUser?email={email}", stringContentUpdateUser);
+            var responseUpdateUser = await client.PutAsync($"/api/User/UpdateUser?email={email}", stringContentUpdateUser);
             responseUpdateUser.EnsureSuccessStatusCode();
             var content = await responseUpdateUser.Content.ReadAsStringAsync();
             var apiResult = JsonConvert.DeserializeObject<APIResponse>(content);
@@ -572,11 +580,14 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
 
         [Theory]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assistant",false, "El usuario no existe")]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assistant", true, "Ha ocurrido un error. No se pudo actualizar el usuario")]
+        [InlineData("exampleTwelveName", "exampleLastTwelveName", "exampleTwelve@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assistant",false, "El usuario no existe")]
+        [InlineData("exampleTwoTwoName", "exampleLastTwoTwoName", "exampleTwoTwo@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assistant", true, "Ha ocurrido un error. No se pudo actualizar el usuario")]
         public async Task UpdateUser_WhenUserDoesntExistOrSendInvalidRequest_ReturnStatusCodeBadRequest(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role,bool userExist, string expectedMessage)
         {
             //Arrange
+
+            //var client = this.GetNewClient();
+
             RegistrationRequestDto registrationRequestDto = new()
             {
                 Name = name,
@@ -602,20 +613,18 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var stringContentUpdateUser = new StringContent(JsonConvert.SerializeObject(updateUserDto), Encoding.UTF8, "application/json");
 
-            var client = this.GetNewClient();
-
             //Act
 
             //1. Register
             if (userExist)
             {
-                var responseRegister = await client.PostAsync("api/User/Registration", stringContentRegister);
+                var responseRegister = await client.PostAsync("/api/User/Registration", stringContentRegister);
                 responseRegister.EnsureSuccessStatusCode();
             }
             
 
             //2. UpdateUser
-            var responseUpdateUer = await client.PutAsync($"api/User/UpdateUser?email={email}",stringContentUpdateUser);
+            var responseUpdateUer = await client.PutAsync($"/api/User/UpdateUser?email={email}",stringContentUpdateUser);
 
             var content = await responseUpdateUer.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<APIResponse>(content);
@@ -630,10 +639,13 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         }
 
         [Theory]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assistant")]
+        [InlineData("exampleTenName", "exampleLastTenName", "exampleTen@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assistant")]
         public async Task DeleteUser_WhenUserExist_RemoveUserAndReturnStatusCodeOk(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role)
         {
             //Arrange
+
+            //var client = this.GetNewClient();
+
             RegistrationRequestDto registrationRequestDto = new()
             {
                 Name = name,
@@ -648,16 +660,14 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var stringContentRegister = new StringContent(JsonConvert.SerializeObject(registrationRequestDto), Encoding.UTF8, "application/json");
 
-            var client = this.GetNewClient();
-
             //Act
 
             //1. Register
-            var responseRegister = await client.PostAsync("api/User/Registration", stringContentRegister);
+            var responseRegister = await client.PostAsync("/api/User/Registration", stringContentRegister);
             responseRegister.EnsureSuccessStatusCode();
 
             //2.DeleteUser
-            var responseDelete = await client.DeleteAsync($"api/User/DeleteUser?email={email}");
+            var responseDelete = await client.DeleteAsync($"/api/User/DeleteUser?email={email}");
             responseDelete.EnsureSuccessStatusCode();
 
             var content = await responseDelete.Content.ReadAsStringAsync();
@@ -675,6 +685,9 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         public async Task DeleteUser_WhenUserDoesntExist_ReturnStatusCodeNotFound()
         {
             //Arrange
+
+            //var client = this.GetNewClient();
+
             //RegistrationRequestDto registrationRequestDto = new()
             //{
             //    Name = name,
@@ -689,8 +702,6 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             //var stringContentRegister = new StringContent(JsonConvert.SerializeObject(registrationRequestDto), Encoding.UTF8, "application/json");
 
-            var client = this.GetNewClient();
-
             //Act
 
             //1. Register
@@ -698,7 +709,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             //responseRegister.EnsureSuccessStatusCode();
 
             //2.DeleteUser
-            var responseDelete = await client.DeleteAsync($"api/User/DeleteUser?email=example@gmail.com");
+            var responseDelete = await client.DeleteAsync("/api/User/DeleteUser?email=example@gmail.com");
 
             var content = await responseDelete.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<APIResponse>(content);

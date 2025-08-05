@@ -1,13 +1,8 @@
-﻿using Microsoft.VisualStudio.TestPlatform.TestHost;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace CobroMatriculaEPN.FunctionalTest.Controller
 {
-    [Collection("My Collection2")]
+    [Collection("My Collection 2")]
     public class BaseControllerTest
     {
         private readonly CustomWebApplicationFactory<Program> _factory;
