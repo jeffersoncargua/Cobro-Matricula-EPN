@@ -40,7 +40,7 @@ name: .NET Core Desktop
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "SDCM-41-resolver-los-problemas-de-las-pruebas-de-integraci" ]
   pull_request:
     branches: [ "master" ]
 
