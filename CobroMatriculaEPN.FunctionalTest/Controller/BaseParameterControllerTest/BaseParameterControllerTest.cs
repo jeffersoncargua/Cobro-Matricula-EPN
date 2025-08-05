@@ -20,8 +20,8 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
         }
 
         [Theory]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null,1)]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Admin",2)]
+        [InlineData("exampleEighteenName", "exampleLastEighteenName", "exampleEighteen@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null,1)]
+        [InlineData("exampleSevenTeenName", "exampleLastSevenTeenName", "exampleSevenTeen@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Admin",2)]
         public async Task GetParameters_WhenParameterIdExist_ReturnStatusCodeOk(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role, int parameterId)
         {
             //Arrange
@@ -93,9 +93,9 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
 
 
         [Theory]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null, 4)]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Admin", 27)]
-        public async Task GetParameters_WhenParameterIdDOesntExist_ReturnStatusCodeNotFound(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role, int parameterId)
+        [InlineData("exampleSixteenName", "exampleLastSixteenName", "exampleSixteen@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null, 4)]
+        [InlineData("exampleFifteenName", "exampleLastFifteenName", "exampleFifteen@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Admin", 27)]
+        public async Task GetParameters_WhenParameterIdDoesntExist_ReturnStatusCodeNotFound(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role, int parameterId)
         {
             //Arrange
             var client = this.GetNewClient();
@@ -283,23 +283,23 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
 
 
         [Theory]
-        [InlineData(3, "Otra Formacion Academica", 3350.54f, 725, 25, 0.56f, 0.11f, 0.51f, 0.11f, 0.53f, 0.30f, 0.26f, 0.26f, 0.16f, 0.22f, "Admin", 1)]
-        [InlineData(4, "Otra Formacion Academica 2", 3360f, 725, 25, 0.56f, 0.12f, 0.53f, 0.11f, 0.56f, 0.30f, 0.26f, 0.26f, 0.16f, 0.22f, "Admin", 2)]
-        [InlineData(1, "Otra Formacion Academica 3", 3360f, 725, 25, 0.56f, 0.12f, 0.53f, 0.11f, 0.56f, 0.30f, 0.26f, 0.26f, 0.16f, 0.22f, "Admin", 3)]
-        public async Task UpdateParameters_WhenParameterIdDoesntExistOrParameterIdIsDifferentInRequest_ReturnStatusBadRquest(int id, string formacionAcademica, float costoOptimo, int horaPeriodoAcademico, int creditoPeriodoAcademico, float porcentajeCostoOptimoAnual, float porcentajeValorMin, float porcentajeValorMax, float porcentajeValorArancel, float porcentajePromedioAcademico, float porcentajePerdidaTemporal, float porcentajeMatriculaExtraordinario, float porcentajeMatriculaEspecial, float porcentajeRecargoSegunda, float porcentajeRecargoTercera, string role, int numberOfAdmin)
+        [InlineData(3, "Otra Formacion Academica", 3350.54f, 725, 25, 0.56f, 0.11f, 0.51f, 0.11f, 0.53f, 0.30f, 0.26f, 0.26f, 0.16f, 0.22f, "Admin", "Two")]
+        [InlineData(4, "Otra Formacion Academica 2", 3360f, 725, 25, 0.56f, 0.12f, 0.53f, 0.11f, 0.56f, 0.30f, 0.26f, 0.26f, 0.16f, 0.22f, "Admin", "Three")]
+        [InlineData(1, "Otra Formacion Academica 3", 3360f, 725, 25, 0.56f, 0.12f, 0.53f, 0.11f, 0.56f, 0.30f, 0.26f, 0.26f, 0.16f, 0.22f, "Admin", "Four")]
+        public async Task UpdateParameters_WhenParameterIdDoesntExistOrParameterIdIsDifferentInRequest_ReturnStatusBadRquest(int id, string formacionAcademica, float costoOptimo, int horaPeriodoAcademico, int creditoPeriodoAcademico, float porcentajeCostoOptimoAnual, float porcentajeValorMin, float porcentajeValorMax, float porcentajeValorArancel, float porcentajePromedioAcademico, float porcentajePerdidaTemporal, float porcentajeMatriculaExtraordinario, float porcentajeMatriculaEspecial, float porcentajeRecargoSegunda, float porcentajeRecargoTercera, string role, string numberOfUser)
         {
             //Arrange
             var client = this.GetNewClient();
 
             RegistrationRequestDto registrationRequestDto = new()
             {
-                Name = "UserName",
-                LastName = "UserLastName",
+                Name = $"User{numberOfUser}Name",
+                LastName = $"UserLast{numberOfUser}Name",
                 City = "UserCity",
                 Phone = "0987654321",
                 Password = "UserAdmin1!",
                 ConfirmPass = "UserAdmin1!",
-                Email = $"userExample{numberOfAdmin}@gmail.com",
+                Email = $"userExample{numberOfUser}@gmail.com",
                 Role = role
             };
 
@@ -307,7 +307,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
 
             LoginRequestDto loginRequest = new()
             {
-                Email = $"userExample{numberOfAdmin}@gmail.com",
+                Email = $"userExample{numberOfUser}@gmail.com",
                 Password = "UserAdmin1!"
             };
 
