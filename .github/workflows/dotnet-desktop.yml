@@ -1,26 +1,55 @@
-name: .NET CI
+name: .NET CI # Nombre del workflow
 
+# Activadores o Desencadenates para iniciar el workflow para el CI/CD
 on: 
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
 
+# Aqui se realiza el trabajo de compliacion de nuestro proyecto .Net donde se
+# ejecutará el codigo, restaurará las dependencias y correra las pruebas para 
+# tener todo listo para la publicacion y el despliegue del proyecto
 jobs: 
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
+                           # para la publicacion y el despliegue
 
+    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
+    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v3 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
       - name: Setup .Net
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v3 # Se utiliza para indicar el SDK con el que se desarrollo el entorno para .Net
         with:
-          dotnet-version: '8.0.x'
+          dotnet-version: '8.0.x' # Aqui se especifica la version con la que se desarrollo .Net pero se puede colocar multiples versiones
       - name: Restore Depedencies
-        run: dotnet restore
+        run: dotnet restore # Comando para restaurar las dependencias que necesita nuestro proyecto .Net
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build --configuration Release --no-restore # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
       - name: Test
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" # Comando para ejecutar todas las pruebas de nuestro proyecto que incluyen: unitarias, integracion y funcionales
+      - name: Combine Coverage Reports # Esta seccion permite combinar en un solo informe sobre la cobertura del codigo por todos los proyectos de Test que tenga el proyecto que son: Unit, Integrates y Functional
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.2.4
+        with: 
+          reports: "**/*.cobertura.xml"
+          targetdir: "${{ github.workspace }}"
+          reporttypes: "Cobertura"
+      - name: Upload Test Result Files # Esta seccion permite que se puedan encontrar los informes sobre la cobertura del codigo a traves de las ejecuciones de los proyectos de Test
+        uses: actions/upload-artifact@v4
+        with: 
+          name: test-results
+          path: ${{ github.workspace}}/**/TestResults/**/
+      - name: Publish Test Results # Esta seccion permite tener una vision mas detallada de la cobertura del codigo, es decir, muestra los resultados obtenidos al ejecutar el worflow 
+        uses: EnricoMi/publish-unit-test-result-action@v2.16.1
+        with:
+          trx_files: "${{ github.workspace }}/**/*.trx"
+      - name: Publish Code Coverage Report # Esta seccion permite tener el informe de cobertura de codigo
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: "Cobertura.xml"
+          format: markdown
 
-
+# Si por algun motivo falla la ejecucion del WorkFlow se deben revisar las versiones de los actions/* para poder solucionar algun inconveniente
+# En la ejucion del comando:  dotnet build --configuration Release --no-restore no permite construir la aplicacion en su version mas optimizada para produccion
+# EN la ejecucion del comando: dotnet test --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" permite recopilar la informacion sobre la cobertura del codigo mediante la ejecucion de las pruebas
