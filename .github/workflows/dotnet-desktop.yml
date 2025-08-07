@@ -46,13 +46,10 @@ jobs:
           name: test-results
           path: ${{ github.workspace}}/**/TestResults/**/
       - name: Publish Test Results # Esta seccion permite tener una vision mas detallada de la cobertura del codigo, es decir, muestra los resultados obtenidos al ejecutar el worflow 
-        uses: EnricoMi/publish-unit-test-result-action@v2
+        uses: EnricoMi/publish-unit-test-result-action@v2.16.1
         if: (!cancelled())
         with:
-          files: |
-            test-results/**/*.xml
-            test-results/**/*.trx
-            test-results/**/*.json
+          trx_files: "${{ github.workspace }}/**/*.trx"
       - name: Publish Code Coverage Report # Esta seccion permite tener el informe de cobertura de codigo
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
