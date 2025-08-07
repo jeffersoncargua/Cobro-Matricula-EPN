@@ -55,6 +55,25 @@ jobs:
         with:
           filename: "Cobertura.xml"
           format: markdown
+      #En esta seccion se realizara la verificacion de la calidad del codigo
+      - name: Install SonarAnalyzer # Se instala el paquete SonarAnalyzer para detectar errores y vulnerabilidades de nuestro codigo
+        run: dotnet add package SonarAnalyzer.CSharp
+      - name: Run SonarAnalyzer
+        run: dotnet build-server shutdown && dotnet build /p:TreatWarningsAsErrors=true
+      
+      # Para verificar la implementacion y estilo del codigo se debe generar el archivo Directory.Build.props en nuestra solucion 
+      - name: Install StyleCop # Se instala StyleCopAnalyzer para analizar el codigo y verificar la consistencia y estilo del codigo c# a traves de las reglas que se establezcan para nuestro codigo
+        run: dotnet add package StyleCop.Analyzers
+      - name: Run StyleCop
+        run: dotnet build /p:TreatWarningAsErrors=true
+      # Para esta seccion se debe generar el archivo .editorconfig en nuestro repositorio y colocar la siguiente configuracion en el archivo:
+      # root = true
+
+      # [*.cs]
+      # dotnet_analyzer_diagnostic.category-Style.severity = warning
+      # dotnet_code_quality.CA1062.null_check_validation_methods = ThrowArgumentNullException
+      - name: Enforce code style # Una vez que se genero el archivo se debe realizar este paso para forzar a que se cumplan la regla que se establecio anteriormente
+        run: dotnet format --verify-no-changes --verbosity diagnostic
 
 # Si por algun motivo falla la ejecucion del WorkFlow se deben revisar las versiones de los actions/* para poder solucionar algun inconveniente
 # En la ejucion del comando:  dotnet build --configuration Release --no-restore no permite construir la aplicacion en su version mas optimizada para produccion
