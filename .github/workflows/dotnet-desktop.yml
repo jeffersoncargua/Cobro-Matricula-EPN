@@ -2,16 +2,25 @@ name: .NET CI
 
 on: 
   push:
-    branches: ['master']
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs: 
   build:
     runs-on: ubuntu/latest
+
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-dotnet@v3
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
-      - run: dotnet build
+      - name: Restore Depedencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
 
 
