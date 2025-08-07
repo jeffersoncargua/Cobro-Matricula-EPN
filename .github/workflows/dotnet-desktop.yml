@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: [ master ]
 
+permissions:
+  checks: write
+  pull-requests: write
+
 # Aqui se realiza el trabajo de compliacion de nuestro proyecto .Net donde se
 # ejecutará el codigo, restaurará las dependencias y correra las pruebas para 
 # tener todo listo para la publicacion y el despliegue del proyecto
