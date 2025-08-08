@@ -28,12 +28,16 @@ jobs:
         uses: actions/setup-dotnet@v3 # Se utiliza para indicar el SDK con el que se desarrollo el entorno para .Net
         with:
           dotnet-version: '8.0.x' # Aqui se especifica la version con la que se desarrollo .Net pero se puede colocar multiples versiones
+      
       - name: Restore Depedencies
         run: dotnet restore # Comando para restaurar las dependencias que necesita nuestro proyecto .Net
+      
       - name: Build
         run: dotnet build --configuration Release --no-restore # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
+      
       - name: Test
         run: dotnet test --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" # Comando para ejecutar todas las pruebas de nuestro proyecto que incluyen: unitarias, integracion y funcionales
+      
       - name: Combine Coverage Reports # Esta seccion permite combinar en un solo informe sobre la cobertura del codigo por todos los proyectos de Test que tenga el proyecto que son: Unit, Integrates y Functional
         uses: danielpalme/ReportGenerator-GitHub-Action@5.2.4
         with: 
@@ -58,14 +62,16 @@ jobs:
       #En esta seccion se realizara la verificacion de la calidad del codigo
       - name: Install SonarAnalyzer # Se instala el paquete SonarAnalyzer para detectar errores y vulnerabilidades de nuestro codigo
         run: dotnet add package SonarAnalyzer.CSharp
+
       - name: Run SonarAnalyzer
         run: dotnet build-server shutdown && dotnet build /p:TreatWarningsAsErrors=true
       
       # Para verificar la implementacion y estilo del codigo se debe generar el archivo Directory.Build.props en nuestra solucion 
       - name: Install StyleCop # Se instala StyleCopAnalyzer para analizar el codigo y verificar la consistencia y estilo del codigo c# a traves de las reglas que se establezcan para nuestro codigo
         run: dotnet add package StyleCop.Analyzers
+
       - name: Run StyleCop
-        run: dotnet build /p:TreatWarningAsErrors=true
+        run: dotnet build /p:TreatWarningsAsErrors=true
       # Para esta seccion se debe generar el archivo .editorconfig en nuestro repositorio y colocar la siguiente configuracion en el archivo:
       # root = true
 
@@ -77,4 +83,10 @@ jobs:
 
 # Si por algun motivo falla la ejecucion del WorkFlow se deben revisar las versiones de los actions/* para poder solucionar algun inconveniente
 # En la ejucion del comando:  dotnet build --configuration Release --no-restore no permite construir la aplicacion en su version mas optimizada para produccion
-# EN la ejecucion del comando: dotnet test --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" permite recopilar la informacion sobre la cobertura del codigo mediante la ejecucion de las pruebas
+# En la ejecucion del comando: dotnet test --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" permite recopilar la informacion sobre la cobertura del codigo mediante la ejecucion de las pruebas
+# Cuando se genere el archivo Directory.Build.props se debe considerar añadirlo desde visual studio de preferencia y añadirle el codigo xml que se lo puede encontrar en google
+#<Project>
+#   <PropertyGroup>
+#     <TargetFramework>net8.0</TargetFramework>
+#   </PropertyGroup>
+#</Project>
