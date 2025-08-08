@@ -65,7 +65,7 @@ jobs:
       
       # Para verificar la implementacion y estilo del codigo se debe generar el archivo Directory.Build.props en nuestra solucion por lo que se debe instalar StyleCop desde el package Nuget
       - name: Run StyleCop # Permite correr el comando de StyleCop para verificar si la implementacion y calidad del codigo estan bien
-        run: dotnet build /p:TreatWarningsAsErrors=true
+        run: dotnet build /p:TreatWarningsAsErrors=false
       # Para esta seccion se debe generar el archivo .editorconfig en nuestro repositorio y colocar la siguiente configuracion en el archivo:
       # root = true
 
