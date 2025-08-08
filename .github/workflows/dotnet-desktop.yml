@@ -23,9 +23,9 @@ jobs:
     # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
     # para que se realice el empaquetado del proyecto para su publicacion y despliegue
     steps:
-      - uses: actions/checkout@v3 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
+      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
       - name: Setup .Net
-        uses: actions/setup-dotnet@v3 # Se utiliza para indicar el SDK con el que se desarrollo el entorno para .Net
+        uses: actions/setup-dotnet@v4 # Se utiliza para indicar el SDK con el que se desarrollo el entorno para .Net
         with:
           dotnet-version: '8.0.x' # Aqui se especifica la version con la que se desarrollo .Net pero se puede colocar multiples versiones
       
