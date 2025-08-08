@@ -61,6 +61,7 @@ jobs:
           format: markdown
       #En esta seccion se realizara la verificacion de la calidad del codigo
       - name: Install SonarAnalyzer # Se instala el paquete SonarAnalyzer para detectar errores y vulnerabilidades de nuestro codigo
+        working-directory: ./Cobro-Matricula-EPN
         run: dotnet add package SonarAnalyzer.CSharp --version 10.15.0.120848
 
       - name: Run SonarAnalyzer
