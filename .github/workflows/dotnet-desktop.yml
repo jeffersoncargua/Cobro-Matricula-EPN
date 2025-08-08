@@ -59,15 +59,12 @@ jobs:
         with:
           filename: "Cobertura.xml"
           format: markdown
-      #En esta seccion se realizara la verificacion de la calidad del codigo
+      #En esta seccion se realizara la verificacion de la calidad del codigo por lo que se debe instalar el paquete SonarAnalyzer.CSharp desde el package Nuget
       - name: Run SonarAnalyzer # Esto permite correr el SonarAnalyzer para verificar la calidad del codigo del proyecto
         run: dotnet build-server shutdown && dotnet build /p:TreatWarningsAsErrors=false
       
-      # Para verificar la implementacion y estilo del codigo se debe generar el archivo Directory.Build.props en nuestra solucion 
-      - name: Install StyleCop # Se instala StyleCopAnalyzer para analizar el codigo y verificar la consistencia y estilo del codigo c# a traves de las reglas que se establezcan para nuestro codigo
-        run: dotnet add package StyleCop.Analyzers
-
-      - name: Run StyleCop
+      # Para verificar la implementacion y estilo del codigo se debe generar el archivo Directory.Build.props en nuestra solucion por lo que se debe instalar StyleCop desde el package Nuget
+      - name: Run StyleCop # Permite correr el comando de StyleCop para verificar si la implementacion y calidad del codigo estan bien
         run: dotnet build /p:TreatWarningsAsErrors=true
       # Para esta seccion se debe generar el archivo .editorconfig en nuestro repositorio y colocar la siguiente configuracion en el archivo:
       # root = true
