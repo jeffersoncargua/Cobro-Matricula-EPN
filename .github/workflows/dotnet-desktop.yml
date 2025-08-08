@@ -60,11 +60,7 @@ jobs:
           filename: "Cobertura.xml"
           format: markdown
       #En esta seccion se realizara la verificacion de la calidad del codigo
-      - name: Install SonarAnalyzer # Se instala el paquete SonarAnalyzer para detectar errores y vulnerabilidades de nuestro codigo
-        working-directory: /Cobro-Matricula-EPN/Cobro-Matricula-EPN\Cobro Matricula EPN.csproj
-        run: dotnet add package SonarAnalyzer.CSharp
-
-      - name: Run SonarAnalyzer
+      - name: Run SonarAnalyzer # Esto permite correr el SonarAnalyzer para verificar la calidad del codigo del proyecto
         run: dotnet build-server shutdown && dotnet build /p:TreatWarningsAsErrors=true
       
       # Para verificar la implementacion y estilo del codigo se debe generar el archivo Directory.Build.props en nuestra solucion 
