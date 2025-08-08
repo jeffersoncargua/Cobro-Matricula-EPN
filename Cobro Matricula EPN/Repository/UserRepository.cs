@@ -374,7 +374,7 @@ namespace Cobro_Matricula_EPN.Repository
 
             if (email != updateUserDto.Email)
             {
-                return new UpdateUserResponseDto() 
+                return new UpdateUserResponseDto()
                 { 
                     Success = false,
                     Message = "Ha ocurrido un error. No se pudo actualizar el usuario",
