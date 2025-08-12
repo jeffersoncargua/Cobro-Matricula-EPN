@@ -55,10 +55,10 @@ namespace Cobro_Matricula_EPN.Repository
         /// <summary>
         /// Esta funcion permite verificar el token que se envia al usuario para confirmar su cuenta.
         /// </summary>
-        /// <param name="token">Es un string generado con Identity GenerateToken en el Register que permite verificar la cuenta de un usuario.</param>
         /// <param name="email">Es el correo del usuario que se registro en la plataforma y con el cual se va a verificar con el token.</param>
+        /// <param name="token">Es un string generado con Identity GenerateToken en el Register que permite verificar la cuenta de un usuario.</param>
         /// <returns> Retorna true si existe el usuario y se confirma el token de validacion, caso contrario retorna false, considerando si se envian valores nulos o que no existan en los registros.</returns>
-        public async Task<bool> ConfirmEmailAsync(string token, string email)
+        public async Task<bool> ConfirmEmailAsync(string email, string token)
         {
             if(string.IsNullOrEmpty(token) || string.IsNullOrEmpty(email))
             {
