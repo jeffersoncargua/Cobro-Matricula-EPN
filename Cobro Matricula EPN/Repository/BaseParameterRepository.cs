@@ -1,4 +1,8 @@
-﻿using AutoMapper;
+﻿// <copyright file="BaseParameterRepository.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using AutoMapper;
 using Cobro_Matricula_EPN.Context;
 using Cobro_Matricula_EPN.Repository.IRepository;
 using Entity.DTO.BaseParameter;
@@ -7,20 +11,29 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cobro_Matricula_EPN.Repository
 {
-    public class BaseParameterRepository : Repository<BaseParameter> ,IBaseParameterRepository 
+    public class BaseParameterRepository : Repository<BaseParameter>, IBaseParameterRepository 
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
-        public BaseParameterRepository(ApplicationDbContext db, IMapper mapper) : base(db)
+
+        public BaseParameterRepository(ApplicationDbContext db, IMapper mapper) 
+            : base(db)
         {
             _db = db;
             _mapper = mapper;
         }
+
+        /// <summary>
+        /// Esta funcion permite actualizar la informacion de los parametros base del sistema para el calculo del cobro de matricula.
+        /// </summary>
+        /// <param name="id">Es el parametros para identificar la informacion de los parametros base.</param>
+        /// <param name="updatedBaseParameter">Es un conjunto de parametros para realizar la actualizacion de los valores de los parametros base.</param>
+        /// <returns>Retorna una respuesta afirmativa si se actualizaron correctamente los parametros, caso contrario se envia una respuesta negativa a la solicitud. </returns>
         public async Task<UpdateBaseParametersResponseDto> UpdateAsync(int id, UpdatedBaseParameterRequestDto updatedBaseParameter)
         {
             try
             {
-                if (id !=0  && updatedBaseParameter != null)
+                if (id != 0 && updatedBaseParameter != null)
                 {
                     if (await _db.BaseParameters.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id) != null && id == updatedBaseParameter.Id)
                     {
@@ -50,7 +63,7 @@ namespace Cobro_Matricula_EPN.Repository
                             PorcentajeMatriculaExtraordinario = updatedBaseParameter.PorcentajeMatriculaExtraordinario,
                             PorcentajeMatriculaEspecial = updatedBaseParameter.PorcentajeMatriculaEspecial,
                             PorcentajeRecargoSegunda = updatedBaseParameter.PorcentajeRecargoSegunda,
-                            PorcentajeRecargoTercera = updatedBaseParameter.PorcentajeRecargoTercera
+                            PorcentajeRecargoTercera = updatedBaseParameter.PorcentajeRecargoTercera,
                         };
 
                         _db.BaseParameters.Update(newBaseParameter);
@@ -60,10 +73,8 @@ namespace Cobro_Matricula_EPN.Repository
                         {
                             Success = true,
                             Message = "Los Parametros han sido actualizados correctamente.",
-                            Result = _mapper.Map<BaseParameterDto>(newBaseParameter)
+                            Result = _mapper.Map<BaseParameterDto>(newBaseParameter),
                         };
-
-                        
                     }
                     else
                     {
@@ -71,10 +82,9 @@ namespace Cobro_Matricula_EPN.Repository
                         {
                             Success = false,
                             Message = "No se encontró la información de los parametros a actualizar.",
-                            Result = null
+                            Result = null,
                         };
                     }
-
                 }
                 else
                 {
@@ -82,21 +92,19 @@ namespace Cobro_Matricula_EPN.Repository
                     {
                         Success = false,
                         Message = "Ha ocurrido un error al buscar la información de los parametros a actualizar.",
-                        Result = null
+                        Result = null,
                     };
                 }
             }
             catch (Exception)
             {
-
                 return new UpdateBaseParametersResponseDto()
                 {
                     Success = false,
                     Message = "Ha ocurrido un error al actualizar la información de los parametros.",
-                    Result = null
+                    Result = null,
                 };
             }
-           
         }
     }
 }

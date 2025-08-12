@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿// <copyright file="20250514164817_UpdateLastNamePropertyInApplicationUserTbl.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -42,7 +46,7 @@ namespace Cobro_Matricula_EPN.Migrations
                 values: new object[,]
                 {
                     { "9782770b-8703-45d6-a1c4-4e6256ec3b72", "2", "Assistant", "ASSISTANT" },
-                    { "98b46bf0-6dbd-414d-b760-11df317e1e94", "1", "Admin", "ADMIN" }
+                    { "98b46bf0-6dbd-414d-b760-11df317e1e94", "1", "Admin", "ADMIN" },
                 });
         }
     }

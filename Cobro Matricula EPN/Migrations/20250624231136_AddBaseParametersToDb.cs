@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿// <copyright file="20250624231136_AddBaseParametersToDb.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -51,7 +55,7 @@ namespace Cobro_Matricula_EPN.Migrations
                     PorcentajeMatriculaExtraordinario = table.Column<float>(type: "real", nullable: false),
                     PorcentajeArancelEspecial = table.Column<float>(type: "real", nullable: false),
                     PorcentajeRecargoSegunda = table.Column<float>(type: "real", nullable: false),
-                    PorcentajeRecargoTercera = table.Column<float>(type: "real", nullable: false)
+                    PorcentajeRecargoTercera = table.Column<float>(type: "real", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -64,7 +68,7 @@ namespace Cobro_Matricula_EPN.Migrations
                 values: new object[,]
                 {
                     { 1, 4.0367618f, 3325f, 1662.5f, 9f, 15, "Ingeniería", 720, 374.4f, 0.25f, 0.1f, 0.25f, 0.6f, 0.52f, 0.1f, 0.21f, 0.1f, 0.5f, 0.1f, 755.6818f, 151.13637f, 75.568184f, 15.113637f, 831.25f, 166.25f },
-                    { 2, 4.0367618f, 3325f, 1662.5f, 5f, 15, "Tecnología", 720, 374.4f, 0.25f, 0.1f, 0.25f, 0.6f, 0.56f, 0.1f, 0.21f, 0.1f, 0.5f, 0.1f, 755.6818f, 151.13637f, 75.568184f, 15.113637f, 831.25f, 166.25f }
+                    { 2, 4.0367618f, 3325f, 1662.5f, 5f, 15, "Tecnología", 720, 374.4f, 0.25f, 0.1f, 0.25f, 0.6f, 0.56f, 0.1f, 0.21f, 0.1f, 0.5f, 0.1f, 755.6818f, 151.13637f, 75.568184f, 15.113637f, 831.25f, 166.25f },
                 });
         }
 
@@ -80,7 +84,7 @@ namespace Cobro_Matricula_EPN.Migrations
                 values: new object[,]
                 {
                     { "893bd138-ead2-471f-817d-507b73a752f6", "1", "Admin", "ADMIN" },
-                    { "c9bbc2e4-4c91-4383-9a44-fb10231cdbe2", "2", "Assistant", "ASSISTANT" }
+                    { "c9bbc2e4-4c91-4383-9a44-fb10231cdbe2", "2", "Assistant", "ASSISTANT" },
                 });
         }
     }

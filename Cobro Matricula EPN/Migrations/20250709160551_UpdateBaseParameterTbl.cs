@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿// <copyright file="20250709160551_UpdateBaseParameterTbl.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -33,7 +37,7 @@ namespace Cobro_Matricula_EPN.Migrations
                 values: new object[,]
                 {
                     { "13290df7-b8c1-4f7b-b8cb-0d309a71483a", "2", "Assistant", "ASSISTANT" },
-                    { "1467b441-83ae-4f05-a65a-3eef43be0445", "1", "Admin", "ADMIN" }
+                    { "1467b441-83ae-4f05-a65a-3eef43be0445", "1", "Admin", "ADMIN" },
                 });
         }
 
@@ -61,7 +65,7 @@ namespace Cobro_Matricula_EPN.Migrations
                 values: new object[,]
                 {
                     { "5f494a80-cde2-448a-9c17-ca56a1c6e176", "1", "Admin", "ADMIN" },
-                    { "a1d4bf5e-7373-47f6-8831-6f138754ae04", "2", "Assistant", "ASSISTANT" }
+                    { "a1d4bf5e-7373-47f6-8831-6f138754ae04", "2", "Assistant", "ASSISTANT" },
                 });
         }
     }

@@ -57,7 +57,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
             apiRegisterResponse.EnsureSuccessStatusCode();
             var content3 = await apiRegisterResponse.Content.ReadAsStringAsync();
             var resultApiRegister = JsonConvert.DeserializeObject<APIResponse>(content3);
-            var tokenConfirm = resultApiRegister.Result;
+            var tokenConfirm = resultApiRegister!.Result;
 
             //2. Confirm Email 
             var apiConfirmResponse = await client.GetAsync($"/api/User/ConfirmEmail?token={tokenConfirm}&email={email}");
@@ -71,8 +71,8 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
 
             var content1 = await apiLoginResponse.Content.ReadAsStringAsync();
             var resultApiLogin = JsonConvert.DeserializeObject<APIResponse>(content1);
-            var resultLogin = JsonConvert.DeserializeObject<LoginResponseDto>(resultApiLogin.Result.ToString());
-            var token = resultLogin.Token;
+            var resultLogin = JsonConvert.DeserializeObject<LoginResponseDto>(resultApiLogin!.Result.ToString());
+            var token = resultLogin!.Token;
 
 
             //4. GetParameters with Authorization 
@@ -82,7 +82,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
             var content = await response.Content.ReadAsStringAsync();
             var statusCode = response.StatusCode;
             var resultGetParameters = JsonConvert.DeserializeObject<APIResponse>(content);
-            var result = JsonConvert.DeserializeObject<BaseParameterDto>(resultGetParameters.Result.ToString());
+            var result = JsonConvert.DeserializeObject<BaseParameterDto>(resultGetParameters!.Result.ToString());
 
 
 
@@ -130,7 +130,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
             apiRegisterResponse.EnsureSuccessStatusCode();
             var content3 = await apiRegisterResponse.Content.ReadAsStringAsync();
             var resultApiRegister = JsonConvert.DeserializeObject<APIResponse>(content3);
-            var tokenConfirm = resultApiRegister.Result;
+            var tokenConfirm = resultApiRegister!.Result;
 
             //2. Confirm Email 
             var apiConfirmResponse = await client.GetAsync($"/api/User/ConfirmEmail?token={tokenConfirm}&email={email}");
@@ -144,8 +144,8 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
 
             var content1 = await apiLoginResponse.Content.ReadAsStringAsync();
             var resultApiLogin = JsonConvert.DeserializeObject<APIResponse>(content1);
-            var resultLogin = JsonConvert.DeserializeObject<LoginResponseDto>(resultApiLogin.Result.ToString());
-            var token = resultLogin.Token;
+            var resultLogin = JsonConvert.DeserializeObject<LoginResponseDto>(resultApiLogin!.Result.ToString());
+            var token = resultLogin!.Token;
 
 
             //4. GetParameters with Authorization 
@@ -159,7 +159,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
 
             //Assert
             Assert.Equal(HttpStatusCode.NotFound, statusCode);
-            Assert.Equal("No se ha encontrado la información de los parametros.", resultGetParameters.Message[0]);
+            Assert.Equal("No se ha encontrado la información de los parametros.", resultGetParameters!.Message[0]);
         }
 
 
@@ -248,7 +248,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
             apiResponseRegister.EnsureSuccessStatusCode();
             var contentRegister = await apiResponseRegister.Content.ReadAsStringAsync();
             var resultRegister = JsonConvert.DeserializeObject<APIResponse>(contentRegister);
-            var tokenEmail = resultRegister.Result;
+            var tokenEmail = resultRegister!.Result;
 
 
             //2.Confirm Email
@@ -261,8 +261,8 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
             apiLoginResponse.EnsureSuccessStatusCode();
             var contentLogin = await apiLoginResponse.Content.ReadAsStringAsync();
             var resultLogin = JsonConvert.DeserializeObject<APIResponse>(contentLogin);
-            var loginResponse = JsonConvert.DeserializeObject<LoginResponseDto>(resultLogin.Result.ToString());
-            var token = loginResponse.Token;
+            var loginResponse = JsonConvert.DeserializeObject<LoginResponseDto>(resultLogin!.Result.ToString());
+            var token = loginResponse!.Token;
 
 
             //4. Update Base Parameters
@@ -271,14 +271,14 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
             apiUpdateResponse.EnsureSuccessStatusCode();
             var contentUpdateParameters = await apiUpdateResponse.Content.ReadAsStringAsync();
             var resultUpdateParameters = JsonConvert.DeserializeObject<APIResponse>(contentUpdateParameters);
-            var resultParameters = JsonConvert.DeserializeObject<BaseParameterDto>(resultUpdateParameters.Result.ToString());
+            var resultParameters = JsonConvert.DeserializeObject<BaseParameterDto>(resultUpdateParameters!.Result.ToString());
             var statusCode = resultUpdateParameters.StatusCode;
 
 
             //Assert
             Assert.Equal("Los Parametros han sido actualizados correctamente.", resultUpdateParameters.Message[0]);
             Assert.Equal(HttpStatusCode.OK, statusCode);
-            Assert.Equal(costoOptimo, resultParameters.CostoOptimo);
+            Assert.Equal(costoOptimo, resultParameters!.CostoOptimo);
         }
 
 
@@ -341,7 +341,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
             apiResponseRegister.EnsureSuccessStatusCode();
             var contentRegister = await apiResponseRegister.Content.ReadAsStringAsync();
             var resultRegister = JsonConvert.DeserializeObject<APIResponse>(contentRegister);
-            var tokenEmail = resultRegister.Result;
+            var tokenEmail = resultRegister!.Result;
 
 
             //2.Confirm Email
@@ -354,8 +354,8 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
             apiLoginResponse.EnsureSuccessStatusCode();
             var contentLogin = await apiLoginResponse.Content.ReadAsStringAsync();
             var resultLogin = JsonConvert.DeserializeObject<APIResponse>(contentLogin);
-            var loginResponse = JsonConvert.DeserializeObject<LoginResponseDto>(resultLogin.Result.ToString());
-            var token = loginResponse.Token;
+            var loginResponse = JsonConvert.DeserializeObject<LoginResponseDto>(resultLogin!.Result.ToString());
+            var token = loginResponse!.Token;
 
 
             //4. Update Base Parameters
@@ -363,7 +363,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
             var apiUpdateResponse = await client.PutAsync($"/api/BaseParameter/UpdateParameters/{(id == 1 ? 2 : id)}", stringContent);
             var contentUpdateParameters = await apiUpdateResponse.Content.ReadAsStringAsync();
             var resultUpdateParameters = JsonConvert.DeserializeObject<APIResponse>(contentUpdateParameters);
-            var statusCode = resultUpdateParameters.StatusCode;
+            var statusCode = resultUpdateParameters!.StatusCode;
 
 
             //Assert

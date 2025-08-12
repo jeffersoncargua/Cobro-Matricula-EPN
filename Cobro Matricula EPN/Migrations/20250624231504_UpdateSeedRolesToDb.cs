@@ -1,4 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿// <copyright file="20250624231504_UpdateSeedRolesToDb.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -18,7 +22,7 @@ namespace Cobro_Matricula_EPN.Migrations
                 values: new object[,]
                 {
                     { "5f494a80-cde2-448a-9c17-ca56a1c6e176", "1", "Admin", "ADMIN" },
-                    { "a1d4bf5e-7373-47f6-8831-6f138754ae04", "2", "Assistant", "ASSISTANT" }
+                    { "a1d4bf5e-7373-47f6-8831-6f138754ae04", "2", "Assistant", "ASSISTANT" },
                 });
         }
 

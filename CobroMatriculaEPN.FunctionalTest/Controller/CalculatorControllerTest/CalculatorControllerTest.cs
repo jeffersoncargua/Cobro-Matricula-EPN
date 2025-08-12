@@ -54,13 +54,13 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.CalculatorControllerTest
 
             var content = await response.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<APIResponse>(content);
-            var calculatorResponse = JsonConvert.DeserializeObject<CalculatorDto>(result.Result.ToString());
+            var calculatorResponse = JsonConvert.DeserializeObject<CalculatorDto>(result!.Result.ToString());
             var statusCode = response.StatusCode;
             var costoSocioeconomico = ((3325f * 0.5f) / (0.52f * 15 * 48 * 1.1f)) * 0.1f * quintil;
 
 
             //Assert
-            Assert.Equal(condicion, calculatorResponse.Gratuidad.ToString());
+            Assert.Equal(condicion, calculatorResponse!.Gratuidad.ToString());
             Assert.Equal(message, result.Message.FirstOrDefault());
             //Assert.Equal(15.1136f*quintil,calculatorResponse.ValorMatricula);
             //Assert.Equal((primera + segunda + tercera) * 16 * costoSocioeconomico, calculatorResponse.ValorArancel);

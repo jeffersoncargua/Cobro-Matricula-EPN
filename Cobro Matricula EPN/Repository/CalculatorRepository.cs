@@ -1,4 +1,8 @@
-﻿using Cobro_Matricula_EPN.Context;
+﻿// <copyright file="CalculatorRepository.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using Cobro_Matricula_EPN.Context;
 using Cobro_Matricula_EPN.Repository.IRepository;
 using Entity.DTO.Calculator;
 using Microsoft.EntityFrameworkCore;
@@ -9,19 +13,23 @@ namespace Cobro_Matricula_EPN.Repository
     public class CalculatorRepository : ICalculatorRepository
     {
         private readonly ApplicationDbContext _db;
+
         //private readonly IMapper _mapper;
         //private readonly IBaseParameterRepository _baseParameterRepository;
         public CalculatorRepository(ApplicationDbContext db)
         {
             _db = db;
+
             //_baseParameterRepository = baseParameterRepository;
             //_mapper = mapper;
             //_baseParameterRepository = baseParameterRepository;
         }
+
         public async Task<CalculatorResponseDto> Calculator(CalculatorRequestDto calculatorRequestDto)
         {
             CalculatorDto calculator = new();
             CalculatorResponseDto responseDto = new();
+
             try
             {
                 //Verificar la existencia de los parametros base
@@ -38,6 +46,7 @@ namespace Cobro_Matricula_EPN.Repository
                 if (baseParameters != null && (calculatorRequestDto.Primera + calculatorRequestDto.Segunda + calculatorRequestDto.Tercera) % 16 == 0)
                 {
                     var costoHoraSocioeconomico = baseParameters.CostoHoraPeriodo * calculatorRequestDto.Quintil * 0.1f;
+
                     //Calcular los valores del valor de matricula, recargos de primera, segunda y tercera matricula
                     if (calculatorRequestDto.Primera == 0 && calculatorRequestDto.Segunda == 0 && calculatorRequestDto.Tercera == 0)
                     {
@@ -58,12 +67,12 @@ namespace Cobro_Matricula_EPN.Repository
 
                     if (calculatorRequestDto.Gratuidad == false)
                     {
-                        calculator.ValorMatricula = (float)Math.Round((baseParameters.ValorMatriculaMin * calculatorRequestDto.Quintil), 2);
+                        calculator.ValorMatricula = (float)Math.Round(baseParameters.ValorMatriculaMin * calculatorRequestDto.Quintil, 2);
                         calculator.ValorArancel = (float)Math.Round((calculatorRequestDto.Primera + calculatorRequestDto.Segunda + calculatorRequestDto.Tercera) * costoHoraSocioeconomico, 2);
-                        calculator.RecargoSegunda = (float)Math.Round((calculatorRequestDto.Segunda * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoSegunda), 2);
-                        calculator.RecargoTercera = (float)Math.Round((calculatorRequestDto.Tercera * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoTercera), 2);
-                        calculator.RecargoMatriculaExtraordinaria = (float)Math.Round((calculator.ValorMatricula * baseParameters.PorcentajeMatriculaExtraordinario), 2);
-                        calculator.ValorTotal = (float)Math.Round((calculator.ValorMatricula + calculator.ValorArancel + calculator.RecargoSegunda + calculator.RecargoTercera + calculator.Bancario),2);
+                        calculator.RecargoSegunda = (float)Math.Round(calculatorRequestDto.Segunda * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoSegunda, 2);
+                        calculator.RecargoTercera = (float)Math.Round(calculatorRequestDto.Tercera * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoTercera, 2);
+                        calculator.RecargoMatriculaExtraordinaria = (float)Math.Round(calculator.ValorMatricula * baseParameters.PorcentajeMatriculaExtraordinario, 2);
+                        calculator.ValorTotal = (float)Math.Round(calculator.ValorMatricula + calculator.ValorArancel + calculator.RecargoSegunda + calculator.RecargoTercera + calculator.Bancario, 2);
                         calculator.Gratuidad = "Sin Gratuidad";
 
                         //responseDto.Calculator = calculator;
@@ -75,24 +84,22 @@ namespace Cobro_Matricula_EPN.Repository
                     {
                         if ((calculatorRequestDto.Segunda + calculatorRequestDto.Tercera) > 0 && (calculatorRequestDto.Primera + calculatorRequestDto.Segunda + calculatorRequestDto.Tercera) <= baseParameters.CreditoPerdidaTemporal * 16)
                         {
-                            calculator.ValorMatricula = (float)Math.Round((baseParameters.ValorMatriculaMin * calculatorRequestDto.Quintil), 2);
+                            calculator.ValorMatricula = (float)Math.Round(baseParameters.ValorMatriculaMin * calculatorRequestDto.Quintil, 2);
                             calculator.ValorArancel = (float)Math.Round((calculatorRequestDto.Primera + calculatorRequestDto.Segunda + calculatorRequestDto.Tercera) * costoHoraSocioeconomico, 2);
-                            calculator.RecargoSegunda = (float)Math.Round((calculatorRequestDto.Segunda * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoSegunda), 2);
-                            calculator.RecargoTercera = (float)Math.Round((calculatorRequestDto.Tercera * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoTercera), 2);
-                            calculator.RecargoMatriculaExtraordinaria = (float)Math.Round((calculator.ValorMatricula * baseParameters.PorcentajeMatriculaExtraordinario), 2);
-                            calculator.ValorTotal = (float)Math.Round((calculator.ValorMatricula + calculator.ValorArancel + calculator.RecargoSegunda + calculator.RecargoTercera + calculator.Bancario), 2);
+                            calculator.RecargoSegunda = (float)Math.Round(calculatorRequestDto.Segunda * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoSegunda, 2);
+                            calculator.RecargoTercera = (float)Math.Round(calculatorRequestDto.Tercera * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoTercera, 2);
+                            calculator.RecargoMatriculaExtraordinaria = (float)Math.Round(calculator.ValorMatricula * baseParameters.PorcentajeMatriculaExtraordinario, 2);
+                            calculator.ValorTotal = (float)Math.Round(calculator.ValorMatricula + calculator.ValorArancel + calculator.RecargoSegunda + calculator.RecargoTercera + calculator.Bancario, 2);
                             calculator.Gratuidad = "Perdida Temporal + Parcial";
-
-
                         }
                         else if ((calculatorRequestDto.Segunda + calculatorRequestDto.Tercera) > 0)
                         {
-                            calculator.ValorMatricula = (float)Math.Round((baseParameters.ValorMatriculaMin * calculatorRequestDto.Quintil), 2);
+                            calculator.ValorMatricula = (float)Math.Round(baseParameters.ValorMatriculaMin * calculatorRequestDto.Quintil, 2);
                             calculator.ValorArancel = (float)Math.Round((calculatorRequestDto.Segunda + calculatorRequestDto.Tercera) * costoHoraSocioeconomico, 2);
-                            calculator.RecargoSegunda = (float)Math.Round((calculatorRequestDto.Segunda * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoSegunda), 2);
-                            calculator.RecargoTercera = (float)Math.Round((calculatorRequestDto.Tercera * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoTercera), 2);
-                            calculator.RecargoMatriculaExtraordinaria = (float)Math.Round((calculator.ValorMatricula * baseParameters.PorcentajeMatriculaExtraordinario), 2);
-                            calculator.ValorTotal = (float)Math.Round((calculator.ValorMatricula + calculator.ValorArancel + calculator.RecargoSegunda + calculator.RecargoTercera + calculator.Bancario), 2);
+                            calculator.RecargoSegunda = (float)Math.Round(calculatorRequestDto.Segunda * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoSegunda, 2);
+                            calculator.RecargoTercera = (float)Math.Round(calculatorRequestDto.Tercera * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoTercera, 2);
+                            calculator.RecargoMatriculaExtraordinaria = (float)Math.Round(calculator.ValorMatricula * baseParameters.PorcentajeMatriculaExtraordinario, 2);
+                            calculator.ValorTotal = (float)Math.Round(calculator.ValorMatricula + calculator.ValorArancel + calculator.RecargoSegunda + calculator.RecargoTercera + calculator.Bancario, 2);
                             calculator.Gratuidad = "Perdida Parcial";
 
                             //responseDto.Calculator = calculator;
@@ -103,12 +110,12 @@ namespace Cobro_Matricula_EPN.Repository
                         }
                         else if ((calculatorRequestDto.Primera + calculatorRequestDto.Segunda + calculatorRequestDto.Tercera) <= baseParameters.CreditoPerdidaTemporal * 16)
                         {
-                            calculator.ValorMatricula = (float)Math.Round((baseParameters.ValorMatriculaMin * calculatorRequestDto.Quintil), 2);
+                            calculator.ValorMatricula = (float)Math.Round(baseParameters.ValorMatriculaMin * calculatorRequestDto.Quintil, 2);
                             calculator.ValorArancel = (float)Math.Round((calculatorRequestDto.Primera + calculatorRequestDto.Segunda + calculatorRequestDto.Tercera) * costoHoraSocioeconomico, 2);
-                            calculator.RecargoSegunda = (float)Math.Round((calculatorRequestDto.Segunda * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoSegunda), 2);
-                            calculator.RecargoTercera = (float)Math.Round((calculatorRequestDto.Tercera * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoTercera), 2);
-                            calculator.RecargoMatriculaExtraordinaria = (float)Math.Round((calculator.ValorMatricula * baseParameters.PorcentajeMatriculaExtraordinario), 2);
-                            calculator.ValorTotal = (float)Math.Round((calculator.ValorMatricula + calculator.ValorArancel + calculator.RecargoSegunda + calculator.RecargoTercera + calculator.Bancario), 2);
+                            calculator.RecargoSegunda = (float)Math.Round(calculatorRequestDto.Segunda * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoSegunda, 2);
+                            calculator.RecargoTercera = (float)Math.Round(calculatorRequestDto.Tercera * costoHoraSocioeconomico * baseParameters.PorcentajeRecargoTercera, 2);
+                            calculator.RecargoMatriculaExtraordinaria = (float)Math.Round(calculator.ValorMatricula * baseParameters.PorcentajeMatriculaExtraordinario, 2);
+                            calculator.ValorTotal = (float)Math.Round(calculator.ValorMatricula + calculator.ValorArancel + calculator.RecargoSegunda + calculator.RecargoTercera + calculator.Bancario, 2);
                             calculator.Gratuidad = "Perdida Temporal";
 
                             ////responseDto.Calculator = calculator;
@@ -123,11 +130,10 @@ namespace Cobro_Matricula_EPN.Repository
                             calculator.ValorArancel = 0f;
                             calculator.RecargoSegunda = 0f;
                             calculator.RecargoTercera = 0f;
-                            calculator.RecargoMatriculaExtraordinaria = (float)Math.Round(((baseParameters.ValorMatriculaMin * calculatorRequestDto.Quintil) * baseParameters.PorcentajeMatriculaExtraordinario), 2);
+                            calculator.RecargoMatriculaExtraordinaria = (float)Math.Round((baseParameters.ValorMatriculaMin * calculatorRequestDto.Quintil) * baseParameters.PorcentajeMatriculaExtraordinario, 2);
                             calculator.ValorTotal = 0f;
                             calculator.Gratuidad = "Con Gratuidad";
                         }
-
                     }
                 }
                 else
@@ -149,7 +155,6 @@ namespace Cobro_Matricula_EPN.Repository
                 responseDto.StatusCode = HttpStatusCode.OK;
 
                 return responseDto;
-
             }
             catch (Exception)
             {

@@ -1,5 +1,87 @@
 root = true
 
 [*.cs]
-dotnet_analyzer_diagnostic.category-Style.severity = warning
+dotnet_analyzer_diagnostic.category-Style.severity = silent
 dotnet_code_quality.CA1062.null_check_validation_methods = ThrowArgumentNullException
+
+# S125: Sections of code should not be commented out
+dotnet_diagnostic.S125.severity = silent
+
+# SA1005: Single line comments should begin with single space
+dotnet_diagnostic.SA1005.severity = silent
+
+# SA1512: Single-line comments should not be followed by blank line
+dotnet_diagnostic.SA1512.severity = silent
+
+# CS8600: Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL
+dotnet_diagnostic.CS8600.severity = silent
+
+# SA1101: Prefix local calls with this
+dotnet_diagnostic.SA1101.severity = silent
+
+# SA1028: Code should not contain trailing whitespace
+dotnet_diagnostic.SA1028.severity = silent
+
+# CS8625: No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.
+dotnet_diagnostic.CS8625.severity = silent
+
+# SA1010: Opening square brackets should be spaced correctly
+dotnet_diagnostic.SA1010.severity = silent
+
+# S927: Parameter names should match base declaration and other partial definitions
+dotnet_diagnostic.S927.severity = silent
+
+# SA1000: Keywords should be spaced correctly
+dotnet_diagnostic.SA1000.severity = silent
+
+# CS8604: Posible argumento de referencia nulo
+dotnet_diagnostic.CS8604.severity = silent
+
+# SA1202: Elements should be ordered by access
+dotnet_diagnostic.SA1202.severity = silent
+
+# SA1200: Using directives should be placed correctly
+dotnet_diagnostic.SA1200.severity = silent
+
+# SA1208: System using directives should be placed before other using directives
+dotnet_diagnostic.SA1208.severity = silent
+
+# SA1309: Field names should not begin with underscore
+dotnet_diagnostic.SA1309.severity = silent
+
+# SA1117: Parameters should be on same line or separate lines
+dotnet_diagnostic.SA1117.severity = silent
+
+# SA1401: Fields should be private
+dotnet_diagnostic.SA1401.severity = silent
+
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = silent
+
+# S1125: Boolean literals should not be redundant
+dotnet_diagnostic.S1125.severity = silent
+
+# SA1307: Accessible fields should begin with upper-case letter
+dotnet_diagnostic.SA1307.severity = silent
+
+# CS8618: Un campo que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de agregar el modificador "required" o declararlo como un valor que acepta valores NULL.
+dotnet_diagnostic.CS8618.severity = silent
+
+# xUnit1012: Null should only be used for nullable parameters
+dotnet_diagnostic.xUnit1012.severity = silent
+
+# xUnit1026: Theory methods should use all of their parameters
+dotnet_diagnostic.xUnit1026.severity = silent
+
+# ASP0000: Do not call 'IServiceCollection.BuildServiceProvider' in 'ConfigureServices'
+dotnet_diagnostic.ASP0000.severity = silent
+
+# S6966: Awaitable method should be used
+dotnet_diagnostic.S6966.severity = silent
+
+# CS8634: El tipo no se puede usar como parámetro de tipo en el tipo o método genérico. La nulabilidad del argumento de tipo no coincide con la restricción "class"
+dotnet_diagnostic.CS8634.severity = silent
+
+# S1118: Utility classes should not have public constructors
+dotnet_diagnostic.S1118.severity = silent
+

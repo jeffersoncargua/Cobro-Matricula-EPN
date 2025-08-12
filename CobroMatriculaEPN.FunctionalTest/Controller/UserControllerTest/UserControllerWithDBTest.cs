@@ -69,7 +69,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
 
             //Assert
-            Assert.True(result.IsSuccess);
+            Assert.True(result!.IsSuccess);
             Assert.Equal(200, statusCode);
         }
 
@@ -108,7 +108,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             //Assert
             Assert.Equal(400, statusCode);
-            Assert.False(result.IsSuccess);
+            Assert.False(result!.IsSuccess);
             Assert.Equal(expectedMessage, result.Message.FirstOrDefault());
 
         }
@@ -225,7 +225,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             //para poder obtener su informacion y utilizar el token especificamente para la peticion de ConfirmEmail
             var resultRegister = JsonConvert.DeserializeObject<APIResponse>(contentRegister);
             //Se guarda la informacion del token para utilizarla en la peticion de Get ConfirmEmail
-            var token = resultRegister.Result;
+            var token = resultRegister!.Result;
 
             //2. Confirm Email with Token
 
@@ -242,14 +242,14 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var apiResponse = JsonConvert.DeserializeObject<APIResponse>(content);
             //Nota: como el content se lee como un string el campo Result del objeto APIResponse tambien se debe deserializar
             //para pasar su informacion a un objeto LoginResponse para leer la informacion que se requiera comprobar
-            var result = JsonConvert.DeserializeObject<LoginResponseDto>(apiResponse.Result.ToString());
+            var result = JsonConvert.DeserializeObject<LoginResponseDto>(apiResponse!.Result.ToString());
             var statusCode = (int)responseLogin.StatusCode;
 
 
             //Assert
             Assert.Equal(200,statusCode);
             Assert.Equal("Login exitoso", apiResponse.Message.FirstOrDefault());
-            Assert.NotNull(result.User);
+            Assert.NotNull(result!.User);
             Assert.True(apiResponse.IsSuccess);
 
         }
@@ -276,7 +276,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var statusCode = (int)response.StatusCode;
 
             //Assert
-            Assert.Equal(expectedMessage, result.Message.FirstOrDefault());
+            Assert.Equal(expectedMessage, result!.Message.FirstOrDefault());
             Assert.Equal(400,statusCode);
 
         }
@@ -319,7 +319,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             responseRegister.EnsureSuccessStatusCode();
             var contentRegister = await responseRegister.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<APIResponse>(contentRegister);
-            var token = apiResponse.Result;
+            var token = apiResponse!.Result;
 
             //2. ConfirmEmail
             var responseConfirmEmail = await client.GetAsync($"/api/User/ConfirmEmail?token={token}&email={email}");
@@ -333,7 +333,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             //Assert
             Assert.Equal(400, statusCode);
-            Assert.Equal(expectedMessage, result.Message.FirstOrDefault());
+            Assert.Equal(expectedMessage, result!.Message.FirstOrDefault());
 
         }
 
@@ -374,7 +374,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             responseRegister.EnsureSuccessStatusCode();
             var content = await responseRegister.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<APIResponse>(content);
-            var tokenConfirmEmail = apiResponse.Result;
+            var tokenConfirmEmail = apiResponse!.Result;
 
             //2. Confirm Email
             var responseConfirmEmail = await client.GetAsync($"/api/User/ConfirmEmail?token={tokenConfirmEmail}&email={email}");
@@ -386,10 +386,10 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             responseForget.EnsureSuccessStatusCode();
             var contentForget = await responseForget.Content.ReadAsStringAsync();
             var resultForget = JsonConvert.DeserializeObject<APIResponse>(contentForget);
-            string tokenResetPass = resultForget.Result.ToString();
+            string tokenResetPass = resultForget!.Result.ToString();
 
             //4. ResetPassword
-            resetPasswordRequestDto.Token = tokenResetPass;
+            resetPasswordRequestDto.Token = tokenResetPass!;
 
             var stringContentReset = new StringContent(JsonConvert.SerializeObject(resetPasswordRequestDto),Encoding.UTF8,"application/json");
 
@@ -401,7 +401,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
 
             //Assert
-            Assert.Equal("Se ha actualizado su contraseña. Por favor, intente iniciar sesion", result.Message.FirstOrDefault());
+            Assert.Equal("Se ha actualizado su contraseña. Por favor, intente iniciar sesion", result!.Message.FirstOrDefault());
             Assert.Equal(200, statusCode);
         }
 
@@ -443,7 +443,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             
             var content = await responseRegister.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<APIResponse>(content);
-            var tokenConfirmEmail = apiResponse.Result;
+            var tokenConfirmEmail = apiResponse!.Result;
 
             //2. Confirm Email
             if (isConfirmEmail) 
@@ -459,7 +459,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var statusCode = (int)responseForget.StatusCode;
 
             //Assert
-            Assert.Equal(expectedMessage, resultForget.Message.FirstOrDefault());
+            Assert.Equal(expectedMessage, resultForget!.Message.FirstOrDefault());
             Assert.Equal(400, statusCode);
         }
 
@@ -515,7 +515,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var statusCode = (int)responseReset.StatusCode;
 
             //Assert
-            Assert.Equal(expectedMessage,result.Message.FirstOrDefault());
+            Assert.Equal(expectedMessage,result!.Message.FirstOrDefault());
             Assert.Equal(400, statusCode);
 
 
@@ -566,7 +566,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             responseUpdateUser.EnsureSuccessStatusCode();
             var content = await responseUpdateUser.Content.ReadAsStringAsync();
             var apiResult = JsonConvert.DeserializeObject<APIResponse>(content);
-            var result = JsonConvert.DeserializeObject<UserDto>(apiResult.Result.ToString());
+            var result = JsonConvert.DeserializeObject<UserDto>(apiResult!.Result.ToString());
             
             var statusCode = (int)responseUpdateUser.StatusCode;
 
@@ -675,7 +675,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var statusCode = (int)responseDelete.StatusCode;
 
             //Assert
-            Assert.Equal("El usuario ha sido eliminado de la base de datos!!!",result.Message.FirstOrDefault());
+            Assert.Equal("El usuario ha sido eliminado de la base de datos!!!",result!.Message.FirstOrDefault());
             Assert.Equal(200, statusCode);
         }
 
@@ -716,7 +716,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var statusCode = (int)responseDelete.StatusCode;
 
             //Assert
-            Assert.Equal("El usuario no existe en la base de datos!!!", result.Message.FirstOrDefault());
+            Assert.Equal("El usuario no existe en la base de datos!!!", result!.Message.FirstOrDefault());
             Assert.Equal(404, statusCode);
         }
     }

@@ -1,4 +1,8 @@
-﻿using Cobro_Matricula_EPN.Repository.IRepository;
+﻿// <copyright file="CalculatorController.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using Cobro_Matricula_EPN.Repository.IRepository;
 using Entity.DTO.Calculator;
 using Microsoft.AspNetCore.Mvc;
 using Utility;
@@ -11,12 +15,12 @@ namespace Cobro_Matricula_EPN.Controllers
     {
         private readonly ICalculatorRepository _calculatorRepository;
         private readonly APIResponse _response;
+
         public CalculatorController(ICalculatorRepository calculatorRepository)
         {
             _calculatorRepository = calculatorRepository;
             this._response = new ();
         }
-
 
         [HttpPost("CalculatorPay")]
         [ProducesResponseType(StatusCodes.Status200OK)]

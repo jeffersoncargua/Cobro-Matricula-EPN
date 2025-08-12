@@ -1,11 +1,16 @@
-﻿using Cobro_Matricula_EPN.Context;
+﻿// <copyright file="Repository.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using Cobro_Matricula_EPN.Context;
 using Cobro_Matricula_EPN.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Cobro_Matricula_EPN.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> 
+        where T : class
     {
         private readonly ApplicationDbContext _db;
         internal DbSet<T> dbSet;
@@ -34,12 +39,13 @@ namespace Cobro_Matricula_EPN.Repository
             {
                 query = query.AsNoTracking();
             }
+
             if (filter != null)
             {
                 query = query.Where(filter);
             }
 
-            return query.FirstOrDefaultAsync();
+            return query.FirstOrDefaultAsync() !;
         }
 
         public async Task Save()

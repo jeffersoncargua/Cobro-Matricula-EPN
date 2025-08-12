@@ -1,4 +1,8 @@
-﻿using Cobro_Matricula_EPN.Repository.IRepository;
+﻿// <copyright file="UserController.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
+using Cobro_Matricula_EPN.Repository.IRepository;
 using Entity.DTO.User;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +11,9 @@ using Utility;
 
 namespace Cobro_Matricula_EPN.Controllers
 {
+    /// <summary>
+    /// Este controlador permite realizar la gestion de los usuarios que se registren en el sistema.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -14,6 +21,12 @@ namespace Cobro_Matricula_EPN.Controllers
         //private readonly IRepository _repo;
         private readonly IUserRepository _userRepo;
         protected APIResponse _response;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserController"/> class.
+        /// El contructor UserController permite realizar la DI para acceder a los servicios e interfaces del proyecto.
+        /// </summary>
+        /// <param name="userRepo">Es la interfaz que permite realizar las operaciones necesarias para la gestion de los usuarios.</param>
         public UserController(IUserRepository userRepo)
         {
             //_repo = repo;
@@ -21,11 +34,16 @@ namespace Cobro_Matricula_EPN.Controllers
             _userRepo = userRepo;
         }
 
+        /// <summary>
+        /// Esta Api permite obtener un listado de los usuarios registrados en el sistema.
+        /// </summary>
+        /// <param name="query">Es un parametro que permite filtrar a los usuarios segun se los requerimientos de busqueda.</param>
+        /// <returns>Retorna un statusCOde de 200 y la lista de los usuarios registrados con/sin filtros de busqueda, Caso contrario retorna un statusCode de 400.</returns>
         [HttpGet("GetUsers")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<APIResponse>> GetAll([FromQuery] string query= null)
+        public async Task<ActionResult<APIResponse>> GetAll([FromQuery] string query = null)
         {
             var users = await _userRepo.GetUsers(u => u.Name == query);
 
@@ -36,6 +54,11 @@ namespace Cobro_Matricula_EPN.Controllers
             return Ok(_response);
         }
 
+        /// <summary>
+        /// Este Api permite realizar el login de usuario, una vez que se haya verificado su cuenta.
+        /// </summary>
+        /// <param name="loginRequestDto">Es un conjunto de parametros para realizar el login de usuario.</param>
+        /// <returns>Retorna un statusCode de 200 y un token en caso de que el login haya sido exitoso, caso contrario se envia un statusCode de 400.</returns>
         [HttpPost("Login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -58,10 +81,13 @@ namespace Cobro_Matricula_EPN.Controllers
             _response.Result = result;
             _response.StatusCode = HttpStatusCode.OK;
             return Ok(_response);
-
         }
 
-
+        /// <summary>
+        /// Este Api permite realizar el registro de los usuarios en el sistema. 
+        /// </summary>
+        /// <param name="registrationRequestDto">Es un conjunto de parametros que se requieren para hacer el registro de los usuarios.</param>
+        /// <returns>Retorna un statusCode de 200 y se envia un correo en caso de que el registro sea exitoso, caso contrario se envia un statusCode de 400.</returns>
         [HttpPost("Registration")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -96,7 +122,11 @@ namespace Cobro_Matricula_EPN.Controllers
             return Ok(_response);
         }
 
-
+        /// <summary>
+        /// Esta Api permite realizar la eliminacion de un usuario registrado en el sistema.
+        /// </summary>
+        /// <param name="email">Es un parametro para verificar el registro del usuario.</param>
+        /// <returns>Retorna un statusCode de 200 cuando la eliminacion haya sido exitosa, caso contrario se envia un statusCode de 400.</returns>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -120,6 +150,11 @@ namespace Cobro_Matricula_EPN.Controllers
             return Ok(_response);
         }
 
+        /// <summary>
+        /// Esta Api permite realizar la gestion para cambiar la contraseña de usuario, cuando este se olvida y se encuentra registrado.
+        /// </summary>
+        /// <param name="email">Es un parametro para verificar que exista el registro del usuario.</param>
+        /// <returns>Retorna un statusCode de 200 y el token para realizar el proceso de cambiar la contraseña, caso contrario se envia un statusCode de 400.</returns>
         [HttpPost("ForgetPassword")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -133,7 +168,6 @@ namespace Cobro_Matricula_EPN.Controllers
                 _response.StatusCode = HttpStatusCode.OK;
                 _response.Result = result.Token;
                 return Ok(_response);
-
             }
 
             _response.IsSuccess = false;
@@ -141,15 +175,20 @@ namespace Cobro_Matricula_EPN.Controllers
             _response.StatusCode = HttpStatusCode.NotFound;
             _response.Result = null;
             return BadRequest(_response);
-
         }
 
+        /// <summary>
+        /// Esta Api permite realizar la transaccion para confirmar el token de validacion de usuario.
+        /// </summary>
+        /// <param name="token">Es un token necesario para autenticar la informacion del usuario.</param>
+        /// <param name="email">Es un parametro para verificar el registro del usuario.</param>
+        /// <returns>Retorna un statusCode de 200 en caso de que la validacion haya sido exitosa, caso contrario se retorna un statusaCode de 400 si la peticion a fallado.</returns>
         [HttpGet("ConfirmEmail")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> ConfirmEmail(string? token = null, string? email= null)
+        public async Task<ActionResult<APIResponse>> ConfirmEmail(string token, string email)
         {
-            var result = await _userRepo.ConfirmEmailAsync(token, email);
+            var result = await _userRepo.ConfirmEmailAsync(email, token);
             if (result)
             {
                 _response.IsSuccess = true;
@@ -166,6 +205,11 @@ namespace Cobro_Matricula_EPN.Controllers
             return BadRequest(_response);
         }
 
+        /// <summary>
+        /// Este Api permite cambiar la contraseña de un usuario registrado en el sistema pero que ha olvidado su contraseña.
+        /// </summary>
+        /// <param name="resetPasswordRequestDto">Es un conjunto de parametros necesarios para poder realizar el cambio de contraseña.</param>
+        /// <returns>Retorna un statusCode de 200 en caso de que la peticion haya sido tratada con exito, caso contrario se retorna un statusCode de 400.</returns>
         [HttpPost("ResetPassword")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -188,10 +232,16 @@ namespace Cobro_Matricula_EPN.Controllers
             return BadRequest(_response);
         }
 
+        /// <summary>
+        /// Esta Api permite realizar la actualizacion de los datos de los usuarios.
+        /// </summary>
+        /// <param name="email">Es un parametro para verificar el registro del usuario.</param>
+        /// <param name="updateUserDto">Es un conjunto de parametros necesarios para realizar la actualizacion de los datos del usuario.</param>
+        /// <returns>Retorna un statusCode de 200 en caso de que se haya realizado correctamente la solicitud, caso contrario se retorna un statusCode de 400.</returns>
         [HttpPut("UpdateUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<APIResponse>> UpdateUser(string email,[FromBody] UpdateUserDto updateUserDto)
+        public async Task<ActionResult<APIResponse>> UpdateUser(string email, [FromBody] UpdateUserDto updateUserDto)
         {
             var result = await _userRepo.UpdateUserAsync(updateUserDto, email);
             if (result.Success)
@@ -209,8 +259,5 @@ namespace Cobro_Matricula_EPN.Controllers
             _response.Message.Add(result.Message);
             return BadRequest(_response);
         }
-
     }
- 
 }
-

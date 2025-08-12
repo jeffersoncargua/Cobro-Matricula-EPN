@@ -1,3 +1,7 @@
+// <copyright file="Program.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using Cobro_Matricula_EPN.Context;
 using Cobro_Matricula_EPN.Mapping;
 using Cobro_Matricula_EPN.Repository;
@@ -10,15 +14,11 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using Utility;
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 //Add provider and configuration to allow CORS configuration
 var provider = builder.Services.BuildServiceProvider();
 var configuration = provider.GetRequiredService<IConfiguration>();
-
-
 
 //Add services for CORS configuration
 builder.Services.AddCors(options =>
@@ -33,7 +33,6 @@ builder.Services.AddCors(options =>
         .AllowCredentials();
     });
 });
-
 
 // Add services to the container.
 
@@ -55,7 +54,6 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.SignIn.RequireConfirmedEmail = true;
 });
 
-
 //Add Repositories Services
 //builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -65,7 +63,6 @@ builder.Services.AddScoped<ICalculatorRepository, CalculatorRepository>();
 
 //Add Service AutoMapper 
 builder.Services.AddAutoMapper(typeof(MappingConfig));
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -83,19 +80,20 @@ builder.Services.AddSwaggerGen(options =>
     });
     options.AddSecurityRequirement(new OpenApiSecurityRequirement()
     {
-        {   new OpenApiSecurityScheme
+        {   
+            new OpenApiSecurityScheme
             {
                 Reference = new OpenApiReference
                 {
                     Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
+                    Id = "Bearer",
                 },
                 Scheme = "oauth2",
                 Name = "Bearer",
-                In = ParameterLocation.Header
+                In = ParameterLocation.Header,
             },
             new List<string>()
-        }
+        },
     });
 });
 
@@ -106,7 +104,6 @@ builder.Services.AddSingleton(emailConfig);
 //Add Services Connection Front-End 
 var frontUrl = builder.Configuration.GetSection("FrontEndConfiguration").Get<FrontEndConfig>();
 builder.Services.AddSingleton(frontUrl);
-
 
 //Add Authentication and Authorization services
 
@@ -124,7 +121,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = false,
         ValidateAudience = false,
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
     };
 });
 
@@ -140,8 +137,6 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-
-
 app.UseHttpsRedirection();
 
 app.UseCors();
@@ -155,4 +150,9 @@ app.MapControllers();
 
 app.Run();
 
-public partial class Program { }
+/// <summary>
+/// Es una clase parcial para poder ejecutar los test.
+/// </summary>
+public partial class Program 
+{
+}

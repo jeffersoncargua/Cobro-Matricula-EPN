@@ -89,14 +89,14 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var apiResponse = await controller.Login(loginRequestDto);
             var response = apiResponse.Result as ObjectResult;
-            var response2 = response.Value as APIResponse;
-            var result2 = response2.Result as LoginResponseDto; 
-            var statusCode2 = (HttpStatusCode)response.StatusCode;
+            var response2 = response!.Value as APIResponse;
+            var result2 = response2!.Result as LoginResponseDto; 
+            var statusCode2 = (HttpStatusCode)response.StatusCode!;
 
             //Assert
             Assert.Equal(statusCode, statusCode2);
-            Assert.NotNull(result.User);
-            Assert.NotNull(result2.User);
+            Assert.NotNull(result!.User);
+            Assert.NotNull(result2!.User);
             Assert.True(response2.IsSuccess);
         }
 
@@ -141,14 +141,14 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var apiResponse = await controller.Login(loginRequestDto);
             var response = apiResponse.Result as ObjectResult;
-            var result2 = response.Value as APIResponse;
-            var resultContent = result2.Result as LoginResponseDto;
-            var statusCode2 = (HttpStatusCode)response.StatusCode;
+            var result2 = response!.Value as APIResponse;
+            var resultContent = result2!.Result as LoginResponseDto;
+            var statusCode2 = (HttpStatusCode)response.StatusCode!;
 
 
             //Assert
             Assert.False(result2.IsSuccess);
-            Assert.Equal(result.Message.ToString(), result2.Message.FirstOrDefault().ToString());
+            Assert.Equal(result!.Message!.ToString(), result2.Message.FirstOrDefault()!.ToString());
             Assert.Equal(statusCode, statusCode2);
             Assert.Null(result.User);
             Assert.Null(result.Token);
@@ -252,11 +252,11 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var response = await controller.Registration(registrationRequestDto);
             var result2 = response.Result as ObjectResult;
-            var resultContent = result2.Value as APIResponse;
-            var statusCode2 = (HttpStatusCode)result2.StatusCode;
+            var resultContent = result2!.Value as APIResponse;
+            var statusCode2 = (HttpStatusCode)result2.StatusCode!;
 
             //Assert
-            Assert.Equal(result.IsSuccess, resultContent.IsSuccess);
+            Assert.Equal(result!.IsSuccess, resultContent!.IsSuccess);
             Assert.Equal(result.Message, resultContent.Message);
             Assert.Equal(result.StatusCode, resultContent.StatusCode);
             Assert.Equal(statusCode, statusCode2);
@@ -317,13 +317,13 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var response = await controller.Registration(registrationRequestDto);
             var result2 = response.Result as ObjectResult;
-            var resultContent = result2.Value as APIResponse;
-            var statusCode2 = (HttpStatusCode)result2.StatusCode;
+            var resultContent = result2!.Value as APIResponse;
+            var statusCode2 = (HttpStatusCode)result2.StatusCode!;
 
 
             //Assert
 
-            Assert.Equal(resultContent.StatusCode, result.StatusCode);
+            Assert.Equal(resultContent!.StatusCode, result!.StatusCode);
 
         }
 
@@ -360,12 +360,12 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var response = await controller.ConfirmEmail(token,email);
             var result2 = response.Result as ObjectResult;
-            var resultContent = result2.Value as APIResponse;
-            var statusCode2 = (HttpStatusCode)result2.StatusCode;
+            var resultContent = result2!.Value as APIResponse;
+            var statusCode2 = (HttpStatusCode)result2.StatusCode!;
 
             //Assert
             Assert.Equal(statusCode, statusCode2);
-            Assert.Equal(result.Message, resultContent.Message);
+            Assert.Equal(result!.Message, resultContent!.Message);
             Assert.Equal(result.IsSuccess, resultContent.IsSuccess);
 
         }
@@ -396,15 +396,15 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var result = JsonConvert.DeserializeObject<APIResponse>(content);
             var statusCode = clientResponse.StatusCode;
 
-            var response = await controller.ConfirmEmail();
+            var response = await controller.ConfirmEmail(null, null);
             var result2 = response.Result as ObjectResult;
-            var resultContent = result2.Value as APIResponse;
-            var statusCode2 = (HttpStatusCode)result2.StatusCode;
+            var resultContent = result2!.Value as APIResponse;
+            var statusCode2 = (HttpStatusCode)result2.StatusCode!;
 
 
             //Assert
             Assert.Equal(statusCode2, statusCode);
-            Assert.Equal(result.Message, resultContent.Message);
+            Assert.Equal(result!.Message, resultContent!.Message);
             Assert.Equal(result.IsSuccess, resultContent.IsSuccess);
         }
 
@@ -448,12 +448,12 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var response = await controller.ForgetPassword(email);
             var result2 = response.Result as ObjectResult;
-            var resultContent = result2.Value as APIResponse;
-            var statusCode2 = (HttpStatusCode)result2.StatusCode;
+            var resultContent = result2!.Value as APIResponse;
+            var statusCode2 = (HttpStatusCode)result2.StatusCode!;
 
             //Assert
             Assert.Equal(statusCode, statusCode2);
-            Assert.Equal(result.Message, resultContent.Message);
+            Assert.Equal(result!.Message, resultContent!.Message);
             Assert.Equal(result.IsSuccess, resultContent.IsSuccess);
 
         }
@@ -499,11 +499,11 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var response = await controller.ForgetPassword(email);
             var result2 = response.Result as ObjectResult;
-            var resultContent = result2.Value as APIResponse;
-            var statusCode2 = (HttpStatusCode)result2.StatusCode;
+            var resultContent = result2!.Value as APIResponse;
+            var statusCode2 = (HttpStatusCode)result2.StatusCode!;
 
             //Assert
-            Assert.Equal(result.Message, resultContent.Message);
+            Assert.Equal(result!.Message, resultContent!.Message);
             Assert.Equal(statusCode, statusCode2);
             Assert.Equal(result.IsSuccess, resultContent.IsSuccess);
         }
@@ -557,13 +557,13 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var response = await controller.ResetPassword(resetPasswordRequest);
             var result2 = response.Result as ObjectResult;
-            var resultContent = result2.Value as APIResponse;
-            var statusCode2 = (HttpStatusCode)result2.StatusCode;
+            var resultContent = result2!.Value as APIResponse;
+            var statusCode2 = (HttpStatusCode)result2.StatusCode!;
 
 
             //Assert
             Assert.Equal(statusCode,statusCode2);
-            Assert.Equal(result.Message, resultContent.Message);
+            Assert.Equal(result!.Message, resultContent!.Message);
             Assert.Equal(result.IsSuccess, resultContent.IsSuccess);
 
         }
@@ -616,13 +616,13 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             var response = await controller.ResetPassword(resetPasswordRequest);
             var result2 = response.Result as ObjectResult;
-            var resultContent = result2.Value as APIResponse;
-            var statusCode2 = (HttpStatusCode)result2.StatusCode;
+            var resultContent = result2!.Value as APIResponse;
+            var statusCode2 = (HttpStatusCode)result2.StatusCode!;
 
 
             //Assert
             Assert.Equal(statusCode, statusCode2);
-            Assert.Equal(result.Message, resultContent.Message);
+            Assert.Equal(result!.Message, resultContent!.Message);
             Assert.Equal(result.IsSuccess, resultContent.IsSuccess);
         }
 
