@@ -120,7 +120,7 @@ namespace Cobro_Matricula_EPN.Repository
         {
             //var result = await _db.Users.FirstOrDefaultAsync(u => u.Email == email);
             //Permite obtener el usuario a partir del email
-            var result = await _userManager.FindByEmailAsync(email);
+            ApplicationUser result = await _userManager.FindByEmailAsync(email);
             if (result == null)
             {
                 return true;
@@ -218,13 +218,14 @@ namespace Cobro_Matricula_EPN.Repository
             {
                 //var registration = _mapper.Map<User>(registrationRequestDto);
 
-                var isUnique = await IsUnique(registrationRequestDto.Email);
-                if (!isUnique) {
+                bool isUnique = await IsUnique(registrationRequestDto.Email);
+                if (!isUnique) 
+                {
                     return new RegisterResponseDto()
                     {
                         Success = false,
-                        MessageResponse = new List<string>() { "Ya existe un registro con ese correo" },
-                        Token = null
+                        MessageResponse = ["Ya existe un registro con ese correo"],
+                        Token = null,
                     };
                 }
 
@@ -250,7 +251,7 @@ namespace Cobro_Matricula_EPN.Repository
                         //PasswordHash = registrationRequestDto.Password,
                     };
 
-                    var result = await _userManager.CreateAsync(user, registrationRequestDto.Password);
+                    IdentityResult result = await _userManager.CreateAsync(user, registrationRequestDto.Password);
                     
                     if (!result.Succeeded)
                     {
@@ -269,11 +270,11 @@ namespace Cobro_Matricula_EPN.Repository
 
                     await _userManager.AddToRoleAsync(user, registrationRequestDto.Role);
 
-                    var tokenEmail = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    string tokenEmail = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                    var confirmedEmail = $"{_frontConfig.Url}/manage/confirmation?token={tokenEmail}&email={user.Email}";
+                    string confirmedEmail = $"{_frontConfig.Url}/manage/confirmation?token={tokenEmail}&email={user.Email}";
 
-                    var emailMessage = new Message([user.Email], "Verificación del correo electrónico", $"Para confirmar presiona el <a href='{confirmedEmail}'>enlace</a> ");
+                    Message emailMessage = new([user.Email], "Verificación del correo electrónico", $"Para confirmar presiona el <a href='{confirmedEmail}'>enlace</a> ");
 
                     _emailRepo.SendEmail(emailMessage);
 
