@@ -10,7 +10,7 @@ namespace CobroMatriculaEPN.UnitTest.DTOs.User
     public class UserTest : BaseTest
     {
         [Theory]
-        [InlineData(null, null,null,null,null,5)]
+        [InlineData(null, null, null, null, null, 5)]
         [InlineData("", "", "", "", "", 5)]
         [InlineData("a", "22222", "hola", "", "asdasd", 6)]
         [InlineData("a", "22222", "hola@", null, "asdasd", 6)]

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Entity.DTO.Calculator
 {
     public class CalculatorResponseDto
-    {        
+    {
         public string Message { get; set; }
 
         public bool Success { get; set; }

@@ -17,7 +17,7 @@ namespace CobroMatriculaEPN.UnitTest.DTOs.BaseParameters
         public void ValidTest_UpdatedBaseParametersRequest_ReturnCorrectNumbersOfErrors(int id, string formacionAcademica, float costoOptimo, int horaPeriodoAcademico, int creditoPeriodoAcademico, float porcentajeCostoOptimoAnual, float porcentajeValorMin, float porcentajeValorMax, float porcentajeValorArancel, float porcentajePromedioAcademico, float porcentajePerdidaTemporal, float porcentajeMatriculaExtraordinario, float porcentajeMatriculaEspecial, float porcentajeRecargoSegunda, float porcentajeRecargoTercera, int errorsExpected)
         {
             // Arrange
-            UpdatedBaseParameterRequestDto updatedBaseParameter = new ()
+            UpdatedBaseParameterRequestDto updatedBaseParameter = new()
             {
                 Id = id,
                 FormacionAcademica = formacionAcademica,

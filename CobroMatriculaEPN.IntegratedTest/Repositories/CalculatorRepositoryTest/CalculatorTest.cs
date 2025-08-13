@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 namespace CobroMatriculaEPN.IntegratedTest.Repositories.CalculatorRepositoryTest
 {
     [Collection("My Collection")]
-    
     public class CalculatorTest 
     {
         private SharedDatabaseFixture Fixture { get; }

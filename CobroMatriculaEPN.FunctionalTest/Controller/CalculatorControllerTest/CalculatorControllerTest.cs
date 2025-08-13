@@ -18,7 +18,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.CalculatorControllerTest
         }
 
         [Theory]
-        [InlineData(1, "creditos", 1, false, 1 , 1 , 1 , "Sin Gratuidad", "El calculo se realizo correctamente")]
+        [InlineData(1, "creditos", 1, false, 1, 1, 1, "Sin Gratuidad", "El calculo se realizo correctamente")]
         [InlineData(1, "horas", 1, false, 1 * 16, 1 * 16, 1 * 16, "Sin Gratuidad", "El calculo se realizo correctamente")]
         [InlineData(1, "creditos", 1, true, 1, 1, 1, "Perdida Temporal + Parcial", "El calculo se realizo correctamente")]
         [InlineData(1, "horas", 1, true, 1 * 16, 1 * 16, 1 * 16, "Perdida Temporal + Parcial", "El calculo se realizo correctamente")]

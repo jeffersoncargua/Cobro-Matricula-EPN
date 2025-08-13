@@ -40,7 +40,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
 
             var stringContentRegister = new StringContent(JsonConvert.SerializeObject(registrationRequest), Encoding.UTF8, "application/json");
 
-            LoginRequestDto loginRequest = new ()
+            LoginRequestDto loginRequest = new()
             {
                 Email = email,
                 Password = password
@@ -233,7 +233,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
                 PorcentajeMatriculaEspecial = porcentajeMatriculaEspecial,
                 PorcentajeMatriculaExtraordinario = porcentajeMatriculaExtraordinario,
                 PorcentajeRecargoSegunda = porcentajeRecargoSegunda,
-                PorcentajeRecargoTercera= porcentajeRecargoTercera,
+                PorcentajeRecargoTercera = porcentajeRecargoTercera,
             };
 
             var stringContent = new StringContent(JsonConvert.SerializeObject(requestDto), Encoding.UTF8, "application/json");

@@ -91,7 +91,6 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var response = apiResponse.Result as ObjectResult;
             var response2 = response!.Value as APIResponse;
             var result2 = response2!.Result as LoginResponseDto;
-            
             var statusCode2 = (HttpStatusCode)response.StatusCode!;
 
             //Assert
@@ -473,7 +472,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
                 Result = null
             };
 
-            ForgetResponseDto forgetResponseDto = new ()
+            ForgetResponseDto forgetResponseDto = new()
             {
                 Success = false,
                 Message = expecteMessage

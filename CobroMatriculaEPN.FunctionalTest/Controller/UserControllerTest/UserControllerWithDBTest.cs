@@ -150,7 +150,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
                 Role = role,
             };
 
-            var stringContent = new StringContent(JsonConvert.SerializeObject(registrationRequestDto), Encoding.UTF8,"application/json");
+            var stringContent = new StringContent(JsonConvert.SerializeObject(registrationRequestDto), Encoding.UTF8, "application/json");
 
             //Act
             var response = await client.PostAsync("/api/User/Registration", stringContent);
@@ -258,7 +258,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             //Arrange
             //var client = this.GetNewClient();
 
-            LoginRequestDto loginRequest = new () 
+            LoginRequestDto loginRequest = new() 
             {
                 Email = email,
                 Password = password
@@ -366,9 +366,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             };
             
             //Act
-
             //1. Register
-
             var responseRegister = await client.PostAsync("/api/User/Registration", stringContentRegister);
             responseRegister.EnsureSuccessStatusCode();
             var content = await responseRegister.Content.ReadAsStringAsync();
@@ -446,14 +444,12 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var tokenConfirmEmail = apiResponse!.Result;
 
             //2. Confirm Email
-
             if (isConfirmEmail) 
             {
                 var responseConfirmEmail = await client.GetAsync($"/api/User/ConfirmEmail?token={tokenConfirmEmail}&email={email}");
             }
             
             //3. ForgetPassword
-
             var responseForget = await client.PostAsync("/api/User/ForgetPassword", stringContentForget);
             var contentForget = await responseForget.Content.ReadAsStringAsync();
             var resultForget = JsonConvert.DeserializeObject<APIResponse>(contentForget);
@@ -627,9 +623,8 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
                 var responseRegister = await client.PostAsync("/api/User/Registration", stringContentRegister);
                 responseRegister.EnsureSuccessStatusCode();
             }
-            
-            //2. UpdateUser
 
+            //2. UpdateUser
             var responseUpdateUer = await client.PutAsync($"/api/User/UpdateUser?email={email}", stringContentUpdateUser);
             var content = await responseUpdateUer.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<APIResponse>(content);

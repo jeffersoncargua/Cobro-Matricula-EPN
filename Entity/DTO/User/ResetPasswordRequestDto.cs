@@ -21,7 +21,7 @@ namespace Entity.DTO.User
         public string Password { get; set; }
         
         [Required]
-        [Compare("Password",ErrorMessage = "Las contraseñas no coinciden")]
+        [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
         public string ConfirmPassword { get; set; }
 
         [Required]

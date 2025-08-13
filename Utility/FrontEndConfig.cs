@@ -8,6 +8,6 @@ namespace Utility
 {
     public class FrontEndConfig
     {
-       public string Url {  get; set; }
+        public string Url { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.UserRepositoryTest
     {
 
         [Theory]
-        [InlineData("Jeff", "Cargua", "jeffersoncargua@gmail.com", "Quito", "0987654321", "UserAdmin1!", "UserAdmin1!","Assitant", "Registro Exitoso", true)]
+        [InlineData("Jeff", "Cargua", "jeffersoncargua@gmail.com", "Quito", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assitant", "Registro Exitoso", true)]
         public async Task RegistrationUser_WhenSendCorrectRegistrationRequestDto(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role, string expectedMessage, bool expectedResponse)
         {
             //Arrange

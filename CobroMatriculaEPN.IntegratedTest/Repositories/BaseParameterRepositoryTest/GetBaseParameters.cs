@@ -7,7 +7,6 @@ using Cobro_Matricula_EPN.Repository;
 namespace CobroMatriculaEPN.IntegratedTest.Repositories.BaseParameterRepositoryTest
 {
     [Collection("My Collection")]
-    
     public class GetBaseParameters
     {
         private SharedDatabaseFixture Fixture { get; }
