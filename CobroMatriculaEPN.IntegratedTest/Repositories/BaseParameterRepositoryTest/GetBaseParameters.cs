@@ -6,17 +6,15 @@ using Cobro_Matricula_EPN.Repository;
 
 namespace CobroMatriculaEPN.IntegratedTest.Repositories.BaseParameterRepositoryTest
 {
-    
-    
-    
     [Collection("My Collection")]
+    
     public class GetBaseParameters
     {
         private SharedDatabaseFixture Fixture { get; }
         private readonly IConfigurationProvider _configuration;
         private readonly IMapper _mapper;
 
-        public GetBaseParameters( SharedDatabaseFixture fixture)
+        public GetBaseParameters(SharedDatabaseFixture fixture)
         {
             Fixture = fixture;
             _configuration = new MapperConfiguration(cfg =>

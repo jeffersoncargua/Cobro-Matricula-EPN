@@ -20,8 +20,8 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.UserRepositoryTest
     {
 
         [Theory]
-        [InlineData("Jeff","Cargua","jeffersoncargua@gmail.com","Quito","0987654321","UserAdmin1!", "UserAdmin1!","Assitant", "Registro Exitoso", true)]
-        public  async Task RegistrationUser_WhenSendCorrectRegistrationRequestDto(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role, string expectedMessage, bool expectedResponse)
+        [InlineData("Jeff", "Cargua", "jeffersoncargua@gmail.com", "Quito", "0987654321", "UserAdmin1!", "UserAdmin1!","Assitant", "Registro Exitoso", true)]
+        public async Task RegistrationUser_WhenSendCorrectRegistrationRequestDto(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role, string expectedMessage, bool expectedResponse)
         {
             //Arrange
             RegistrationRequestDto registrationRequestDto = new()
@@ -49,16 +49,16 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.UserRepositoryTest
             var response = await repository.Register(registrationRequestDto);
 
             //Assert
-            Assert.Equal(expectedResponse,response.Success);
+            Assert.Equal(expectedResponse, response.Success);
             Assert.Equal(expectedMessage, response.MessageResponse[0]);
         }
 
 
         [Theory]
-        [InlineData("Jeff", "Cargua", "jeffersoncargua@gmail.com", "Quito", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assitant", "Ya existe un registro con ese correo", true,true)]
-        [InlineData("Jeff", "Cargua", "jeffersoncargua@gmail.com", "Quito", "0987654321", "UserAdmin1!", "UserAdmin1!", "Costumer", "No existe el rol",false,false)]
+        [InlineData("Jeff", "Cargua", "jeffersoncargua@gmail.com", "Quito", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assitant", "Ya existe un registro con ese correo", true, true)]
+        [InlineData("Jeff", "Cargua", "jeffersoncargua@gmail.com", "Quito", "0987654321", "UserAdmin1!", "UserAdmin1!", "Costumer", "No existe el rol", false, false)]
         [InlineData("Jeff", "Cargua", "jeffersoncargua@gmail.com", "Quito", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assitant", "Se ha lanzado una excepcion", false, true)]
-        public async Task RegistrationUser_WhenUserExistOrRoleDoesntExist_ReturnSuccessFalse(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role,string expectedMessage, bool userExist, bool expectedRole)
+        public async Task RegistrationUser_WhenUserExistOrRoleDoesntExist_ReturnSuccessFalse(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role, string expectedMessage, bool userExist, bool expectedRole)
         {
             //Arrange
             RegistrationRequestDto registrationRequestDto = new()
@@ -83,7 +83,7 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.UserRepositoryTest
             };
 
             //Permite simular si el usuario existe o no y retorna un ApplicationUser o null
-            _mockUserManager.Setup(x => x.FindByEmailAsync(email)).ReturnsAsync(userExist ? user: null);
+            _mockUserManager.Setup(x => x.FindByEmailAsync(email)).ReturnsAsync(userExist ? user : null);
             //Permite simular que el rol no existe y retorna un false
             _mockRoleManager.Setup(x => x.RoleExistsAsync(role)).ReturnsAsync(expectedRole);
 

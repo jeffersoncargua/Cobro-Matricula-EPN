@@ -32,7 +32,7 @@ namespace Cobro_Matricula_EPN.Controllers
         /// </summary>
         /// <param name="id">Es el identificador de los parametros base.</param>
         /// <returns>Retorna un statusCode de 200 y la informacion de los parametros base, caso contrario retorna un statusCode de 400.</returns>
-        [HttpGet("GetParameters/{id:int}", Name ="GetParameters")]
+        [HttpGet("GetParameters/{id:int}", Name = "GetParameters")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

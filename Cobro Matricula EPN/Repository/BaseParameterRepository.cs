@@ -15,7 +15,7 @@ namespace Cobro_Matricula_EPN.Repository
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
-
+        
         public BaseParameterRepository(ApplicationDbContext db, IMapper mapper) 
             : base(db)
         {

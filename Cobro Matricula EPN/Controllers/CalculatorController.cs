@@ -19,7 +19,7 @@ namespace Cobro_Matricula_EPN.Controllers
         public CalculatorController(ICalculatorRepository calculatorRepository)
         {
             _calculatorRepository = calculatorRepository;
-            this._response = new ();
+            this._response = new();
         }
 
         [HttpPost("CalculatorPay")]

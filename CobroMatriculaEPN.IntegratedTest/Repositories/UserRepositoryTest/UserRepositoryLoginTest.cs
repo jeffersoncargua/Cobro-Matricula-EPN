@@ -13,7 +13,7 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.UserRepositoryTest
     public class UserRepositoryLoginTest : UserMockSetup
     {
         [Theory]
-        [InlineData("jeffersoncargua@gmail.com","UserAdmin1!","Assistant")]
+        [InlineData("jeffersoncargua@gmail.com", "UserAdmin1!", "Assistant")]
         public async Task Login_WhenSendCorrectRequest_ReturnLoginResponse(string email, string password, string role)
         {
             //Arrange
@@ -49,10 +49,10 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.UserRepositoryTest
         }
 
         [Theory]
-        [InlineData("jeffersoncargua@gmail.com", "UserAdmin1!", "El usuario no esta registrado o el correo es incorrecto",false,false,false)]
+        [InlineData("jeffersoncargua@gmail.com", "UserAdmin1!", "El usuario no esta registrado o el correo es incorrecto", false, false, false)]
         [InlineData("jeffersoncargua@gmail.com", "UserAdmin1!", "El usuario no ha verificado su cuenta. Revise su correo para confirmar su cuenta antes de realizar el login", true, false, false)]
         [InlineData("jeffersoncargua@gmail.com", "UserAdmin1!", "La contraseña esta incorrecta", true, true, false)]
-        public async Task Login_WhenUserDoesntExistOrSendIncorrectPassword_ReturnLoginResponseDtoWithUserNull(string email, string password, string expectedMessage, bool userExist,bool isEmailConfirm, bool isCheckPasswordValid)
+        public async Task Login_WhenUserDoesntExistOrSendIncorrectPassword_ReturnLoginResponseDtoWithUserNull(string email, string password, string expectedMessage, bool userExist, bool isEmailConfirm, bool isCheckPasswordValid)
         {
             //Arrange
             LoginRequestDto loginRequestDto = new()
@@ -70,9 +70,9 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.UserRepositoryTest
                 Email = email
             };
 
-            _mockUserManager.Setup(x => x.FindByEmailAsync(email)).ReturnsAsync(userExist ? user:null);
+            _mockUserManager.Setup(x => x.FindByEmailAsync(email)).ReturnsAsync(userExist ? user : null);
             _mockUserManager.Setup(x => x.IsEmailConfirmedAsync(It.IsAny<ApplicationUser>())).ReturnsAsync(isEmailConfirm);
-            _mockUserManager.Setup(x => x.CheckPasswordAsync(It.IsAny<ApplicationUser>(),It.IsAny<string>())).ReturnsAsync(isCheckPasswordValid);
+            _mockUserManager.Setup(x => x.CheckPasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>())).ReturnsAsync(isCheckPasswordValid);
 
             //Act
             var response = await repository.Login(loginRequestDto);

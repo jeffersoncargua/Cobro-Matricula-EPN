@@ -25,7 +25,7 @@ namespace CobroMatriculaEPN.IntegratedTest
 
         public DbConnection Connection { get; }
 
-        public ApplicationDbContext CreateContext(DbTransaction? transaction=null)
+        public ApplicationDbContext CreateContext(DbTransaction? transaction = null)
         {
             var context = new ApplicationDbContext(new DbContextOptionsBuilder<ApplicationDbContext>().UseSqlite(Connection).Options);
 
@@ -43,7 +43,7 @@ namespace CobroMatriculaEPN.IntegratedTest
             {
                 if (!_databaseInitialized)
                 {
-                    using(var context = CreateContext())
+                    using (var context = CreateContext())
                     {
                         context.Database.EnsureDeleted();
                         context.Database.EnsureCreated();

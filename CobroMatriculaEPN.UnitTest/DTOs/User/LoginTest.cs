@@ -11,7 +11,7 @@ namespace CobroMatriculaEPN.UnitTest.DTOs.User
     {
         [Theory]
         [InlineData("Hola@", "", 3)]
-        [InlineData("Hola@gmail","juan12",1)]
+        [InlineData("Hola@gmail", "juan12", 1)]
         [InlineData("Hola@gmail", "", 2)]
         [InlineData("Hola@gmail.", "Juan1234!", 1)]
         [InlineData("Hola@gmail.net", "Juan1234!", 0)]

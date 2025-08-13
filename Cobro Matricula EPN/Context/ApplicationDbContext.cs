@@ -13,7 +13,7 @@ namespace Cobro_Matricula_EPN.Context
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> option) 
             : base(option)
-        { 
+        {
         }
 
         //public DbSet<User> Users { get; set; }

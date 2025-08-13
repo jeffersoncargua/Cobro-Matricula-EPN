@@ -17,6 +17,7 @@ namespace CobroMatriculaEPN.SharedDatabaseSetup
     {
         public static void SeedData(ApplicationDbContext context) 
         {
+            
             //Generar roles de usuario
             context.Roles.RemoveRange(context.Roles);
             context.SaveChanges();

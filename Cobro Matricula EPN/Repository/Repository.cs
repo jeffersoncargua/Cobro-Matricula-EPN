@@ -14,7 +14,7 @@ namespace Cobro_Matricula_EPN.Repository
     {
         private readonly ApplicationDbContext _db;
         internal DbSet<T> dbSet;
-
+        
         public Repository(ApplicationDbContext db) 
         {
             _db = db;
@@ -45,7 +45,7 @@ namespace Cobro_Matricula_EPN.Repository
                 query = query.Where(filter);
             }
 
-            return query.FirstOrDefaultAsync() !;
+            return query.FirstOrDefaultAsync()!;
         }
 
         public async Task Save()

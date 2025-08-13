@@ -11,7 +11,6 @@ using Utility;
 
 namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTest
 {
-    
     public class BaseParameterControllerTest : BaseControllerTest
     {
         public BaseParameterControllerTest(CustomWebApplicationFactory<Program> factory) : base(factory)
@@ -20,8 +19,8 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
         }
 
         [Theory]
-        [InlineData("exampleEighteenName", "exampleLastEighteenName", "exampleEighteen@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null,1)]
-        [InlineData("exampleSevenTeenName", "exampleLastSevenTeenName", "exampleSevenTeen@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Admin",2)]
+        [InlineData("exampleEighteenName", "exampleLastEighteenName", "exampleEighteen@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null, 1)]
+        [InlineData("exampleSevenTeenName", "exampleLastSevenTeenName", "exampleSevenTeen@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Admin", 2)]
         public async Task GetParameters_WhenParameterIdExist_ReturnStatusCodeOk(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role, int parameterId)
         {
             //Arrange
@@ -39,9 +38,9 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
                 Role = role
             };
 
-            var stringContentRegister = new StringContent(JsonConvert.SerializeObject(registrationRequest), Encoding.UTF8,"application/json");
+            var stringContentRegister = new StringContent(JsonConvert.SerializeObject(registrationRequest), Encoding.UTF8, "application/json");
 
-            LoginRequestDto loginRequest = new()
+            LoginRequestDto loginRequest = new ()
             {
                 Email = email,
                 Password = password
@@ -189,8 +188,8 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
         /// <param name="numberOfAdmin"></param>
         /// <returns></returns>
         [Theory]
-        [InlineData(1, "Otra Formacion Academica",3350.54f,725,25,0.56f,0.11f,0.51f,0.11f,0.53f,0.30f,0.26f,0.26f,0.16f,0.22f, "Admin",1)]
-        [InlineData(1, "Otra Formacion Academica 2", 3360f, 725, 25, 0.56f, 0.12f, 0.53f, 0.11f, 0.56f, 0.30f, 0.26f, 0.26f, 0.16f, 0.22f, "Admin",2)]
+        [InlineData(1, "Otra Formacion Academica", 3350.54f, 725, 25, 0.56f, 0.11f, 0.51f, 0.11f, 0.53f, 0.30f, 0.26f, 0.26f, 0.16f, 0.22f, "Admin", 1)]
+        [InlineData(1, "Otra Formacion Academica 2", 3360f, 725, 25, 0.56f, 0.12f, 0.53f, 0.11f, 0.56f, 0.30f, 0.26f, 0.26f, 0.16f, 0.22f, "Admin", 2)]
         public async Task UpdateParameters_WhenSendCorrectRequest_ReturnStatusCodeOk(int id, string formacionAcademica, float costoOptimo, int horaPeriodoAcademico, int creditoPeriodoAcademico, float porcentajeCostoOptimoAnual, float porcentajeValorMin, float porcentajeValorMax, float porcentajeValorArancel, float porcentajePromedioAcademico, float porcentajePerdidaTemporal, float porcentajeMatriculaExtraordinario, float porcentajeMatriculaEspecial, float porcentajeRecargoSegunda, float porcentajeRecargoTercera, string role, int numberOfAdmin)
         {
             //Arrange
@@ -234,7 +233,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
                 PorcentajeMatriculaEspecial = porcentajeMatriculaEspecial,
                 PorcentajeMatriculaExtraordinario = porcentajeMatriculaExtraordinario,
                 PorcentajeRecargoSegunda = porcentajeRecargoSegunda,
-                PorcentajeRecargoTercera= porcentajeRecargoTercera
+                PorcentajeRecargoTercera= porcentajeRecargoTercera,
             };
 
             var stringContent = new StringContent(JsonConvert.SerializeObject(requestDto), Encoding.UTF8, "application/json");
@@ -244,7 +243,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
 
             //1. Register User
 
-            var apiResponseRegister = await client.PostAsync("/api/User/Registration",stringContentRegister);
+            var apiResponseRegister = await client.PostAsync("/api/User/Registration", stringContentRegister);
             apiResponseRegister.EnsureSuccessStatusCode();
             var contentRegister = await apiResponseRegister.Content.ReadAsStringAsync();
             var resultRegister = JsonConvert.DeserializeObject<APIResponse>(contentRegister);
@@ -266,8 +265,8 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.BaseParameterControllerTes
 
 
             //4. Update Base Parameters
-            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",token);
-            var apiUpdateResponse = await client.PutAsync($"/api/BaseParameter/UpdateParameters/{id}",stringContent);
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            var apiUpdateResponse = await client.PutAsync($"/api/BaseParameter/UpdateParameters/{id}", stringContent);
             apiUpdateResponse.EnsureSuccessStatusCode();
             var contentUpdateParameters = await apiUpdateResponse.Content.ReadAsStringAsync();
             var resultUpdateParameters = JsonConvert.DeserializeObject<APIResponse>(contentUpdateParameters);

@@ -7,12 +7,10 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories
 {
     public class EmailRepositoryTest
     {
-        
         private readonly EmailConfiguration _emailConfiguration;
 
         public EmailRepositoryTest()
         {
-
             _emailConfiguration = new EmailConfiguration()
             {
                 From = "jeffersoncargua@gmail.com",
@@ -21,12 +19,11 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories
                 UserName = "jeffersoncargua@gmail.com",
                 Password = "vwid cozg ugqv dvog"
             };
-
         }
 
 
         [Theory]
-        [InlineData("jeffersoncargua@gmail.com","Es una prueba","Soy el cuerpo de la prueba")]
+        [InlineData("jeffersoncargua@gmail.com", "Es una prueba", "Soy el cuerpo de la prueba")]
         public void SendEmail_ValidMessage(string to, string subject, string body)
         {
             //Arrange

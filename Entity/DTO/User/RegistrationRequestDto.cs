@@ -9,7 +9,7 @@ namespace Entity.DTO.User
 {
     public class RegistrationRequestDto
     {
-        [Required(ErrorMessage ="El nombre es requerido")]
+        [Required(ErrorMessage = "El nombre es requerido")]
 
         [RegularExpression(@"^[a-zA-Z\s]{2,30}$", ErrorMessage = "El nombre no debe contener más de 30 caracteres y debe ser alfabeticos")]
         public string Name { get; set; }
@@ -21,7 +21,7 @@ namespace Entity.DTO.User
         [Required(ErrorMessage = "El correo es requerido")]
         [DataType(DataType.EmailAddress)]
         [EmailAddress]
-        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",ErrorMessage = "El correo no tiene el formato adecuado")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "El correo no tiene el formato adecuado")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "La ciudad en la que reside es requerida")]
@@ -29,7 +29,7 @@ namespace Entity.DTO.User
         public string City { get; set; }
 
         [Required(ErrorMessage = "El teléfono es requerido")]
-        [RegularExpression(@"^[0-9]{10}",ErrorMessage ="El telefono debe contener 10 caracteres numericos")]
+        [RegularExpression(@"^[0-9]{10}", ErrorMessage = "El telefono debe contener 10 caracteres numericos")]
         [DataType(DataType.PhoneNumber)]
         public string Phone { get; set; }
 
@@ -39,10 +39,8 @@ namespace Entity.DTO.User
         public string Password { get; set; }
 
         [Required(ErrorMessage = "La confirmación de la contraseña es requerida")]
-        [Compare("Password",ErrorMessage ="Las contraseñas no coinciden")]
+        [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
         public string ConfirmPass { get; set; }
-      
         public string? Role { get; set; } 
-
     }
 }

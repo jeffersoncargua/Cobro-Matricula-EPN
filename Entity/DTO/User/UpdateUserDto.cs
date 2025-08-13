@@ -21,7 +21,7 @@ namespace Entity.DTO.User
         public string City { get; set; }
 
         [Required]
-        [RegularExpression(@"^[0-9]{10}", ErrorMessage ="El numero de telefono debe cumplir con el formato de diez digitos")]
+        [RegularExpression(@"^[0-9]{10}", ErrorMessage = "El numero de telefono debe cumplir con el formato de diez digitos")]
         public string Phone { get; set; }
 
         [Required]

@@ -19,7 +19,7 @@ using Utility;
 
 namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 {
-    public class UserControllerTest 
+    public class UserControllerTest
     {
         private readonly IConfigurationProvider _configuration;
         private readonly Mock<IUserRepository> _mockUserRepository;
@@ -29,7 +29,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         private readonly MockHttpMessageHandler _mockHttp;
         public UserControllerTest()
         {
-            _configuration = new MapperConfiguration( cfg =>
+            _configuration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<MappingConfig>();
             });
@@ -51,7 +51,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         }
 
         [Theory]
-        [InlineData("example@gmail.com","UserAdmin1!")]
+        [InlineData("example@gmail.com", "UserAdmin1!")]
         public async Task Login_WhenSendCorrectCredentials_ReturnOk(string email, string password)
         {
             //Arrange
@@ -68,11 +68,11 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
                 Message = "Login exitoso",
             };
 
-            var stringContent = new StringContent((JsonConvert.SerializeObject(loginRequestDto)),Encoding.UTF8, "application/json");
+            var stringContent = new StringContent((JsonConvert.SerializeObject(loginRequestDto)), Encoding.UTF8, "application/json");
 
             _mockHttp.When("https://localhost:7156/api/User/Login")
                 .WithContent(JsonConvert.SerializeObject(loginRequestDto))
-                .Respond("application/json",JsonConvert.SerializeObject(loginResponseDto));
+                .Respond("application/json", JsonConvert.SerializeObject(loginResponseDto));
 
             var client = _mockHttp.ToHttpClient();
 
@@ -90,7 +90,8 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var apiResponse = await controller.Login(loginRequestDto);
             var response = apiResponse.Result as ObjectResult;
             var response2 = response!.Value as APIResponse;
-            var result2 = response2!.Result as LoginResponseDto; 
+            var result2 = response2!.Result as LoginResponseDto;
+            
             var statusCode2 = (HttpStatusCode)response.StatusCode!;
 
             //Assert
@@ -124,7 +125,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             _mockHttp.When("https://localhost:7156/api/User/Login")
                 .WithContent(JsonConvert.SerializeObject(loginRequestDto))
-                .Respond(HttpStatusCode.BadRequest,"application/json", JsonConvert.SerializeObject(loginResponseDto));
+                .Respond(HttpStatusCode.BadRequest, "application/json", JsonConvert.SerializeObject(loginResponseDto));
 
             var client = _mockHttp.ToHttpClient();
 
@@ -198,7 +199,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         //}
 
         [Theory]
-        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity","0987654321","UserAdmin1!", "UserAdmin1!", "Assitant")]
+        [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", "Assitant")]
         public async Task Register_WhenSendCorrectRequest_ReturnStatusCodeCreated(string name, string lastName, string email, string city, string phone, string password, string confirmPass, string role)
         {
             //Arrange
@@ -235,7 +236,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             _mockHttp.When("https://localhost:7156/api/User/Registration")
                 .WithContent(JsonConvert.SerializeObject(registrationRequestDto))
-                .Respond("application/json",JsonConvert.SerializeObject(aPIResponse));
+                .Respond("application/json", JsonConvert.SerializeObject(aPIResponse));
 
             _mockUserRepository.Setup(x => x.Register(It.IsAny<RegistrationRequestDto>())).ReturnsAsync(registerResponseDto);
 
@@ -296,20 +297,19 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
                 Result = null
             };
 
-            var stringContent = new StringContent(JsonConvert.SerializeObject(registrationRequestDto),Encoding.UTF8,"application/json");
+            var stringContent = new StringContent(JsonConvert.SerializeObject(registrationRequestDto), Encoding.UTF8, "application/json");
 
             _mockHttp.When("https://localhost:7156/api/User/Registration")
                 .WithContent(JsonConvert.SerializeObject(registrationRequestDto))
-                .Respond(HttpStatusCode.BadRequest,"aplication/json",JsonConvert.SerializeObject(aPIResponse));
+                .Respond(HttpStatusCode.BadRequest, "aplication/json", JsonConvert.SerializeObject(aPIResponse));
 
             var client = _mockHttp.ToHttpClient();
-            
             _mockUserRepository.Setup(x => x.Register(It.IsAny<RegistrationRequestDto>())).ReturnsAsync(registerResponseDto);
 
             var controller = new UserController(_mockUserRepository.Object);
 
             //Act
-            var clientResponse = await client.PostAsync("https://localhost:7156/api/User/Registration",stringContent);
+            var clientResponse = await client.PostAsync("https://localhost:7156/api/User/Registration", stringContent);
 
             var content = await clientResponse.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<APIResponse>(content);
@@ -342,7 +342,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             };
 
             _mockHttp.When($"https://localhost:7156/api/User/ConfirmEmail?token={token}&email={email}")
-                .Respond("application/json",JsonConvert.SerializeObject(aPIResponse));
+                .Respond("application/json", JsonConvert.SerializeObject(aPIResponse));
 
             var client = _mockHttp.ToHttpClient();
 
@@ -358,7 +358,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var result = JsonConvert.DeserializeObject<APIResponse>(content);
             var statusCode = clientResponse.StatusCode;
 
-            var response = await controller.ConfirmEmail(token,email);
+            var response = await controller.ConfirmEmail(token, email);
             var result2 = response.Result as ObjectResult;
             var resultContent = result2!.Value as APIResponse;
             var statusCode2 = (HttpStatusCode)result2.StatusCode!;
@@ -383,7 +383,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             };
 
             _mockHttp.When($"https://localhost:7156/api/User/ConfirmEmail")
-                .Respond(HttpStatusCode.BadRequest,"application/json",JsonConvert.SerializeObject(aPIResponse));
+                .Respond(HttpStatusCode.BadRequest, "application/json", JsonConvert.SerializeObject(aPIResponse));
             var client = _mockHttp.ToHttpClient();
 
             _mockUserRepository.Setup(x => x.ConfirmEmailAsync(null, null)).ReturnsAsync(false);
@@ -431,7 +431,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             _mockHttp.When("https://localhost:7156/api/User/ForgetPassword")
                 .WithContent(JsonConvert.SerializeObject(email))
-                .Respond("application/json",JsonConvert.SerializeObject(aPIResponse));
+                .Respond("application/json", JsonConvert.SerializeObject(aPIResponse));
 
             var client = _mockHttp.ToHttpClient();
 
@@ -439,7 +439,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var controller = new UserController(_mockUserRepository.Object);
 
             //Act
-            var clientResponse = await client.PostAsync("https://localhost:7156/api/User/ForgetPassword",stringContent);
+            var clientResponse = await client.PostAsync("https://localhost:7156/api/User/ForgetPassword", stringContent);
             clientResponse.EnsureSuccessStatusCode();
             var content = await clientResponse.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<APIResponse>(content);
@@ -460,9 +460,9 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
 
         [Theory]
-        [InlineData("exampleError@gmail.com","El usuario no ha confirmado su cuenta. Por favor revise su correo para verificar la cuenta")]
+        [InlineData("exampleError@gmail.com", "El usuario no ha confirmado su cuenta. Por favor revise su correo para verificar la cuenta")]
         [InlineData("exampleError@gmail.com", "El usuario no se encuentra registrado")]
-        public async Task ForgetPassword_WhenUserDoesntExist_ReturnStatusCodeBadRequest(string email,string expecteMessage)
+        public async Task ForgetPassword_WhenUserDoesntExist_ReturnStatusCodeBadRequest(string email, string expecteMessage)
         {
             //Arrange
             APIResponse aPIResponse = new()
@@ -473,16 +473,17 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
                 Result = null
             };
 
-            ForgetResponseDto forgetResponseDto = new(){
+            ForgetResponseDto forgetResponseDto = new ()
+            {
                 Success = false,
                 Message = expecteMessage
             };
 
-            var stringContent = new StringContent(JsonConvert.SerializeObject(email), Encoding.UTF8,"application/json");
+            var stringContent = new StringContent(JsonConvert.SerializeObject(email), Encoding.UTF8, "application/json");
 
             _mockHttp.When("https://localhost:7156/api/User/ForgetPassword")
                 .WithContent(JsonConvert.SerializeObject(email))
-                .Respond(HttpStatusCode.BadRequest,"application/json", JsonConvert.SerializeObject(aPIResponse));
+                .Respond(HttpStatusCode.BadRequest, "application/json", JsonConvert.SerializeObject(aPIResponse));
 
             var client = _mockHttp.ToHttpClient();
 
@@ -490,8 +491,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var controller = new UserController(_mockUserRepository.Object);
 
             //Act
-            var clientResponse = await client.PostAsync("https://localhost:7156/api/User/ForgetPassword",stringContent);
-
+            var clientResponse = await client.PostAsync("https://localhost:7156/api/User/ForgetPassword", stringContent);
             var content = await clientResponse.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<APIResponse>(content);
             var statusCode = clientResponse.StatusCode;
@@ -510,7 +510,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
 
         [Theory]
-        [InlineData("expample@gmail.com","userAdmin1!", "userAdmin1!","Aqui va el token")]
+        [InlineData("expample@gmail.com", "userAdmin1!", "userAdmin1!", "Aqui va el token")]
         public async Task ResetPasword_WhenSendCorrectRequest_RetunrStatusCodeOK(string email, string password, string confirmPassword, string token)
         {
             //Arrange
@@ -540,7 +540,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             _mockHttp.When("https://localhost:7156/api/User/ResetPassword")
                 .WithContent(JsonConvert.SerializeObject(resetPasswordRequest))
-                .Respond("application/json",JsonConvert.SerializeObject(aPIResponse));
+                .Respond("application/json", JsonConvert.SerializeObject(aPIResponse));
 
             var client = _mockHttp.ToHttpClient();
 
@@ -549,7 +549,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var controller = new UserController(_mockUserRepository.Object);
 
             //Act
-            var clientResponse = await client.PostAsync("https://localhost:7156/api/User/ResetPassword",stringContent);
+            var clientResponse = await client.PostAsync("https://localhost:7156/api/User/ResetPassword", stringContent);
             clientResponse.EnsureSuccessStatusCode();
             var content = await clientResponse.Content.ReadAsStringAsync();
             var result = JsonConvert.DeserializeObject<APIResponse>(content);
@@ -562,7 +562,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
 
             //Assert
-            Assert.Equal(statusCode,statusCode2);
+            Assert.Equal(statusCode, statusCode2);
             Assert.Equal(result!.Message, resultContent!.Message);
             Assert.Equal(result.IsSuccess, resultContent.IsSuccess);
 
@@ -600,7 +600,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             _mockHttp.When("https://localhost:7156/api/User/ResetPassword")
                 .WithContent(JsonConvert.SerializeObject(resetPasswordRequest))
-                .Respond(HttpStatusCode.BadRequest,"application/json", JsonConvert.SerializeObject(aPIResponse));
+                .Respond(HttpStatusCode.BadRequest, "application/json", JsonConvert.SerializeObject(aPIResponse));
 
             var client = _mockHttp.ToHttpClient();
 

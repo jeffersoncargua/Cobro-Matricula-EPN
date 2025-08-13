@@ -10,8 +10,8 @@ namespace CobroMatriculaEPN.UnitTest.DTOs.User
     public class UserUpdatedTest : BaseTest
     {
         [Theory]
-        [InlineData(null,null,null,null,null,5)]
-        [InlineData("2","a","","sldkf23","hola",6)]
+        [InlineData(null, null, null, null, null, 5)]
+        [InlineData("2", "a", "", "sldkf23", "hola", 6)]
         [InlineData("Aby", "Samantha", "Quito 593", "098765432", "hola@gmail", 2)]
         [InlineData("Aby", "Samantha", "Quito 593", "0987654321", "hola@gmail.com", 0)]
         public void ValidDto_UserUpdatedtDto_ReturnCorrectNumberOfErrors(string name, string lastName, string city, string phone, string email, int errorsExpected)

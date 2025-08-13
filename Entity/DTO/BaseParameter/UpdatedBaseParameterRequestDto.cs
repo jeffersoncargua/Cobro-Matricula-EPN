@@ -11,8 +11,8 @@ namespace Entity.DTO.BaseParameter
     {
         public int Id { get; set; }
         public string FormacionAcademica { get; set; }
-        [Required(ErrorMessage ="El campo del costo óptimo es requerido")]
-        [Range(0f,10000f , ErrorMessage = "Debe ser un numero decimal entre 0 y 10000")]
+        [Required(ErrorMessage = "El campo del costo óptimo es requerido")]
+        [Range(0f, 10000f, ErrorMessage = "Debe ser un numero decimal entre 0 y 10000")]
         //[RegularExpression(@"^(10000(\.0+)?|[0-9]{1,4}(\.[0-9]+)?)$", ErrorMessage = "Debe ser un numero decimal entre 0 y 10000")]
         public float CostoOptimo { get; set; }
 

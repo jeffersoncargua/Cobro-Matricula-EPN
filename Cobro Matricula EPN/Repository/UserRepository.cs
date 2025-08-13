@@ -48,7 +48,7 @@ namespace Cobro_Matricula_EPN.Repository
             _emailRepo = emailRepo;
             _userManager = userManager;
             _roleManager = roleManager;
-            this.secretKey = config.GetValue<string>("APISettings:SecretKey") !; // El "!" indica que asegura que el valor no es null
+            this.secretKey = config.GetValue<string>("APISettings:SecretKey")!; // El "!" indica que asegura que el valor no es null
             _frontConfig = frontConfig;
         }
 
@@ -60,7 +60,7 @@ namespace Cobro_Matricula_EPN.Repository
         /// <returns> Retorna true si existe el usuario y se confirma el token de validacion, caso contrario retorna false, considerando si se envian valores nulos o que no existan en los registros.</returns>
         public async Task<bool> ConfirmEmailAsync(string email, string token)
         {
-            if(string.IsNullOrEmpty(token) || string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(token) || string.IsNullOrEmpty(email))
             {
                 return false;
             }
@@ -136,6 +136,7 @@ namespace Cobro_Matricula_EPN.Repository
         public async Task<bool> IsConfirmEmail(string email)
         {
             var userExist = await _userManager.FindByEmailAsync(email);
+            
             if (userExist == null) 
             {
                 return false;
@@ -256,6 +257,7 @@ namespace Cobro_Matricula_EPN.Repository
                 //var registration = _mapper.Map<User>(registrationRequestDto);
 
                 bool isUnique = await IsUnique(registrationRequestDto.Email);
+                
                 if (!isUnique) 
                 {
                     return new RegisterResponseDto()
@@ -276,7 +278,7 @@ namespace Cobro_Matricula_EPN.Repository
                 if (roleExist)
                 {
                     //ApplicationUser no se puede mapear ya que no es permitido que queden campos vacios 
-                    ApplicationUser user = new ()
+                    ApplicationUser user = new()
                     {
                         Name = registrationRequestDto.Name,
                         LastName = registrationRequestDto.LastName,
@@ -290,10 +292,10 @@ namespace Cobro_Matricula_EPN.Repository
                     };
 
                     IdentityResult result = await _userManager.CreateAsync(user, registrationRequestDto.Password);
-                    
+
                     if (!result.Succeeded)
                     {
-                        List<string> errorsIdentity = new ();
+                        List<string> errorsIdentity = new();
                         foreach (var error in result.Errors)
                         {
                             errorsIdentity.Add(error.Description);
@@ -358,6 +360,7 @@ namespace Cobro_Matricula_EPN.Repository
                 var result = await _userManager.DeleteAsync(userExist);
                 
                 //await Save();
+
                 if (result.Succeeded)
                 {
                     return true;
@@ -381,7 +384,7 @@ namespace Cobro_Matricula_EPN.Repository
             var userExist = await _userManager.FindByEmailAsync(resetPasswordRequestDto.Email);
             if (userExist == null)
             {
-                return new ResetPasswordResponseDto() 
+                return new ResetPasswordResponseDto()
                 { 
                     Success = false,
                     Message = "El usuario no se encuentra registrado",
@@ -443,14 +446,15 @@ namespace Cobro_Matricula_EPN.Repository
             if (result.Succeeded)
             {
                 //return _mapper.Map<UserDto>(userUpdated);
-                return new UpdateUserResponseDto() 
+                
+                return new UpdateUserResponseDto()
                 { 
                     Success = true,
-                    Message = "Su información ha sido actualizada", 
+                    Message = "Su información ha sido actualizada",
                     User = _mapper.Map<UserDto>(userUpdated), 
                 };
             }
-
+            
             return new UpdateUserResponseDto() 
             {
                 Success = false,

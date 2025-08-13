@@ -23,10 +23,8 @@ namespace Utility
             }
             catch (Exception)
             {
-
                 throw new Exception();
             }
-            
         }
     }
 }

@@ -13,7 +13,7 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.UserRepositoryTest
     public class UserRepositoryUpdatedUserTest : UserMockSetup
     {
         [Theory]
-        [InlineData("newName", "newLastName", "newCity","0987654321","newEmail@gmail.com")]
+        [InlineData("newName", "newLastName", "newCity", "0987654321", "newEmail@gmail.com")]
         public async Task UpdatedUser_WhenSendCorrectRequest_ReturnUserDto(string name, string lastName, string city, string phone, string email)
         {
             //Arrange
@@ -39,14 +39,14 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.UserRepositoryTest
             _mockUserManager.Setup(x => x.UpdateAsync(It.IsAny<ApplicationUser>())).Returns(Task.FromResult(IdentityResult.Success));
 
             //Act
-            var response = await repository.UpdateUserAsync(updateUserDto,email);
+            var response = await repository.UpdateUserAsync(updateUserDto, email);
 
             //Assert
             Assert.IsType<UpdateUserResponseDto>(response);
         }
 
         [Theory]
-        [InlineData("newName", "newLastName", "newCity", "0987654321", "newEmail@gmail.com",false)]
+        [InlineData("newName", "newLastName", "newCity", "0987654321", "newEmail@gmail.com", false)]
         [InlineData("newName", "newLastName", "newCity", "0987654321", "newEmail@gmail.com", true)]
         public async Task UpdateUser_WhenUserDoesntExistOrUpdatedFail(string name, string lastName, string city, string phone, string email, bool userExist)
         {
@@ -69,11 +69,11 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.UserRepositoryTest
                 Phone = phone,
             };
 
-            _mockUserManager.Setup(x => x.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync(userExist ? user: null);
+            _mockUserManager.Setup(x => x.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync(userExist ? user : null);
             _mockUserManager.Setup(x => x.UpdateAsync(It.IsAny<ApplicationUser>())).Returns(Task.FromResult(IdentityResult.Failed()));
 
             //Act
-            var response = await repository.UpdateUserAsync(updateUserDto,email);
+            var response = await repository.UpdateUserAsync(updateUserDto, email);
 
             //Assert
             Assert.Null(response.User);

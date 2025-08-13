@@ -13,8 +13,8 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.UserRepositoryTest
     public class UserRepositoryResetPasswordTest : UserMockSetup
     {
         [Theory]
-        [InlineData("example@gmail.com","UserAdmin1!","UserAdmin1!","Aqui va el token")]
-        public async Task ResetPassword_WhenSendCorrectRequest_ReturnCorrectResetResponse(string email,string password, string confirmPass, string token)
+        [InlineData("example@gmail.com", "UserAdmin1!", "UserAdmin1!", "Aqui va el token")]
+        public async Task ResetPassword_WhenSendCorrectRequest_ReturnCorrectResetResponse(string email, string password, string confirmPass, string token)
         {
             //Arrange
             ResetPasswordRequestDto resetPasswordRequestDto = new()
@@ -52,7 +52,7 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.UserRepositoryTest
         }
 
         [Theory]
-        [InlineData(false , "El usuario no se encuentra registrado")]
+        [InlineData(false, "El usuario no se encuentra registrado")]
         [InlineData(true, "Ha ocurrido un error al cambiar su contraseña. Intentelo nuevamente")]
         public async Task ResetPassword_WhenUserDoesntExistOrResetFailed_ReturnSuccessEqualFalse(bool userExist, string expectedMessage)
         {
