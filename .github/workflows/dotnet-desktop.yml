@@ -16,32 +16,7 @@ permissions: # Estos son los permisos que se necesitan para poder publicar los r
 # ejecutará el codigo, restaurará las dependencias y correra las pruebas para 
 # tener todo listo para la publicacion y el despliegue del proyecto
 jobs:
-  lint:
-    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
-                           # para la publicacion y el despliegue
-
-    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
-    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
-    steps:
-      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
-      #En esta seccion se realizara la verificacion de la calidad del codigo por lo que se debe instalar el paquete SonarAnalyzer.CSharp desde el package Nuget
-      - name: Run SonarAnalyzer # Esto permite correr el SonarAnalyzer para verificar la calidad del codigo del proyecto
-        run: dotnet build-server shutdown && dotnet build /p:TreatWarningsAsErrors=false
-      
-      # Para verificar la implementacion y estilo del codigo se debe generar el archivo Directory.Build.props en nuestra solucion por lo que se debe instalar StyleCop desde el package Nuget
-      - name: Run StyleCop # Permite correr el comando de StyleCop para verificar si la implementacion y calidad del codigo estan bien
-        run: dotnet build /p:TreatWarningsAsErrors=false
-      # Para esta seccion se debe generar el archivo .editorconfig en nuestro repositorio y colocar la siguiente configuracion en el archivo:
-      # root = true
-
-      # [*.cs]
-      # dotnet_analyzer_diagnostic.category-Style.severity = warning
-      # dotnet_code_quality.CA1062.null_check_validation_methods = ThrowArgumentNullException
-      - name: Enforce code style # Una vez que se genero el archivo se debe realizar este paso para forzar a que se cumplan la regla que se establecio anteriormente
-        run: dotnet format --verify-no-changes --verbosity diagnostic
-
   restore:
-    needs: [lint]
     runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
                            # para la publicacion y el despliegue
 
@@ -71,8 +46,33 @@ jobs:
       - name: Build
         run: dotnet build --configuration Release --no-restore # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
 
+  lint:
+    needs: [restore,build]
+    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
+                           # para la publicacion y el despliegue
+
+    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
+    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
+    steps:
+      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
+      #En esta seccion se realizara la verificacion de la calidad del codigo por lo que se debe instalar el paquete SonarAnalyzer.CSharp desde el package Nuget
+      - name: Run SonarAnalyzer # Esto permite correr el SonarAnalyzer para verificar la calidad del codigo del proyecto
+        run: dotnet build-server shutdown && dotnet build /p:TreatWarningsAsErrors=false
+      
+      # Para verificar la implementacion y estilo del codigo se debe generar el archivo Directory.Build.props en nuestra solucion por lo que se debe instalar StyleCop desde el package Nuget
+      - name: Run StyleCop # Permite correr el comando de StyleCop para verificar si la implementacion y calidad del codigo estan bien
+        run: dotnet build /p:TreatWarningsAsErrors=false
+      # Para esta seccion se debe generar el archivo .editorconfig en nuestro repositorio y colocar la siguiente configuracion en el archivo:
+      # root = true
+
+      # [*.cs]
+      # dotnet_analyzer_diagnostic.category-Style.severity = warning
+      # dotnet_code_quality.CA1062.null_check_validation_methods = ThrowArgumentNullException
+      - name: Enforce code style # Una vez que se genero el archivo se debe realizar este paso para forzar a que se cumplan la regla que se establecio anteriormente
+        run: dotnet format --verify-no-changes --verbosity diagnostic
+
   test:
-    needs: [build]
+    needs: [restore,build,lint]
     runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
                            # para la publicacion y el despliegue
 
