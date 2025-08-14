@@ -44,7 +44,7 @@ jobs:
           cache-dependency-path: "**/packages.lock.json" # Este archivo se generara en la carpeta de solucion del proyecto .net que permitira bloquear que se restauren paquetes que ya estan almacenados en cache
       
       - name: Build
-        run: dotnet build --configuration Release --no-restore # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
+        run: dotnet build # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
 
   lint:
     needs: [restore,build]
