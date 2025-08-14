@@ -19,7 +19,7 @@ namespace Cobro_Matricula_EPN.Repository
         {
             _emailConfiguration = emailConfiguration;
         }
-        
+
         public void SendEmail(Message message)
         {
             var emailMessage = CreateEmailMessage(message);

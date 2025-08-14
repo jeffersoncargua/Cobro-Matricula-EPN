@@ -9,13 +9,12 @@ using System.Linq.Expressions;
 
 namespace Cobro_Matricula_EPN.Repository
 {
-    public class Repository<T> : IRepository<T> 
+    public class Repository<T> : IRepository<T>
         where T : class
     {
         private readonly ApplicationDbContext _db;
         internal DbSet<T> dbSet;
-        
-        public Repository(ApplicationDbContext db) 
+        public Repository(ApplicationDbContext db)
         {
             _db = db;
             this.dbSet = _db.Set<T>();

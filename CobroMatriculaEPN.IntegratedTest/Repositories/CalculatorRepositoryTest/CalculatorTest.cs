@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CobroMatriculaEPN.IntegratedTest.Repositories.CalculatorRepositoryTest
 {
     [Collection("My Collection")]
-    public class CalculatorTest 
+    public class CalculatorTest
     {
         private SharedDatabaseFixture Fixture { get; }
 
@@ -33,7 +33,6 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.CalculatorRepositoryTest
         [InlineData(1, "horas", 1, true, 8 * 16, 0 * 16, 0 * 16, "Perdida Temporal")]
         [InlineData(1, "creditos", 1, true, 28, 0, 0, "Con Gratuidad")]
         [InlineData(1, "horas", 1, true, 28 * 16, 0 * 16, 0 * 16, "Con Gratuidad")]
-
         public async Task Calculator_WhenSendValidRequest_ReturnCalculatorResponseOk(int formationAcademy, string regimen, int quintil, bool gratuidad, int primera, int segunda, int tercera, string condicion)
         {
 
@@ -60,7 +59,7 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.CalculatorRepositoryTest
                 Assert.True(response.Success);
                 Assert.Equal(HttpStatusCode.OK, response.StatusCode);
                 Assert.Equal(condicion, response.Calculator.Gratuidad);
-            }            
+            }
         }
 
         [Theory]

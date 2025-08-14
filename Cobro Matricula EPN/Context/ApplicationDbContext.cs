@@ -11,7 +11,7 @@ namespace Cobro_Matricula_EPN.Context
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> option) 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> option)
             : base(option)
         {
         }

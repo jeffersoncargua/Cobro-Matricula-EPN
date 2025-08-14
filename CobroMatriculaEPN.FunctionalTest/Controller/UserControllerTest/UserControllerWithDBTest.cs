@@ -256,9 +256,7 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
         public async Task Login_WhenUserDoesntExist_ReturnStatusCodeBadRequest(string email, string password, string expectedMessage)
         {
             //Arrange
-            //var client = this.GetNewClient();
-
-            LoginRequestDto loginRequest = new() 
+            LoginRequestDto loginRequest = new()
             {
                 Email = email,
                 Password = password
@@ -353,18 +351,14 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
                 Phone = phone,
                 ConfirmPass = confirmPass
             };
-
             var stringContentRegister = new StringContent(JsonConvert.SerializeObject(registrationRequestDto), Encoding.UTF8, "application/json");
-
             var stringContentForget = new StringContent(JsonConvert.SerializeObject(email), Encoding.UTF8, "application/json");
-
             ResetPasswordRequestDto resetPasswordRequestDto = new()
             {
                 Email = email,
                 Password = "NewPassword1!",
                 ConfirmPassword = "NewPassword1!",
             };
-            
             //Act
             //1. Register
             var responseRegister = await client.PostAsync("/api/User/Registration", stringContentRegister);
@@ -374,7 +368,6 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
             var tokenConfirmEmail = apiResponse!.Result;
 
             //2. Confirm Email
-
             var responseConfirmEmail = await client.GetAsync($"/api/User/ConfirmEmail?token={tokenConfirmEmail}&email={email}");
             responseConfirmEmail.EnsureSuccessStatusCode();
 
@@ -437,33 +430,26 @@ namespace CobroMatriculaEPN.FunctionalTest.Controller.UserControllerTest
 
             //Act
             //1. Register
-
             var responseRegister = await client.PostAsync("/api/User/Registration", stringContentRegister);
             var content = await responseRegister.Content.ReadAsStringAsync();
             var apiResponse = JsonConvert.DeserializeObject<APIResponse>(content);
             var tokenConfirmEmail = apiResponse!.Result;
 
             //2. Confirm Email
-            if (isConfirmEmail) 
+            if (isConfirmEmail)
             {
                 var responseConfirmEmail = await client.GetAsync($"/api/User/ConfirmEmail?token={tokenConfirmEmail}&email={email}");
             }
-            
             //3. ForgetPassword
             var responseForget = await client.PostAsync("/api/User/ForgetPassword", stringContentForget);
             var contentForget = await responseForget.Content.ReadAsStringAsync();
             var resultForget = JsonConvert.DeserializeObject<APIResponse>(contentForget);
-
-            //string tokenResetPass = resultForget.Result.ToString();
-
             var statusCode = (int)responseForget.StatusCode;
 
             //Assert
-
             Assert.Equal(expectedMessage, resultForget!.Message.FirstOrDefault());
             Assert.Equal(400, statusCode);
         }
-
 
         [Theory]
         [InlineData("exampleName", "exampleLastName", "example@gmail.com", "exampleCity", "0987654321", "UserAdmin1!", "UserAdmin1!", null, false, "El usuario no se encuentra registrado")]

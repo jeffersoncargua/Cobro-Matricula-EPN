@@ -11,12 +11,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Cobro_Matricula_EPN.Repository
 {
-    public class BaseParameterRepository : Repository<BaseParameter>, IBaseParameterRepository 
+    public class BaseParameterRepository : Repository<BaseParameter>, IBaseParameterRepository
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
-        
-        public BaseParameterRepository(ApplicationDbContext db, IMapper mapper) 
+        public BaseParameterRepository(ApplicationDbContext db, IMapper mapper)
             : base(db)
         {
             _db = db;

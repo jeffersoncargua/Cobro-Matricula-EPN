@@ -90,3 +90,6 @@ dotnet_diagnostic.SA1118.severity = silent
 
 # SA1009: Closing parenthesis should be spaced correctly
 dotnet_diagnostic.SA1009.severity = silent
+
+# SA1516: Elements should be separated by blank line
+dotnet_diagnostic.SA1516.severity = silent

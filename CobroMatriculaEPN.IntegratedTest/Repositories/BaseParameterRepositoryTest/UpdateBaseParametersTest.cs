@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace CobroMatriculaEPN.IntegratedTest.Repositories.BaseParameterRepositoryTest
 {
     [Collection("My Collection")]
-    public class UpdateBaseParametersTest 
+    public class UpdateBaseParametersTest
     {
         private SharedDatabaseFixture Fixture { get; }
         private readonly IConfigurationProvider _configuration;
@@ -149,7 +149,7 @@ namespace CobroMatriculaEPN.IntegratedTest.Repositories.BaseParameterRepositoryT
         [InlineData(1, null, 10000f, 1000, 100, 0.2f, 0.8f, 0.1f, 0.05f, 0.15f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f)]
         public async Task UpdatedBaseParameter_ShouldThrowExceptionWhenSendNullValues_ReturnSuccessEqualFalse(int id, string formacionAcademica, float costoOptimo, int horaPeriodoaAcademico, int creditoPeriodoAcademico, float porcentajeCostoOptimoAnual, float porcentajeValorMin, float porcentajeValorMax, float porcentajeValorArancel, float porcentajePromedioAcademico, float porcentajePerdidaTemporal, float porcentajeMatriculaExtraordinario, float porcentajeMatriculaEspecial, float porcentajeRecargoSegunda, float porcentajeRecargoTercera)
         {
-            using (var transaction = Fixture.Connection.BeginTransaction()) 
+            using (var transaction = Fixture.Connection.BeginTransaction())
             {
                 //Arrange
                 UpdatedBaseParameterRequestDto requestDto = new()

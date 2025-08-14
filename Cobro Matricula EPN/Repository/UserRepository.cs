@@ -94,7 +94,7 @@ namespace Cobro_Matricula_EPN.Repository
             if (userExist == null)
             {
                 return new ForgetResponseDto()
-                { 
+                {
                     Success = false,
                     Message = "El usuario no se encuentra registrado",
                     Token = null,
@@ -136,8 +136,7 @@ namespace Cobro_Matricula_EPN.Repository
         public async Task<bool> IsConfirmEmail(string email)
         {
             var userExist = await _userManager.FindByEmailAsync(email);
-            
-            if (userExist == null) 
+            if (userExist == null)
             {
                 return false;
             }
@@ -166,7 +165,7 @@ namespace Cobro_Matricula_EPN.Repository
         /// <param name="loginRequestDto">Es un conjunto de parametros que el usuario debe enviar para realizar el login. </param>
         /// <returns>Retorna un token cuando el usuario se ha logeado correctamente, caso contrario se envia un token vacio y un mensaje de error.</returns>
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
-        { 
+        {
             try
             {
                 var userExist = await _userManager.FindByEmailAsync(loginRequestDto.Email);
@@ -241,7 +240,7 @@ namespace Cobro_Matricula_EPN.Repository
                     Token = null,
                     Message = "Error. Ha ocurrido un error mientras se realizaba la operación.",
                 };
-            }            
+            }
         }
 
         /// <summary>
@@ -254,11 +253,8 @@ namespace Cobro_Matricula_EPN.Repository
         {
             try
             {
-                //var registration = _mapper.Map<User>(registrationRequestDto);
-
                 bool isUnique = await IsUnique(registrationRequestDto.Email);
-                
-                if (!isUnique) 
+                if (!isUnique)
                 {
                     return new RegisterResponseDto()
                     {
@@ -358,9 +354,6 @@ namespace Cobro_Matricula_EPN.Repository
             {
                 //_db.Users.Remove(userExist);
                 var result = await _userManager.DeleteAsync(userExist);
-                
-                //await Save();
-                
                 if (result.Succeeded)
                 {
                     return true;
@@ -419,7 +412,7 @@ namespace Cobro_Matricula_EPN.Repository
         public async Task<UpdateUserResponseDto> UpdateUserAsync(UpdateUserDto updateUserDto, string email)
         {
             var userUpdated = await _userManager.FindByEmailAsync(updateUserDto.Email);
-            if(userUpdated == null)
+            if (userUpdated == null)
             {
                 return new UpdateUserResponseDto() { Message = "El usuario no existe", User = null };
             }
@@ -437,7 +430,7 @@ namespace Cobro_Matricula_EPN.Repository
                 {
                     Success = false,
                     Message = "Ha ocurrido un error. No se pudo actualizar el usuario",
-                    User = null, 
+                    User = null,
                 };
             }
 
@@ -450,11 +443,11 @@ namespace Cobro_Matricula_EPN.Repository
                 {
                     Success = true,
                     Message = "Su información ha sido actualizada",
-                    User = _mapper.Map<UserDto>(userUpdated), 
+                    User = _mapper.Map<UserDto>(userUpdated),
                 };
             }
-            
-            return new UpdateUserResponseDto() 
+
+            return new UpdateUserResponseDto()
             {
                 Success = false,
                 Message = "Ha ocurrido un error en el servidor. No se pudo actualizar el usuario",

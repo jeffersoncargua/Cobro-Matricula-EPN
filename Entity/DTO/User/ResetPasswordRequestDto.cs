@@ -19,7 +19,7 @@ namespace Entity.DTO.User
         //[StringLength(16, MinimumLength = 8, ErrorMessage = "La contraseña debe tener al menos 8 caracteres")]
         [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^a-zA-Z\d\s])(?=.{8,}).*$", ErrorMessage = "La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número.")]
         public string Password { get; set; }
-        
+
         [Required]
         [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
         public string ConfirmPassword { get; set; }

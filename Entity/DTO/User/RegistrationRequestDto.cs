@@ -41,6 +41,6 @@ namespace Entity.DTO.User
         [Required(ErrorMessage = "La confirmación de la contraseña es requerida")]
         [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
         public string ConfirmPass { get; set; }
-        public string? Role { get; set; } 
+        public string? Role { get; set; }
     }
 }

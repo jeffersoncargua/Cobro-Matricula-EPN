@@ -9,7 +9,7 @@ namespace CobroMatriculaEPN.UnitTest
 {
     public class BaseTest
     {
-        public List<ValidationResult> ValidateModel(object model) 
+        public List<ValidationResult> ValidateModel(object model)
         {
             var validationResults = new List<ValidationResult>();
             var ctx = new ValidationContext(model, null, null);

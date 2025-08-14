@@ -153,6 +153,6 @@ app.Run();
 /// <summary>
 /// Es una clase parcial para poder ejecutar los test.
 /// </summary>
-public partial class Program 
+public partial class Program
 {
 }
