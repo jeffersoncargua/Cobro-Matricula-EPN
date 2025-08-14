@@ -206,13 +206,15 @@ namespace Cobro_Matricula_EPN.Repository
                 var tokenhandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(secretKey);
 
+                IEnumerable<Claim> userClaims = new List<Claim>
+                {
+                    new(ClaimTypes.Name, userExist.Email!.ToString()),
+                    new(ClaimTypes.Role, roles.FirstOrDefault()), //es posible que se produzca una excepcion si no existe un rol asigando al usuario
+                };
+
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    Subject = new ClaimsIdentity(
-                    [
-                        new(ClaimTypes.Name, userExist.Email!.ToString()),
-                        new(ClaimTypes.Role, roles.FirstOrDefault()) //es posible que se produzca una excepcion si no existe un rol asigando al usuario
-                    ]),
+                    Subject = new ClaimsIdentity(userClaims),
                     Expires = DateTime.UtcNow.AddDays(1),
                     SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
                 };
