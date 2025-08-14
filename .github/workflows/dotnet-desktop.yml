@@ -24,13 +24,15 @@ jobs:
     # para que se realice el empaquetado del proyecto para su publicacion y despliegue
     steps:
       - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
-      - name: Setup .Net
+      - name: Setup .Net SDK
         uses: actions/setup-dotnet@v4 # Se utiliza para indicar el SDK con el que se desarrollo el entorno para .Net
         with:
           dotnet-version: '8.0.x' # Aqui se especifica la version con la que se desarrollo .Net pero se puede colocar multiples versiones
+          cache: true # Permitira emplear el uso de memoria cache para almacenar los archivos o paquetes Nuget para evitar llamarlos en cada compilacion del archivo yml
+          cache-dependency-path: "**/packages.lock.json" # Este archivo se generara en la carpeta de solucion del proyecto .net que permitira bloquear que se restauren paquetes que ya estan almacenados en cache
       
       - name: Restore Depedencies
-        run: dotnet restore # Comando para restaurar las dependencias que necesita nuestro proyecto .Net
+        run: dotnet restore --locked-mode # Comando para restaurar las dependencias que necesita nuestro proyecto .Net y la configuracion --locked-mode evitará que los archivos de bloqueo se actualicen durante la restauración y garantizará que se utilicen las versiones exactas de las dependencias enumeradas en los archivos de bloqueo.
       
       - name: Build
         run: dotnet build --configuration Release --no-restore # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
@@ -76,11 +78,22 @@ jobs:
         run: dotnet format --verify-no-changes --verbosity diagnostic
 
 # Si por algun motivo falla la ejecucion del WorkFlow se deben revisar las versiones de los actions/* para poder solucionar algun inconveniente
+
 # En la ejucion del comando:  dotnet build --configuration Release --no-restore no permite construir la aplicacion en su version mas optimizada para produccion
+
 # En la ejecucion del comando: dotnet test --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" permite recopilar la informacion sobre la cobertura del codigo mediante la ejecucion de las pruebas
+
 # Cuando se genere el archivo Directory.Build.props se debe considerar añadirlo desde visual studio de preferencia y añadirle el codigo xml que se lo puede encontrar en google
 #<Project>
 #   <PropertyGroup>
 #     <TargetFramework>net8.0</TargetFramework>
 #   </PropertyGroup>
 #</Project>
+
+# Cuando se realice el paso Enforce code style y se observe que existen errores en el estilo del codigo, se sugiere probar primero el comando:
+# dotnet format --verify-no-changes --verbosity diagnostic . Para verificar y solucionar los inconvenients antes se subirlos a github.
+
+# Cuando se realice la ejecucion para almacenar los paquetes en memoria cache se debe incluir en el archivo del proyecto la siguiente configuracion:
+#<PropertyGroup>
+# <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+#</PropertyGroup> 
