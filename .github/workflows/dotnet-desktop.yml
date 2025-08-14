@@ -69,7 +69,7 @@ jobs:
       # dotnet_analyzer_diagnostic.category-Style.severity = warning
       # dotnet_code_quality.CA1062.null_check_validation_methods = ThrowArgumentNullException
       - name: Enforce code style # Una vez que se genero el archivo se debe realizar este paso para forzar a que se cumplan la regla que se establecio anteriormente
-        run: dotnet format --verify-no-changes --verbosity diagnostic
+        run: dotnet format --verify-no-changes
 
   test:
     needs: [restore,build,lint]

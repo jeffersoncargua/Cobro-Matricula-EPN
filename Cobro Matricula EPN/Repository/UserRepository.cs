@@ -211,7 +211,7 @@ namespace Cobro_Matricula_EPN.Repository
                     Subject = new ClaimsIdentity(
                     [
                         new(ClaimTypes.Name, userExist.Email!.ToString()),
-                    new(ClaimTypes.Role, roles.FirstOrDefault()) //es posible que se produzca una excepcion si no existe un rol asigando al usuario
+                        new(ClaimTypes.Role, roles.FirstOrDefault()) //es posible que se produzca una excepcion si no existe un rol asigando al usuario
                     ]),
                     Expires = DateTime.UtcNow.AddDays(1),
                     SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
