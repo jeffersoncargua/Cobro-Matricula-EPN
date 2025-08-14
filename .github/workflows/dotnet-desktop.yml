@@ -15,8 +15,45 @@ permissions: # Estos son los permisos que se necesitan para poder publicar los r
 # Aqui se realiza el trabajo de compliacion de nuestro proyecto .Net donde se
 # ejecutará el codigo, restaurará las dependencias y correra las pruebas para 
 # tener todo listo para la publicacion y el despliegue del proyecto
-jobs: 
+jobs:
+  lint:
+    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
+                           # para la publicacion y el despliegue
+
+    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
+    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
+    steps:
+      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
+      #En esta seccion se realizara la verificacion de la calidad del codigo por lo que se debe instalar el paquete SonarAnalyzer.CSharp desde el package Nuget
+      - name: Run SonarAnalyzer # Esto permite correr el SonarAnalyzer para verificar la calidad del codigo del proyecto
+        run: dotnet build-server shutdown && dotnet build /p:TreatWarningsAsErrors=false
+      
+      # Para verificar la implementacion y estilo del codigo se debe generar el archivo Directory.Build.props en nuestra solucion por lo que se debe instalar StyleCop desde el package Nuget
+      - name: Run StyleCop # Permite correr el comando de StyleCop para verificar si la implementacion y calidad del codigo estan bien
+        run: dotnet build /p:TreatWarningsAsErrors=false
+      # Para esta seccion se debe generar el archivo .editorconfig en nuestro repositorio y colocar la siguiente configuracion en el archivo:
+      # root = true
+
+      # [*.cs]
+      # dotnet_analyzer_diagnostic.category-Style.severity = warning
+      # dotnet_code_quality.CA1062.null_check_validation_methods = ThrowArgumentNullException
+      - name: Enforce code style # Una vez que se genero el archivo se debe realizar este paso para forzar a que se cumplan la regla que se establecio anteriormente
+        run: dotnet format --verify-no-changes --verbosity diagnostic
+
+  restore:
+    needs: [lint]
+    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
+                           # para la publicacion y el despliegue
+
+    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
+    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
+    steps:
+      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
+      - name: Restore Depedencies
+        run: dotnet restore --locked-mode # Comando para restaurar las dependencias que necesita nuestro proyecto .Net y la configuracion --locked-mode evitará que los archivos de bloqueo se actualicen durante la restauración y garantizará que se utilicen las versiones exactas de las dependencias enumeradas en los archivos de bloqueo.
+
   build:
+    needs: [restore]
     runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
                            # para la publicacion y el despliegue
 
@@ -31,12 +68,18 @@ jobs:
           cache: true # Permitira emplear el uso de memoria cache para almacenar los archivos o paquetes Nuget para evitar llamarlos en cada compilacion del archivo yml
           cache-dependency-path: "**/packages.lock.json" # Este archivo se generara en la carpeta de solucion del proyecto .net que permitira bloquear que se restauren paquetes que ya estan almacenados en cache
       
-      - name: Restore Depedencies
-        run: dotnet restore --locked-mode # Comando para restaurar las dependencias que necesita nuestro proyecto .Net y la configuracion --locked-mode evitará que los archivos de bloqueo se actualicen durante la restauración y garantizará que se utilicen las versiones exactas de las dependencias enumeradas en los archivos de bloqueo.
-      
       - name: Build
         run: dotnet build --configuration Release --no-restore # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
-      
+
+  test:
+    needs: [build]
+    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
+                           # para la publicacion y el despliegue
+
+    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
+    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
+    steps:
+      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
       - name: Test
         run: dotnet test --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" # Comando para ejecutar todas las pruebas de nuestro proyecto que incluyen: unitarias, integracion y funcionales
       
@@ -60,23 +103,9 @@ jobs:
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
           filename: "Cobertura.xml"
-          format: markdown
-      #En esta seccion se realizara la verificacion de la calidad del codigo por lo que se debe instalar el paquete SonarAnalyzer.CSharp desde el package Nuget
-      - name: Run SonarAnalyzer # Esto permite correr el SonarAnalyzer para verificar la calidad del codigo del proyecto
-        run: dotnet build-server shutdown && dotnet build /p:TreatWarningsAsErrors=false
+          format: markdown      
       
-      # Para verificar la implementacion y estilo del codigo se debe generar el archivo Directory.Build.props en nuestra solucion por lo que se debe instalar StyleCop desde el package Nuget
-      - name: Run StyleCop # Permite correr el comando de StyleCop para verificar si la implementacion y calidad del codigo estan bien
-        run: dotnet build /p:TreatWarningsAsErrors=false
-      # Para esta seccion se debe generar el archivo .editorconfig en nuestro repositorio y colocar la siguiente configuracion en el archivo:
-      # root = true
-
-      # [*.cs]
-      # dotnet_analyzer_diagnostic.category-Style.severity = warning
-      # dotnet_code_quality.CA1062.null_check_validation_methods = ThrowArgumentNullException
-      - name: Enforce code style # Una vez que se genero el archivo se debe realizar este paso para forzar a que se cumplan la regla que se establecio anteriormente
-        run: dotnet format --verify-no-changes --verbosity diagnostic
-
+      
 # Si por algun motivo falla la ejecucion del WorkFlow se deben revisar las versiones de los actions/* para poder solucionar algun inconveniente
 
 # En la ejucion del comando:  dotnet build --configuration Release --no-restore no permite construir la aplicacion en su version mas optimizada para produccion
