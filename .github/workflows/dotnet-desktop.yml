@@ -119,7 +119,7 @@ jobs:
         run: dotnet publish -c Release -o ./publish --runtime win-x86
 
   deploy:
-    needs: [lint,restore,build,test]
+    needs: [lint,restore,build,test,publish]
     runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
                            # para la publicacion y el despliegue
 
@@ -129,7 +129,7 @@ jobs:
       - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
       
       - name: Deploy to MosterASP.NET via WebDeploy
-        uses: rasmusbuchholdt/simply-web-deploy@2.1.0
+        uses: rasmusbuchholdt/simply-web-deploy@2.2.0
         with:
           website-name: ${{ secrets.WEBSITE_NAME }}
           server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
