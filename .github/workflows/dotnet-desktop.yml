@@ -40,20 +40,9 @@ jobs:
       - name: Enforce code style # Una vez que se genero el archivo se debe realizar este paso para forzar a que se cumplan la regla que se establecio anteriormente
         run: dotnet format --verify-no-changes
 
-  restore:
-    needs: [lint]
-    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
-                           # para la publicacion y el despliegue
-
-    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
-    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
-    steps:
-      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
-      - name: Restore Depedencies
-        run: dotnet restore --locked-mode # Comando para restaurar las dependencias que necesita nuestro proyecto .Net y la configuracion --locked-mode evitará que los archivos de bloqueo se actualicen durante la restauración y garantizará que se utilicen las versiones exactas de las dependencias enumeradas en los archivos de bloqueo.
 
   build:
-    needs: [lint,restore]
+    needs: [lint]
     runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
                            # para la publicacion y el despliegue
 
@@ -68,11 +57,15 @@ jobs:
           cache: true # Permitira emplear el uso de memoria cache para almacenar los archivos o paquetes Nuget para evitar llamarlos en cada compilacion del archivo yml
           cache-dependency-path: "**/packages.lock.json" # Este archivo se generara en la carpeta de solucion del proyecto .net que permitira bloquear que se restauren paquetes que ya estan almacenados en cache
       
+      - name: Restore Depedencies
+        run: dotnet restore --locked-mode # Comando para restaurar las dependencias que necesita nuestro proyecto .Net y la configuracion --locked-mode evitará que los archivos de bloqueo se actualicen durante la restauración y garantizará que se utilicen las versiones exactas de las dependencias enumeradas en los archivos de bloqueo.
       - name: Build
-        run: dotnet build --configuration Release # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
+        run: dotnet build --configuration Release --no-restore # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
+      - name: Publish 
+        run: dotnet publish --configuration Release --output ./publish --runtime win-x86
 
   test:
-    needs: [lint,restore,build]
+    needs: [lint,build]
     runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
                            # para la publicacion y el despliegue
 
@@ -104,22 +97,9 @@ jobs:
         with:
           filename: "Cobertura.xml"
           format: markdown   
-          
-  publish: 
-    needs: [lint,restore,build,test]
-    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
-                           # para la publicacion y el despliegue
-
-    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
-    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
-    steps:
-      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
-
-      - name: Publish 
-        run: dotnet publish -c Release -o ./publish --runtime win-x86
 
   deploy:
-    needs: [lint,restore,build,test,publish]
+    needs: [lint,build,test]
     runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
                            # para la publicacion y el despliegue
 
