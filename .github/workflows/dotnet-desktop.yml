@@ -1,4 +1,4 @@
-name: .NET CI # Nombre del workflow
+name: Build, publish and Deploy of .NET Project CI/CD # Nombre del workflow
 
 # Activadores o Desencadenates para iniciar el workflow para el CI/CD
 on: 
@@ -39,9 +39,43 @@ jobs:
       # dotnet_code_quality.CA1062.null_check_validation_methods = ThrowArgumentNullException
       - name: Enforce code style # Una vez que se genero el archivo se debe realizar este paso para forzar a que se cumplan la regla que se establecio anteriormente
         run: dotnet format --verify-no-changes
-  
-  test:
+
+  restore:
     needs: [lint]
+    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
+                           # para la publicacion y el despliegue
+
+    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
+    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
+    steps:
+      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
+      - name: Restore Depedencies
+        run: dotnet restore --locked-mode # Comando para restaurar las dependencias que necesita nuestro proyecto .Net y la configuracion --locked-mode evitará que los archivos de bloqueo se actualicen durante la restauración y garantizará que se utilicen las versiones exactas de las dependencias enumeradas en los archivos de bloqueo.
+
+  build:
+    needs: [lint,restore]
+    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
+                           # para la publicacion y el despliegue
+
+    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
+    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
+    steps:
+      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
+      - name: Setup .Net SDK
+        uses: actions/setup-dotnet@v4 # Se utiliza para indicar el SDK con el que se desarrollo el entorno para .Net
+        with:
+          dotnet-version: '8.0.x' # Aqui se especifica la version con la que se desarrollo .Net pero se puede colocar multiples versiones
+          cache: true # Permitira emplear el uso de memoria cache para almacenar los archivos o paquetes Nuget para evitar llamarlos en cada compilacion del archivo yml
+          cache-dependency-path: "**/packages.lock.json" # Este archivo se generara en la carpeta de solucion del proyecto .net que permitira bloquear que se restauren paquetes que ya estan almacenados en cache
+      
+      - name: Build
+        run: dotnet build # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
+
+      - name: Publish 
+        run: dotnet publish --configuration Release --output ./publish --runtime win-x86
+
+  test:
+    needs: [lint,restore,build]
     runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
                            # para la publicacion y el despliegue
 
@@ -74,8 +108,8 @@ jobs:
           filename: "Cobertura.xml"
           format: markdown      
 
-  restore:
-    needs: [lint,test]
+  deploy:
+    needs: [lint,restore,build,test]
     runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
                            # para la publicacion y el despliegue
 
@@ -83,28 +117,16 @@ jobs:
     # para que se realice el empaquetado del proyecto para su publicacion y despliegue
     steps:
       - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
-      - name: Restore Depedencies
-        run: dotnet restore --locked-mode # Comando para restaurar las dependencias que necesita nuestro proyecto .Net y la configuracion --locked-mode evitará que los archivos de bloqueo se actualicen durante la restauración y garantizará que se utilicen las versiones exactas de las dependencias enumeradas en los archivos de bloqueo.
-
-  build:
-    needs: [lint,restore,test]
-    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
-                           # para la publicacion y el despliegue
-
-    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
-    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
-    steps:
-      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
-      - name: Setup .Net SDK
-        uses: actions/setup-dotnet@v4 # Se utiliza para indicar el SDK con el que se desarrollo el entorno para .Net
+      
+      - name: Deploy to MosterASP.NET via WebDeploy
+        uses: rasmusbuchholdt/simply-web-deploy@2.1.0
         with:
-          dotnet-version: '8.0.x' # Aqui se especifica la version con la que se desarrollo .Net pero se puede colocar multiples versiones
-          cache: true # Permitira emplear el uso de memoria cache para almacenar los archivos o paquetes Nuget para evitar llamarlos en cada compilacion del archivo yml
-          cache-dependency-path: "**/packages.lock.json" # Este archivo se generara en la carpeta de solucion del proyecto .net que permitira bloquear que se restauren paquetes que ya estan almacenados en cache
-      
-      - name: Build
-        run: dotnet build # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
-      
+          website-name: ${{ secrets.WEBSITE_NAME }}
+          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
+          server-username: ${{ secrets.SERVER_USERNAME }}
+          server-password: ${{ secrets.SERVER_PASSWORD }}
+
+
       
 # Si por algun motivo falla la ejecucion del WorkFlow se deben revisar las versiones de los actions/* para poder solucionar algun inconveniente
 
