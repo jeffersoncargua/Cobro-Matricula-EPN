@@ -116,7 +116,7 @@ jobs:
       - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
 
       - name: Publish 
-        run: dotnet publish -c Release -o ./publish
+        run: dotnet publish -c Release -o ./publish --runtime win-x86
 
   deploy:
     needs: [lint,restore,build,test]
