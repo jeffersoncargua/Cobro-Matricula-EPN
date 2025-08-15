@@ -71,9 +71,6 @@ jobs:
       - name: Build
         run: dotnet build # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
 
-      - name: Publish 
-        run: dotnet publish --configuration Release --output ./publish --runtime win-x86
-
   test:
     needs: [lint,restore,build]
     runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
@@ -106,7 +103,20 @@ jobs:
         uses: irongut/CodeCoverageSummary@v1.3.0
         with:
           filename: "Cobertura.xml"
-          format: markdown      
+          format: markdown   
+          
+  publish: 
+    needs: [lint,restore,build,test]
+    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
+                           # para la publicacion y el despliegue
+
+    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
+    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
+    steps:
+      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
+
+      - name: Publish 
+        run: dotnet publish --configuration Release --output ./publish --runtime win-x86
 
   deploy:
     needs: [lint,restore,build,test]
