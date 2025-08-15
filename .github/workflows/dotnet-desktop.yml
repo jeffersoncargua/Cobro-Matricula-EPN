@@ -158,3 +158,8 @@ jobs:
 #<PropertyGroup>
 # <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 #</PropertyGroup> 
+
+#Cuando se realice la publicacion del proyecto .net se requiere que se coloque un fragmento de codigo en el archivo .csproj (el proyecto web api) para evitar errores en la publicacion de multiples archivos
+#<PropertyGroup>
+# <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+#</PropertyGroup>
