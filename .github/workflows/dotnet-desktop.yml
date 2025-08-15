@@ -69,7 +69,7 @@ jobs:
           cache-dependency-path: "**/packages.lock.json" # Este archivo se generara en la carpeta de solucion del proyecto .net que permitira bloquear que se restauren paquetes que ya estan almacenados en cache
       
       - name: Build
-        run: dotnet build # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
+        run: dotnet build --configuration Release # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
 
   test:
     needs: [lint,restore,build]
@@ -116,7 +116,7 @@ jobs:
       - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
 
       - name: Publish 
-        run: dotnet publish --configuration Release --output ./publish --runtime win-x86
+        run: dotnet publish -c Release -o ./publish
 
   deploy:
     needs: [lint,restore,build,test]
