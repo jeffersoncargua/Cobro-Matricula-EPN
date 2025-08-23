@@ -69,7 +69,7 @@ jobs:
           cache-dependency-path: "**/packages.lock.json" # Este archivo se generara en la carpeta de solucion del proyecto .net que permitira bloquear que se restauren paquetes que ya estan almacenados en cache
       
       - name: Build
-        run: dotnet build # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
+        run: dotnet build -c Release # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
 
   test:
     needs: [lint,restore,build]
@@ -107,7 +107,7 @@ jobs:
           
   publish: 
     needs: [lint,restore,build,test]
-    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
+    runs-on: windows-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
                            # para la publicacion y el despliegue
 
     # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
@@ -116,11 +116,11 @@ jobs:
       - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
 
       - name: Publish 
-        run: dotnet publish --runtime win-x86
+        run: dotnet publish "Cobro Matricula EPN" -c Release -o ./publish --runtime win-x86
 
   deploy:
     needs: [lint,restore,build,test,publish]
-    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
+    runs-on: windows-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
                            # para la publicacion y el despliegue
 
     # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
