@@ -19,6 +19,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
+
       - name: Test
         run: dotnet test --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" # Comando para ejecutar todas las pruebas de nuestro proyecto que incluyen: unitarias, integracion y funcionales
       
@@ -46,7 +48,8 @@ jobs:
           filename: "Cobertura.xml"
           format: markdown   
 
-  build_test_publish_deploy:
+  build_publish_deploy:
+    needs: [test]
     runs-on: windows-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
                            # para la publicacion y el despliegue
     

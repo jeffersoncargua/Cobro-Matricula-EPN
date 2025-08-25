@@ -151,7 +151,7 @@ namespace Cobro_Matricula_EPN.Repository
 
                 responseDto.Calculator = calculator;
                 responseDto.Success = true;
-                responseDto.Message = "El calculo se realizo correctamente";
+                responseDto.Message = "El cálculo se realizo correctamente.";
                 responseDto.StatusCode = HttpStatusCode.OK;
 
                 return responseDto;
