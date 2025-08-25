@@ -53,7 +53,7 @@ jobs:
         run: dotnet build -c Release --no-restore # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
 
       - name: Publish 
-        run: dotnet publish "Cobro Matricula EPN" --no-build -c Release -o ./publish --runtime win-x86
+        run: dotnet publish "Cobro Matricula EPN" -c Release -o ./publish --runtime win-x86
 
       - name: Test
         run: dotnet test --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" # Comando para ejecutar todas las pruebas de nuestro proyecto que incluyen: unitarias, integracion y funcionales
