@@ -12,31 +12,30 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js 16.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        cache: 'npm'
-        cache-dependency-path: ${{github.workspace}}/functions/package-lock.json
-
-    - name: Install dependencies
-      run: npm install 
+      - name: Repository Checkout
+        uses: actions/checkout@v4
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "npm"
+      - name: Install Dependencies
+        run: npm ci
     # - name: Run tests
     # - run: npm test
-    - name: Build file
-      run: npm run build
+      - name: Build file
+        run: npm run build
 
       # copy file for netlify.toml
-    - name: Copy build settings to build folder
-      run: cp netlify.toml build/
+      - name: Copy build settings to build folder
+        run: cp netlify.toml build/
 
       # deploy application to netlify
-    - name: Deploy production to Netlify
-      uses: South-Paw/action-netlify-deploy@v1.2.0
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        netlify-auth-token: ${{ secrets.REACT_APP_API_URL }}
-        netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
-        build-dir: './build'
-        comment-on-commit: true
+      - name: Deploy production to Netlify
+        uses: South-Paw/action-netlify-deploy@v1.2.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          netlify-auth-token: ${{ secrets.REACT_APP_API_URL }}
+          netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
+          build-dir: './build'
+          comment-on-commit: true
