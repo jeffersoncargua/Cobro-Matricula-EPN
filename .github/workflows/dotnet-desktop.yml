@@ -16,14 +16,23 @@ permissions: # Estos son los permisos que se necesitan para poder publicar los r
 # ejecutará el codigo, restaurará las dependencias y correra las pruebas para 
 # tener todo listo para la publicacion y el despliegue del proyecto
 jobs:
-  lint:
-    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
-                           # para la publicacion y el despliegue
 
-    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
-    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
+  build_test_publish_deploy:
+    runs-on: windows-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
+                           # para la publicacion y el despliegue
+    
     steps:
       - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
+      - name: Setup .Net SDK
+        uses: actions/setup-dotnet@v4 # Se utiliza para indicar el SDK con el que se desarrollo el entorno para .Net
+        with:
+          dotnet-version: '8.0.x' # Aqui se especifica la version con la que se desarrollo .Net pero se puede colocar multiples versiones
+          cache: true # Permitira emplear el uso de memoria cache para almacenar los archivos o paquetes Nuget para evitar llamarlos en cada compilacion del archivo yml
+          cache-dependency-path: "**/packages.lock.json" # Este archivo se generara en la carpeta de solucion del proyecto .net que permitira bloquear que se restauren paquetes que ya estan almacenados en cache
+
+      - name: Restore Depedencies
+        run: dotnet restore --locked-mode # Comando para restaurar las dependencias que necesita nuestro proyecto .Net y la configuracion --locked-mode evitará que los archivos de bloqueo se actualicen durante la restauración y garantizará que se utilicen las versiones exactas de las dependencias enumeradas en los archivos de bloqueo.
+      
       #En esta seccion se realizara la verificacion de la calidad del codigo por lo que se debe instalar el paquete SonarAnalyzer.CSharp desde el package Nuget
       - name: Run SonarAnalyzer # Esto permite correr el SonarAnalyzer para verificar la calidad del codigo del proyecto
         run: dotnet build-server shutdown && dotnet build /p:TreatWarningsAsErrors=false
@@ -40,46 +49,12 @@ jobs:
       - name: Enforce code style # Una vez que se genero el archivo se debe realizar este paso para forzar a que se cumplan la regla que se establecio anteriormente
         run: dotnet format --verify-no-changes
 
-  restore:
-    needs: [lint]
-    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
-                           # para la publicacion y el despliegue
-
-    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
-    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
-    steps:
-      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
-      - name: Restore Depedencies
-        run: dotnet restore --locked-mode # Comando para restaurar las dependencias que necesita nuestro proyecto .Net y la configuracion --locked-mode evitará que los archivos de bloqueo se actualicen durante la restauración y garantizará que se utilicen las versiones exactas de las dependencias enumeradas en los archivos de bloqueo.
-
-  build:
-    needs: [lint,restore]
-    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
-                           # para la publicacion y el despliegue
-
-    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
-    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
-    steps:
-      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
-      - name: Setup .Net SDK
-        uses: actions/setup-dotnet@v4 # Se utiliza para indicar el SDK con el que se desarrollo el entorno para .Net
-        with:
-          dotnet-version: '8.0.x' # Aqui se especifica la version con la que se desarrollo .Net pero se puede colocar multiples versiones
-          cache: true # Permitira emplear el uso de memoria cache para almacenar los archivos o paquetes Nuget para evitar llamarlos en cada compilacion del archivo yml
-          cache-dependency-path: "**/packages.lock.json" # Este archivo se generara en la carpeta de solucion del proyecto .net que permitira bloquear que se restauren paquetes que ya estan almacenados en cache
-      
       - name: Build
-        run: dotnet build -c Release # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
+        run: dotnet build -c Release --no-restore # Comando para construir y/o compilar nuestro proyecto para comprobar errores en el codigo de nuestro proyecto
 
-  test:
-    needs: [lint,restore,build]
-    runs-on: ubuntu-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
-                           # para la publicacion y el despliegue
+      - name: Publish 
+        run: dotnet publish "Cobro Matricula EPN" --no-build -c Release -o ./publish --runtime win-x86
 
-    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
-    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
-    steps:
-      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
       - name: Test
         run: dotnet test --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" # Comando para ejecutar todas las pruebas de nuestro proyecto que incluyen: unitarias, integracion y funcionales
       
@@ -104,30 +79,7 @@ jobs:
         with:
           filename: "Cobertura.xml"
           format: markdown   
-          
-  publish: 
-    needs: [lint,restore,build,test]
-    runs-on: windows-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
-                           # para la publicacion y el despliegue
 
-    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
-    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
-    steps:
-      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
-
-      - name: Publish 
-        run: dotnet publish "Cobro Matricula EPN" -c Release -o ./publish --runtime win-x86
-
-  deploy:
-    needs: [lint,restore,build,test,publish]
-    runs-on: windows-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
-                           # para la publicacion y el despliegue
-
-    # Se realizan los pasos necesarios para verificar que se ha compilado, restaurado las dependendicas y realizado las pruebas
-    # para que se realice el empaquetado del proyecto para su publicacion y despliegue
-    steps:
-      - uses: actions/checkout@v4 # Se utiliza para emplear un entorno donde se realizaran los pasos siguientes correspondientes a .Net
-      
       - name: Deploy to MosterASP.NET via WebDeploy
         uses: rasmusbuchholdt/simply-web-deploy@2.2.0
         with:
@@ -135,7 +87,6 @@ jobs:
           server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
           server-username: ${{ secrets.SERVER_USERNAME }}
           server-password: ${{ secrets.SERVER_PASSWORD }}
-
 
       
 # Si por algun motivo falla la ejecucion del WorkFlow se deben revisar las versiones de los actions/* para poder solucionar algun inconveniente
