@@ -16,6 +16,35 @@ permissions: # Estos son los permisos que se necesitan para poder publicar los r
 # ejecutará el codigo, restaurará las dependencias y correra las pruebas para 
 # tener todo listo para la publicacion y el despliegue del proyecto
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test
+        run: dotnet test --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" # Comando para ejecutar todas las pruebas de nuestro proyecto que incluyen: unitarias, integracion y funcionales
+      
+      - name: Combine Coverage Reports # Esta seccion permite combinar en un solo informe sobre la cobertura del codigo por todos los proyectos de Test que tenga el proyecto que son: Unit, Integrates y Functional
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.2.4
+        with: 
+          reports: "**/*.cobertura.xml"
+          targetdir: "${{ github.workspace }}"
+          reporttypes: "Cobertura"
+      - name: Upload Test Result Files # Esta seccion permite que se puedan encontrar los informes sobre la cobertura del codigo a traves de las ejecuciones de los proyectos de Test
+        uses: actions/upload-artifact@v4
+        with: 
+          name: test-results
+          path: ${{ github.workspace}}/**/TestResults/**/
+
+      - name: Publish Test Results # Esta seccion permite tener una vision mas detallada de la cobertura del codigo, es decir, muestra los resultados obtenidos al ejecutar el worflow 
+        uses: EnricoMi/publish-unit-test-result-action@v2.16.1 # Esta version es para ubuntu-linux
+        if: (!cancelled())
+        with:
+          trx_files: "${{ github.workspace }}/**/*.trx" #Esta version es para ubuntu-linux
+      
+      - name: Publish Code Coverage Report # Esta seccion permite tener el informe de cobertura de codigo
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: "Cobertura.xml"
+          format: markdown   
 
   build_test_publish_deploy:
     runs-on: windows-latest # Es el servidor que se utiliza para la compilacion, restauracion y realizacion de las pruebas
@@ -54,34 +83,6 @@ jobs:
 
       - name: Publish 
         run: dotnet publish "Cobro Matricula EPN" -c Release -o ./publish --runtime win-x86
-
-      - name: Test
-        run: dotnet test --configuration Release --verbosity normal --logger trx --collect:"XPlat Code Coverage" # Comando para ejecutar todas las pruebas de nuestro proyecto que incluyen: unitarias, integracion y funcionales
-      
-      - name: Combine Coverage Reports # Esta seccion permite combinar en un solo informe sobre la cobertura del codigo por todos los proyectos de Test que tenga el proyecto que son: Unit, Integrates y Functional
-        uses: danielpalme/ReportGenerator-GitHub-Action@5.2.4
-        with: 
-          reports: "**/*.cobertura.xml"
-          targetdir: "${{ github.workspace }}"
-          reporttypes: "Cobertura"
-      - name: Upload Test Result Files # Esta seccion permite que se puedan encontrar los informes sobre la cobertura del codigo a traves de las ejecuciones de los proyectos de Test
-        uses: actions/upload-artifact@v4
-        with: 
-          name: test-results
-          path: ${{ github.workspace}}/**/TestResults/**/
-
-      - name: Publish Test Results # Esta seccion permite tener una vision mas detallada de la cobertura del codigo, es decir, muestra los resultados obtenidos al ejecutar el worflow 
-        #uses: EnricoMi/publish-unit-test-result-action@v2.16.1 # Esta version es para ubuntu-linux
-        uses: EnricoMi/publish-unit-test-result-action/windows@v2 # Esta version es para windows. Para mas informacion revise: https://github.com/EnricoMi/publish-unit-test-result-action
-        if: (!cancelled())
-        with:
-          #trx_files: "${{ github.workspace }}/**/*.trx" #Esta version es para ubuntu-linux
-          files: "${{ github.workspace }}/**/*.trx" # Esta version es para windows
-      - name: Publish Code Coverage Report # Esta seccion permite tener el informe de cobertura de codigo
-        uses: irongut/CodeCoverageSummary@v1.3.0
-        with:
-          filename: "Cobertura.xml"
-          format: markdown   
 
       - name: Deploy to MosterASP.NET via WebDeploy
         uses: rasmusbuchholdt/simply-web-deploy@2.2.0
