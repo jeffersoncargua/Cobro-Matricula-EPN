@@ -2,8 +2,8 @@ name: Build, publish and Deploy of .NET Project CI/CD # Nombre del workflow
 
 # Activadores o Desencadenates para iniciar el workflow para el CI/CD
 on: 
-  #push:
-    #branches: [ master ]
+  push:
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 

@@ -41,6 +41,8 @@ namespace Cobro_Matricula_EPN.Repository
         /// <param name="userManager">Permite emplear las funciones de IdentityUser para el registro, login, eliminacion y actualizacion de los usurios.</param>
         /// <param name="roleManager">Permite emplear las funciones de IdentityRole para registrar el rol al usuario, obtener el rol de usuario, y/o eliminar los roles del sistema.</param>
         /// <param name="frontConfig">Permite obtener las cinfiguraciones para obtener el la URL del front.</param>
+        //public UserRepository(IMapper mapper, IEmailRepository emailRepo, IConfiguration config,
+        //    UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, FrontEndConfig frontConfig)
         public UserRepository(IMapper mapper, IEmailRepository emailRepo, IConfiguration config,
             UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, FrontEndConfig frontConfig)
         {
