@@ -28,7 +28,9 @@ jobs:
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
 
-    - run: npm ci
+    - name: Install Dependencies
+      run: npm install
+      working-directory: './Cobro Matricula Front-End/cobro-matricula'
     # - name: Run tests
     # - run: npm test
     - name: Build file
