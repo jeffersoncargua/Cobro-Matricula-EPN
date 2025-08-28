@@ -8,7 +8,7 @@ on:
     branches: [ master ]
 
 permissions:
-  contents: read # access to check out code and install dependencies
+  contents: write # access to check out code and install dependencies
 
 jobs:
   build:
