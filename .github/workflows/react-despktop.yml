@@ -51,3 +51,22 @@ jobs:
         netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
         build-dir: './Cobro Matricula Front-End/cobro-matricula/build'
         comment-on-commit: true
+
+# En la seccion de 'permissions' se debe permitir que se sobreescriba para poder desplegar el proyecto de React en Netlify
+# Ademas se debe considerar que se debe generar un archivo netlify.toml con el siguiente contenido
+#[[redirects]]
+#  from = "/*"
+#  to = "/index.html"
+#  status = 200 
+
+# En el proceso de instalaccion se debe considerar que el comando: npm ci no funciona de forma adecuada si no se coloca el working-directory
+# ya que de no colocarlo este no va a permitir la ejecucion del ese comando. En este caso se realizo la ejecucion del comando: npm install 
+# con el respectivo working-directory
+
+# Asi mismo, se debe colocar el working-directory en el proceso de build para que puede acceder al acrhivo de package.json
+
+# En el caso del Deploy se debe agregar el path completo para que pueda acceder al archivo /publish que se genera en el proceso de copiar el 
+# archivo de netlify.toml
+
+# Tambien, se debe considerar que se debe configurar con las versiones compatibles en actions/checkout y setup-node para que se puedan ejecutar
+# los comandos de forma correcta.
