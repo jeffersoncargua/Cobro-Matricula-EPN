@@ -35,10 +35,12 @@ jobs:
     # - run: npm test
     - name: Build file
       run: npm run build
+      working-directory: './Cobro Matricula Front-End/cobro-matricula'
 
     # copy file for netlify.toml
     - name: Copy build settings to build folder
       run: cp netlify.toml build/
+      working-directory: './Cobro Matricula Front-End/cobro-matricula'
 
       # deploy application to netlify
     - name: Deploy production to Netlify
@@ -47,5 +49,5 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         netlify-auth-token: ${{ secrets.REACT_APP_API_URL }}
         netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
-        build-dir: './build'
+        build-dir: './Cobro Matricula Front-End/cobro-matricula/build'
         comment-on-commit: true
