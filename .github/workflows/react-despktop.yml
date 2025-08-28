@@ -47,7 +47,7 @@ jobs:
       uses: South-Paw/action-netlify-deploy@v1.2.0
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        netlify-auth-token: ${{ secrets.REACT_APP_API_URL }}
+        netlify-auth-token: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         netlify-site-id: ${{ secrets.NETLIFY_SITE_ID }}
         build-dir: './Cobro Matricula Front-End/cobro-matricula/build'
         comment-on-commit: true
