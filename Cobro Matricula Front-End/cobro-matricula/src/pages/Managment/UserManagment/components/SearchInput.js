@@ -3,7 +3,7 @@ import { useCallback } from "react";
 export const SearchInput = ({ searchRef, fetchData }) => {
 	const HandleSearch = useCallback(() => {
 		fetchData();
-	}, []);
+	}, [fetchData]);
 
 	return (
 		// <!-- From Uiverse.io by jubayer-10 -->
