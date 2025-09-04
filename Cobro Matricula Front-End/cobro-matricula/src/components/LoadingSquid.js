@@ -2,11 +2,15 @@ import "./styles/LoadingSquid.css"; //C:\Users\Juan Medina\source\repos\Cobro Ma
 
 export const LoadingSquid = () => {
 	return (
-		<div id="default-modal-squid-loading" className="w-full mx-auto flex justify-center z-40 fixed inset-0 bg-gray-100/20" tabIndex="-1">
+		<div
+			id="default-modal-squid-loading"
+			className="w-full mx-auto flex justify-center z-40 fixed inset-0 bg-gray-100/20"
+			tabIndex="-1"
+		>
 			<div className="flex flex-col md:flex-row items-center justify-center">
 				<div className="loader z-50">
 					<svg viewBox="0 0 80 80" role="img" aria-label="3D sphere">
-						<circle r="32" cy="40" cx="40" ></circle>
+						<circle r="32" cy="40" cx="40"></circle>
 					</svg>
 				</div>
 

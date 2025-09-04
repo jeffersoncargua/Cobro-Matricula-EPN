@@ -1,10 +1,10 @@
-import { Routes, Route } from "react-router-dom";
-import { Home, Managment, BaseParameters, Students } from "../pages";
+import { Route, Routes } from "react-router-dom";
+import { BaseParameters, Home, Managment, Students } from "../pages";
 import {
-	UserRegistration,
+	UserConfirmation,
 	UserManagment,
 	UserRecover,
-	UserConfirmation,
+	UserRegistration,
 } from "../pages/Managment";
 
 export const AllRoutes = () => {

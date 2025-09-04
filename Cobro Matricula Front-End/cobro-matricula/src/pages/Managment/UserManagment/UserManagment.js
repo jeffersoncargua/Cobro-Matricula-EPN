@@ -1,34 +1,34 @@
-import { useEffect, useState, useCallback, useRef } from "react";
-import { UserTable, ModalUpdatedUser, SearchInput } from "./components";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { DeleteUser, GetUsers } from "../../../apiServices/UserServices";
+import { LoadingSquid } from "../../../components";
 import {
 	SwalCancel,
 	SwalConfirmed,
 	SwalDeleted,
 	SwalFailed,
 } from "../../../sweetAlerts/SweetAlerts";
-import { LoadingSquid } from "../../../components";
+import { ModalUpdatedUser, SearchInput, UserTable } from "./components";
 
 export const UserManagment = () => {
 	const [enableModal, setEnableModal] = useState(false);
 	const [user, setUser] = useState({});
 	const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(false);
-	const searchRef = useRef('');
+	const searchRef = useRef("");
 
 	const handleUpdatedUser = (user) => {
 		setUser(user);
 		setEnableModal(true);
 	};
-	
-	const fetchData = useCallback(async() => {
+
+	const fetchData = useCallback(async () => {
 		var response = await GetUsers(searchRef.current.value);
 		if (response.isSuccess) {
 			setUsers(response.result);
 		} else {
 			setUsers([]);
 		}
-	}, [setUsers])
+	}, [setUsers]);
 
 	useEffect(() => {
 		// const fetchData = async () => {
@@ -41,7 +41,6 @@ export const UserManagment = () => {
 		// };
 
 		fetchData();
-
 	}, [fetchData]);
 
 	const handleDeletedUser = async (email) => {
@@ -67,7 +66,7 @@ export const UserManagment = () => {
 
 	return (
 		<section className="w-[95%] min-h-screen mx-auto">
-			<SearchInput searchRef={searchRef} fetchData={fetchData}  />
+			<SearchInput searchRef={searchRef} fetchData={fetchData} />
 			<div className="flex flex-col justify-center">
 				<UserTable
 					handleUpdatedUser={handleUpdatedUser}

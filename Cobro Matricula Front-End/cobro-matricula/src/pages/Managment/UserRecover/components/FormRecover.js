@@ -1,12 +1,11 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { ResetPass } from "../../../../apiServices/UserServices";
+import { ButtonLoading, ErrorMessageValidator } from "../../../../components";
 //import Swal from "sweetalert2";
 import { SwalFailed, SwalUpdated } from "../../../../sweetAlerts/SweetAlerts";
-import { ResetPass } from "../../../../apiServices/UserServices";
-import { useForm } from "react-hook-form";
-import { ButtonLoading } from "../../../../components";
 import { message, patterns } from "../../../../utility/ValidationUser";
-import { ErrorMessageValidator } from "../../../../components";
 
 export const FormRecover = () => {
 	const [enablePass, setEnablePass] = useState(false);

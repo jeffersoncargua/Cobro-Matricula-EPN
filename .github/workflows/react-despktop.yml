@@ -12,7 +12,24 @@ permissions:
   contents: write # access to check out code and install dependencies
 
 jobs:
+  lint_prettier:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [22.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v4
+
+    # En esta seccion se realice el proceso de lint del codigo del proyecto react
+    - name: Run Lint and prettier React's project
+      run: npm run check
+      working-directory: './Cobro Matricula Front-End/cobro-matricula'
+
   build:
+    needs: [lint_prettier]
     runs-on: ubuntu-latest
     
     strategy:
@@ -29,11 +46,14 @@ jobs:
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
 
+    # En esta seccion se realiza la instalacion de las dependencias del proyecto React
     - name: Install Dependencies
       run: npm install
       working-directory: './Cobro Matricula Front-End/cobro-matricula'
     # - name: Run tests
     # - run: npm test
+    
+    # En esta seccion se realiza el build del proyecto React para su publicacion 
     - name: Build file
       run: npm run build
       working-directory: './Cobro Matricula Front-End/cobro-matricula'

@@ -3,7 +3,12 @@ import { CardPay } from "./CardPay";
 //(showPay && payment !== null)
 export const Pay = ({ payment, showPay }) => {
 	return (
-		<div tabIndex={-1} id="payment-section" name="payment-section" className={`snap-always snap-center ${showPay && payment !== null ? "" : "hidden"} w-full grid grid-cols-1 rounded-lg md:grid-cols-2 bg-emerald-950/90 p-4 mb-10 shadow-xl shadow-white/50`}>
+		<div
+			tabIndex={-1}
+			id="payment-section"
+			name="payment-section"
+			className={`snap-always snap-center ${showPay && payment !== null ? "" : "hidden"} w-full grid grid-cols-1 rounded-lg md:grid-cols-2 bg-emerald-950/90 p-4 mb-10 shadow-xl shadow-white/50`}
+		>
 			<input type="text" className="hidden" />
 			{/* {'Matricula Ordinaria'} */}
 			<CardPay

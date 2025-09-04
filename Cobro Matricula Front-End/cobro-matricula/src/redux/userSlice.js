@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { SendToken, GetToken, DeleteToken } from "../security/TokenSecurity";
 import { JWTDecode } from "../security/JWTDecode";
+import { DeleteToken, GetToken, SendToken } from "../security/TokenSecurity";
+
 //import { JWTDecode } from '../security/JWTDecode';
 
 const userSlice = createSlice({

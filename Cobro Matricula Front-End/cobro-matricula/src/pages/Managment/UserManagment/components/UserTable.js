@@ -1,6 +1,4 @@
-
-export const UserTable = ({ handleUpdatedUser, handleDeletedUser, users}) => {
-	
+export const UserTable = ({ handleUpdatedUser, handleDeletedUser, users }) => {
 	return (
 		<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
 			<table className="w-full text-sm text-left rtl:text-right text-slate-900 dark:text-gray-400 mt-14">

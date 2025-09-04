@@ -1,12 +1,16 @@
 import { useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
 import { UpdateUser } from "../../../../apiServices/UserServices";
+import { ButtonLoading, ErrorMessageValidator } from "../../../../components";
 import { SwalFailed, SwalUpdated } from "../../../../sweetAlerts/SweetAlerts";
 import { message, patterns } from "../../../../utility/ValidationUser";
-import { ButtonLoading } from "../../../../components";
-import { useForm } from "react-hook-form";
-import { ErrorMessageValidator } from "../../../../components";
 
-export const ModalUpdatedUser = ({ enableModal, setEnableModal, user,fetchData}) => {
+export const ModalUpdatedUser = ({
+	enableModal,
+	setEnableModal,
+	user,
+	fetchData,
+}) => {
 	// const [enablePass, setEnablePass] = useState(false);
 	// const [enableConfirmPass, setEnableConfirmPass] = useState(false);
 
@@ -15,36 +19,38 @@ export const ModalUpdatedUser = ({ enableModal, setEnableModal, user,fetchData})
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm();	
+	} = useForm();
 
-	const HandleSubmit = useCallback(async(userUpdated) => {
-		setShowButtonLoading(true);
+	const HandleSubmit = useCallback(
+		async (userUpdated) => {
+			setShowButtonLoading(true);
 
-		var response = await UpdateUser(userUpdated);
+			var response = await UpdateUser(userUpdated);
 
-		if (response.isSuccess) {
-			const result = await SwalUpdated(
-				"Exito!!",
-				response.message,
-				"https://i.gifer.com/SWYA.gif",
-			);
-			if (result.isConfirmed) {
-				setEnableModal(false);
+			if (response.isSuccess) {
+				const result = await SwalUpdated(
+					"Exito!!",
+					response.message,
+					"https://i.gifer.com/SWYA.gif",
+				);
+				if (result.isConfirmed) {
+					setEnableModal(false);
+				}
+			} else {
+				const result = await SwalFailed(
+					"Oops",
+					response.message,
+					"Por favor, inténtalo más tarde",
+				);
+				if (result.isConfirmed) {
+					setEnableModal(false);
+				}
 			}
-		} else {
-			const result = await SwalFailed(
-				"Oops",
-				response.message,
-				"Por favor, inténtalo más tarde",
-			);
-			if (result.isConfirmed) {
-				setEnableModal(false);
-			}
-		}
-		setShowButtonLoading(false);
-		fetchData();
-	},[setEnableModal,fetchData]);
-
+			setShowButtonLoading(false);
+			fetchData();
+		},
+		[setEnableModal, fetchData],
+	);
 
 	// const HandleSubmit = async (userUpdated) => {
 	// 	setShowButtonLoading(true);
@@ -185,8 +191,8 @@ export const ModalUpdatedUser = ({ enableModal, setEnableModal, user,fetchData})
 											type="text"
 											id="city"
 											{...register("city", {
-											required: message.req.city
-										})}
+												required: message.req.city,
+											})}
 											className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 											placeholder="Quito"
 											defaultValue={user.city}
@@ -206,12 +212,12 @@ export const ModalUpdatedUser = ({ enableModal, setEnableModal, user,fetchData})
 											type="tel"
 											id="phone"
 											{...register("phone", {
-											required: message.req.phone,
-											pattern: {
-												value: patterns.numbers,
-												message: message.phone,
-											},
-										})}
+												required: message.req.phone,
+												pattern: {
+													value: patterns.numbers,
+													message: message.phone,
+												},
+											})}
 											className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 											placeholder="0987654321"
 											pattern="[0-9]{10}"

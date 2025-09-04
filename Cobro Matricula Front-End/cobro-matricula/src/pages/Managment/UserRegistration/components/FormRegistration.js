@@ -1,11 +1,10 @@
 import { useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { RegisterUser } from "../../../../apiServices/UserServices";
-import { useForm } from "react-hook-form";
+import { ButtonLoading, ErrorMessageValidator } from "../../../../components";
 import { SwalFailed, SwalSuccess } from "../../../../sweetAlerts/SweetAlerts";
-import { ButtonLoading } from "../../../../components";
 import { message, patterns } from "../../../../utility/ValidationUser";
-import { ErrorMessageValidator } from "../../../../components";
 
 export const FormRegistration = () => {
 	//Esta funcion permitira realizar las validaciones de los campos
@@ -27,31 +26,37 @@ export const FormRegistration = () => {
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
 	const password = watch("password");
 
-	const navigate = useNavigate();	
+	const navigate = useNavigate();
 
-	const HandleSubmit = useCallback(async(registrationUser) => {
-		//e.preventDefault();
+	const HandleSubmit = useCallback(
+		async (registrationUser) => {
+			//e.preventDefault();
 
-		setShowButtonLoading(true);
+			setShowButtonLoading(true);
 
-		var response = await RegisterUser(registrationUser);
+			var response = await RegisterUser(registrationUser);
 
-		console.log(response);
+			console.log(response);
 
-		if (response.isSuccess) {
-			const result = await SwalSuccess("Registro Exitoso!!", response.message);
-			if (result.isConfirmed) {
-				navigate("/");
+			if (response.isSuccess) {
+				const result = await SwalSuccess(
+					"Registro Exitoso!!",
+					response.message,
+				);
+				if (result.isConfirmed) {
+					navigate("/");
+				}
+			} else {
+				//const result = await SwalFailed('Oops...',response.message);
+				SwalFailed("Oops...", response.message);
+				console.log(response.message);
 			}
-		} else {
-			//const result = await SwalFailed('Oops...',response.message);
-			SwalFailed("Oops...", response.message);
-			console.log(response.message);
-		}
 
-		setShowButtonLoading(false);
-	},[navigate])
-	
+			setShowButtonLoading(false);
+		},
+		[navigate],
+	);
+
 	// const HandleSubmit = async(registrationUser) => {
 	// 	//e.preventDefault();
 

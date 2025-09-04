@@ -1,4 +1,5 @@
 import Swal from "sweetalert2";
+
 var result;
 
 export async function SwalSuccess(title, text) {

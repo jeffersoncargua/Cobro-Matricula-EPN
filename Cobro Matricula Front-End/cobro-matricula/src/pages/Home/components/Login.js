@@ -1,14 +1,13 @@
-import { ButtonLoading } from "../../../components";
 import { useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 //import {useNavigate} from 'react-router-dom';
 import { LoginUser } from "../../../apiServices/UserServices";
+import { ButtonLoading, ErrorMessageValidator } from "../../../components";
+import { login } from "../../../redux/userSlice";
 //import { useFetch } from '../../../hooks/useFetch';
 import { SwalFailed, SwalSuccess } from "../../../sweetAlerts/SweetAlerts";
-import { ErrorMessageValidator } from "../../../components";
-import { useForm } from "react-hook-form";
 import { message, patterns } from "../../../utility/ValidationUser";
-import { useDispatch } from "react-redux";
-import { login } from "../../../redux/userSlice";
 
 export const Login = ({ setEnableForm, setEnableModalRecover, setLoading }) => {
 	const [enablePass, setEnablePass] = useState(false);
@@ -21,44 +20,47 @@ export const Login = ({ setEnableForm, setEnableModalRecover, setLoading }) => {
 
 	const dispath = useDispatch();
 
-	//const navigate = useNavigate();	
+	//const navigate = useNavigate();
 
-	const HandleLogin = useCallback(async(logiRequest) => {
-		setShowButtonLoading(true);
-		setLoading(true);
+	const HandleLogin = useCallback(
+		async (logiRequest) => {
+			setShowButtonLoading(true);
+			setLoading(true);
 
-		var response = await LoginUser(logiRequest);
+			var response = await LoginUser(logiRequest);
 
-		if (response.isSuccess) {
-			//Aqui se almacena el token de usuario
-			dispath(login(response.result));
+			if (response.isSuccess) {
+				//Aqui se almacena el token de usuario
+				dispath(login(response.result));
 
-			//Aqui va el swalSuccess
-			const result = await SwalSuccess(
-				"Correcto!!",
-				response.message,
-				"Bienvenido a la Universidad XYZ",
-			);
-			if (result.isConfirmed) {
-				//se debe realizar una redux para almacenar la informacion del usuario
-				setEnableForm(false);
+				//Aqui va el swalSuccess
+				const result = await SwalSuccess(
+					"Correcto!!",
+					response.message,
+					"Bienvenido a la Universidad XYZ",
+				);
+				if (result.isConfirmed) {
+					//se debe realizar una redux para almacenar la informacion del usuario
+					setEnableForm(false);
+				}
+			} else {
+				//Aqui va el swalFailed
+				//Mas adelante se debe cambiar el segundo paramatro por el que nos entregue el response del fetch
+				const result = await SwalFailed(
+					"Oops",
+					response.message,
+					"Inténtalo nuevamente",
+				);
+				if (result.isConfirmed) {
+					setEnableForm(false);
+				}
 			}
-		} else {
-			//Aqui va el swalFailed
-			//Mas adelante se debe cambiar el segundo paramatro por el que nos entregue el response del fetch
-			const result = await SwalFailed(
-				"Oops",
-				response.message,
-				"Inténtalo nuevamente",
-			);
-			if (result.isConfirmed) {
-				setEnableForm(false);
-			}
-		}
 
-		setShowButtonLoading(false);
-		setLoading(false);
-	},[dispath,setEnableForm,setLoading]);
+			setShowButtonLoading(false);
+			setLoading(false);
+		},
+		[dispath, setEnableForm, setLoading],
+	);
 
 	// const HandleLogin = async (logiRequest) => {
 	// 	setShowButtonLoading(true);

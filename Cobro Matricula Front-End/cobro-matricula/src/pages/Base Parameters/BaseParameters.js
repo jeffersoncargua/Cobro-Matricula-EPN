@@ -1,17 +1,17 @@
-import { useParams } from "react-router-dom";
-import {
-	TableParameters,
-	TextPressure,
-	ButtonEdit,
-	ModalEditParameters,
-} from "./components";
 import { useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
 	GetBaseParameters,
 	UpdateParameters,
 } from "../../apiServices/BaseParametersServices";
-import { SwalFailed, SwalSuccess } from "../../sweetAlerts/SweetAlerts";
 import { LoadingSquid } from "../../components";
+import { SwalFailed, SwalSuccess } from "../../sweetAlerts/SweetAlerts";
+import {
+	ButtonEdit,
+	ModalEditParameters,
+	TableParameters,
+	TextPressure,
+} from "./components";
 
 export const BaseParameters = () => {
 	const params = useParams();
@@ -119,7 +119,13 @@ export const BaseParameters = () => {
 					/>
 
 					<div className="w-full flex items-center justify-between gap-x-3 p-8 bg-white/90 rounded-lg">
-						<select name="" id="" className="p-2.5 rounded-lg text-sm text-center bg-transparent/10" onChange={() => handleChangeParameters()} ref={titleRef}>
+						<select
+							name=""
+							id=""
+							className="p-2.5 rounded-lg text-sm text-center bg-transparent/10"
+							onChange={() => handleChangeParameters()}
+							ref={titleRef}
+						>
 							<option value="" className="italic bg-transparent/40">
 								--- Seleccione la formación académica ---
 							</option>

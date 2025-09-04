@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Loading } from "./components/Loading";
 import "./style/UserConfirmation.css";
@@ -11,28 +11,26 @@ export const UserConfirmation = () => {
 
 	const navigate = useNavigate(); //Descomentar cuando se vaya a configurar el enlace con las API de autenticacio
 
-	const ConfirmCount = useCallback(async() => {
+	const ConfirmCount = useCallback(async () => {
 		var response = await ConfirmationUser(params);
 
-			if (response.isSuccess) {
-				const result = await SwalSuccess("Cuenta Verificada", response.message);
-				if (result.isConfirmed) {
-					navigate("/");
-				}
-			} else {
-				const result = await SwalFailed(
-					"Oops...",
-					response.message,
-					"Solicita ayuda del administrador o crea una nueva cuenta",
-				);
-				if (result.isConfirmed) {
-					navigate("/");
-				}
+		if (response.isSuccess) {
+			const result = await SwalSuccess("Cuenta Verificada", response.message);
+			if (result.isConfirmed) {
+				navigate("/");
 			}
+		} else {
+			const result = await SwalFailed(
+				"Oops...",
+				response.message,
+				"Solicita ayuda del administrador o crea una nueva cuenta",
+			);
+			if (result.isConfirmed) {
+				navigate("/");
+			}
+		}
 		setShowInfo(false);
-	  },[navigate, params]
-	)
-	
+	}, [navigate, params]);
 
 	useEffect(() => {
 		setShowInfo(true);
@@ -62,7 +60,7 @@ export const UserConfirmation = () => {
 		setTimeout(() => {
 			ConfirmCount();
 		}, 5000);
-	//}, [navigate, params]);
+		//}, [navigate, params]);
 	}, [ConfirmCount]);
 
 	return (

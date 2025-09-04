@@ -34,7 +34,7 @@ export const TextPressure = ({
 	const [lineHeight, setLineHeight] = useState(1);
 
 	const chars = text.split("");
-	
+
 	const dist = (a, b) => {
 		const dx = b.x - a.x;
 		const dy = b.y - a.y;
@@ -69,7 +69,6 @@ export const TextPressure = ({
 			window.removeEventListener("touchmove", handleTouchMove);
 		};
 	}, []);
-	
 
 	const setSize = () => {
 		if (!containerRef.current || !titleRef.current) return;
@@ -144,7 +143,7 @@ export const TextPressure = ({
 
 		animate();
 		return () => cancelAnimationFrame(rafId);
-	}, [width, weight, italic, alpha, chars.length]);	
+	}, [width, weight, italic, alpha, chars.length]);
 
 	return (
 		<div

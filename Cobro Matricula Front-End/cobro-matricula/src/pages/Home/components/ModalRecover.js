@@ -1,11 +1,9 @@
-import { ButtonLoading } from "../../../components";
 import { useCallback, useState } from "react";
-import { ForgetPass } from "../../../apiServices/UserServices";
-import { ErrorMessageValidator } from "../../../components";
-
-//import { useNavigate } from 'react-router-dom';
-import { SwalSuccess, SwalFailed } from "../../../sweetAlerts/SweetAlerts";
 import { useForm } from "react-hook-form";
+import { ForgetPass } from "../../../apiServices/UserServices";
+import { ButtonLoading, ErrorMessageValidator } from "../../../components";
+//import { useNavigate } from 'react-router-dom';
+import { SwalFailed, SwalSuccess } from "../../../sweetAlerts/SweetAlerts";
 import { message, patterns } from "../../../utility/ValidationUser";
 
 export const ModalRecover = ({ enableModalRecover, setEnableModalRecover }) => {
@@ -16,36 +14,38 @@ export const ModalRecover = ({ enableModalRecover, setEnableModalRecover }) => {
 	} = useForm();
 
 	const [showButtonLoading, setShowButtonLoading] = useState(false);
-	//const navigate = useNavigate();	
+	//const navigate = useNavigate();
 
+	const HandleSubmitRecover = useCallback(
+		async (forgetResquest) => {
+			setShowButtonLoading(true);
 
-	const HandleSubmitRecover = useCallback(async(forgetResquest) => {
-		setShowButtonLoading(true);
+			console.log(forgetResquest);
 
-		console.log(forgetResquest);
+			var response = await ForgetPass(forgetResquest.email);
 
-		var response = await ForgetPass(forgetResquest.email);
-
-		if (response.isSuccess) {
-			//SwalSuccess para cuando la respuesta es positiva desde el api
-			const result = await SwalSuccess("Solicitud Enviada", response.message);
-			if (result.isConfirmed) {
-				setEnableModalRecover(false);
+			if (response.isSuccess) {
+				//SwalSuccess para cuando la respuesta es positiva desde el api
+				const result = await SwalSuccess("Solicitud Enviada", response.message);
+				if (result.isConfirmed) {
+					setEnableModalRecover(false);
+				}
+			} else {
+				//SwalFailed para cuando la respuesta es positiva desde el api
+				const result = await SwalFailed(
+					"Oops...",
+					response.message,
+					"Solicita ayuda del administrador o crea una nueva cuenta",
+				);
+				if (result.isConfirmed) {
+					setEnableModalRecover(false);
+				}
 			}
-		} else {
-			//SwalFailed para cuando la respuesta es positiva desde el api
-			const result = await SwalFailed(
-				"Oops...",
-				response.message,
-				"Solicita ayuda del administrador o crea una nueva cuenta",
-			);
-			if (result.isConfirmed) {
-				setEnableModalRecover(false);
-			}
-		}
 
-		setShowButtonLoading(false);
-	},[setEnableModalRecover]);
+			setShowButtonLoading(false);
+		},
+		[setEnableModalRecover],
+	);
 
 	// const HandleSubmitRecover = async (forgetResquest) => {
 	// 	setShowButtonLoading(true);

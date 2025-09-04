@@ -1,3 +1,3 @@
-export { UserCard } from "./UserCard";
 export { Login } from "./Login";
 export { ModalRecover } from "./ModalRecover";
+export { UserCard } from "./UserCard";

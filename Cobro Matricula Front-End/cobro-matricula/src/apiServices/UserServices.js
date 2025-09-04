@@ -66,15 +66,15 @@ export async function ConfirmationUser(confirmRequest) {
 	return response.json();
 }
 
-export async function GetUsers(search = '') {
+export async function GetUsers(search = "") {
 	const verbose = "GET";
 	const route = `api/User/GetUsers`;
-	const query = `?query=${search}`
+	const query = `?query=${search}`;
 
-	var response = await useFetch({ 
-		verbose: verbose, 
-		route: route, 
-		query: query
+	var response = await useFetch({
+		verbose: verbose,
+		route: route,
+		query: query,
 	});
 
 	return response.json();

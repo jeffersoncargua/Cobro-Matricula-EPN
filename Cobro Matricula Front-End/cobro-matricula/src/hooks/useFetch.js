@@ -13,27 +13,29 @@ export const useFetch = async ({
 	var response;
 
 	switch (verbose) {
-		case "GET": response = await fetch(`${apiUrl}/${route + query}`, {
-					method: verbose,
-					headers: {
-						"Content-Type": "application/json",
-						Accept: "application/json",
-						Authorization: authToken !== null ? `Bearer ${authToken}` : "",
-					},
-				});
+		case "GET":
+			response = await fetch(`${apiUrl}/${route + query}`, {
+				method: verbose,
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+					Authorization: authToken !== null ? `Bearer ${authToken}` : "",
+				},
+			});
 
 			break;
-		
-		default: response = await fetch(`${apiUrl}/${route + query}`, {
-					method: verbose,
-					headers: {
-						"Content-Type": "application/json",
-						Accept: "application/json",
-						"Access-Control-Allow-Origin": `${apiUrl}`,
-						Authorization: authToken !== null ? `Bearer ${authToken}` : "",
-					},
-					body: JSON.stringify(objectRequest),
-				});
+
+		default:
+			response = await fetch(`${apiUrl}/${route + query}`, {
+				method: verbose,
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+					"Access-Control-Allow-Origin": `${apiUrl}`,
+					Authorization: authToken !== null ? `Bearer ${authToken}` : "",
+				},
+				body: JSON.stringify(objectRequest),
+			});
 
 			break;
 	}

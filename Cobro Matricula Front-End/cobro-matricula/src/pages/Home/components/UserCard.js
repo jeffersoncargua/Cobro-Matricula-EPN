@@ -27,13 +27,15 @@ export const UserCard = ({ Photo, User, Action, handleOption, enableForm }) => {
 
 			<span className="underline font-semibold text-center">{User}</span>
 			{enableForm && User === "Administrador"
-				? <button type="button"
+				? <button
+						type="button"
 						onClick={() => handleOption("Cancelar")}
 						className={`${styleColor} ring-2 ring-black`}
 					>
 						Cancelar
 					</button>
-				: <button type="button"
+				: <button
+						type="button"
 						onClick={() => handleOption(Action)}
 						className={`${styleColor} ring-2 ring-black`}
 					>

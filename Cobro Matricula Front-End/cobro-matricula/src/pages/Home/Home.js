@@ -1,12 +1,11 @@
-import { UserCard, Login, ModalRecover } from "./components";
-
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Admin from "../../assets/administrador.png";
 import Student from "../../assets/estudiante.png";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../redux/userSlice";
 import { LoadingSquid } from "../../components";
+import { logout } from "../../redux/userSlice";
+import { Login, ModalRecover, UserCard } from "./components";
 
 export const Home = () => {
 	const [enableForm, setEnableForm] = useState(false);
