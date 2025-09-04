@@ -45,7 +45,7 @@ namespace Cobro_Matricula_EPN.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<APIResponse>> GetAll([FromQuery] string query = null)
         {
-            var users = await _userRepo.GetUsers(u => u.Name == query);
+            var users = await _userRepo.GetUsers(query != null ? u => u.Name.Contains(query) : null);
 
             _response.IsSuccess = true;
             _response.Message.Add("Se envio la lista de usuarios");

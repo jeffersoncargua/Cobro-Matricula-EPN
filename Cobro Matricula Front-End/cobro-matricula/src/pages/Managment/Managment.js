@@ -1,9 +1,9 @@
-import { Outlet } from "react-router-dom"
+import { Outlet } from "react-router-dom";
 
 export const Managment = () => {
-  return (
-    <div className="container mx-auto">
-        <Outlet />
-    </div>
-  )
-}
+	return (
+		<div className="container mx-auto">
+			<Outlet />
+		</div>
+	);
+};

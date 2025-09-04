@@ -1,11 +1,12 @@
 
 name: "Deploy Web Page React"
 
-on:
- push: 
-    branches: [ master ] 
- pull_request: 
-    branches: [ master ]
+on: workflow_dispatch
+ #push: 
+    #branches: [ master ] 
+ #pull_request: 
+    #branches: [ master ]
+  
 
 permissions:
   contents: write # access to check out code and install dependencies
@@ -70,3 +71,6 @@ jobs:
 
 # Tambien, se debe considerar que se debe configurar con las versiones compatibles en actions/checkout y setup-node para que se puedan ejecutar
 # los comandos de forma correcta.
+
+# Nota: Es importante mencionar que al realizar el deploy de un proyecto este debe estar vinculado o ejecutado con el proceso de build, publish y deploy
+# sino no funciona correctamente la ejecucion de los pasos del archivo yml 

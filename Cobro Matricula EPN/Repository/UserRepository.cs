@@ -3,6 +3,7 @@
 // </copyright>
 
 using AutoMapper;
+using Cobro_Matricula_EPN.Context;
 using Cobro_Matricula_EPN.Repository.IRepository;
 using Entity.DTO.User;
 using Entity.Entities;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Text;
@@ -464,11 +466,15 @@ namespace Cobro_Matricula_EPN.Repository
         /// </summary>
         /// <param name="filter">Es un parametro que permitira realizar los filtros para obtener la lista de resultados de los usuarios.</param>
         /// <returns>Retorna la lista de los usuarios y que cumplan el filtro de busqueda.</returns>
-        public async Task<List<UserDto>> GetUsers(Expression<Func<ApplicationUser, bool>>? filter = null)
+        public Task<List<UserDto>> GetUsers(Expression<Func<ApplicationUser, bool>>? filter = null)
         {
-            var users = await _userManager.Users.Where(filter).ToListAsync();
+            IQueryable<ApplicationUser> users = _userManager.Users.AsQueryable();
+            if (filter != null)
+            {
+                users = users.Where(filter);
+            }
 
-            return _mapper.Map<List<UserDto>>(users);
+            return Task.FromResult(_mapper.Map<List<UserDto>>(users));
         }
     }
 }

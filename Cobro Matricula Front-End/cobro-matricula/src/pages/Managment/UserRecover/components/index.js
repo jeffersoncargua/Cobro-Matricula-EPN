@@ -1,1 +1,1 @@
-export {FormRecover} from './FormRecover';
+export { FormRecover } from "./FormRecover";

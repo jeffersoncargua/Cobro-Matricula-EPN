@@ -26,7 +26,10 @@
     "start": "set HTTPS=true&&set SSL_CRT_FILE=C:/Windows/System32/cert.crt&&set SSL_KEY_FILE=C:/Windows/System32/cert.key&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "npx @biomejs/biome lint --write ./src",
+    "format": "npx @biomejs/biome format --write ./src",
+    "check": "npx @biomejs/biome check --write ./src"
   },
   "eslintConfig": {
     "extends": [
@@ -47,7 +50,13 @@
     ]
   },
   "devDependencies": {
+    "@biomejs/biome": "2.2.2",
+    "@eslint/css": "^0.11.0",
+    "@eslint/js": "^9.34.0",
+    "@eslint/json": "^0.13.2",
+    "@eslint/markdown": "^7.2.0",
     "eslint-config-react-app": "^7.0.1",
+    "globals": "^16.3.0",
     "tailwindcss": "^3.4.17"
   }
 }
