@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.png";
 import { getUser, logout } from "../redux/userSlice";
 
@@ -9,6 +9,7 @@ export const Header = () => {
 	//const [enableDropParameters, setEnableDropParameters] = useState(false);
 	const [enableMenu, setEnableMenu] = useState(false);
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const user = useSelector((state) => state.userState);
 
@@ -20,6 +21,7 @@ export const Header = () => {
 		dispatch(logout());
 		setEnableDrop(false);
 		setEnableMenu(false);
+		navigate('/');
 	};
 
 	return (
