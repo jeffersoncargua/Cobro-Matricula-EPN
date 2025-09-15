@@ -119,7 +119,7 @@ export const Students = () => {
 					setElementFocus={setElementFocus}
 				/>
 				<InformationForStudents />
-				<Pay payment={payment} showPay={showPay} />
+				{showPay && <Pay payment={payment} showPay={showPay} />}
 				{loading && <LoadingSquid />}
 			</div>
 		</div>

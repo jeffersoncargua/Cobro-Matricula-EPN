@@ -14,19 +14,29 @@ export const useFetch = async ({
 
 	switch (verbose) {
 		case "GET":
-			response = await fetch(`${apiUrl}/${route + query}`, {
+			await fetch(`${apiUrl}/${route + query}`, {
 				method: verbose,
 				headers: {
 					"Content-Type": "application/json",
 					Accept: "application/json",
 					Authorization: authToken !== null ? `Bearer ${authToken}` : "",
 				},
-			});
+			})
+				.then((result) => (response = result))
+				.catch(
+					() =>
+						(response = {
+							isSuccess: false,
+							message: ["Acceso Denagado. No se pudo realizar esta operación."],
+							result: null,
+							statusCode: 500,
+						}),
+				);
 
 			break;
 
 		default:
-			response = await fetch(`${apiUrl}/${route + query}`, {
+			await fetch(`${apiUrl}/${route + query}`, {
 				method: verbose,
 				headers: {
 					"Content-Type": "application/json",
@@ -35,7 +45,17 @@ export const useFetch = async ({
 					Authorization: authToken !== null ? `Bearer ${authToken}` : "",
 				},
 				body: JSON.stringify(objectRequest),
-			});
+			})
+				.then((result) => (response = result))
+				.catch(
+					() =>
+						(response = {
+							isSuccess: false,
+							message: ["Acceso Denagado. No se pudo realizar esta operación"],
+							result: null,
+							statusCode: 500,
+						}),
+				);
 
 			break;
 	}

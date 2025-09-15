@@ -21,12 +21,12 @@ export const Header = () => {
 		dispatch(logout());
 		setEnableDrop(false);
 		setEnableMenu(false);
-		navigate('/');
+		navigate("/");
 	};
 
 	return (
 		<div className="bg-white border-gray-200 dark:bg-gray-900">
-			<div className=" flex items-center justify-center mx-auto p-4 bg-slate-200">
+			<div className=" flex items-center justify-center mx-auto p-4 bg-sky-200/60">
 				<Link
 					to="/"
 					className="flex flex-wrap gap-y-2 items-center justify-center space-x-3 rtl:space-x-reverse  "

@@ -10,5 +10,9 @@ export async function CalculatorPay(calculatorRequest) {
 		objectRequest: calculatorRequest,
 	});
 
+	if (response.statusCode === 500) {
+		return response;
+	}
+
 	return response.json();
 }

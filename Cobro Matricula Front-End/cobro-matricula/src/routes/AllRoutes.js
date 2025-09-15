@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { BaseParameters, Home, Managment, Students } from "../pages";
+import { BaseParameters, Home, Managment, Students, PageNotFound } from "../pages";
 import {
 	UserConfirmation,
 	UserManagment,
@@ -19,6 +19,7 @@ export const AllRoutes = () => {
 			</Route>
 			<Route path="parameters" element={<BaseParameters />} />
 			<Route path="calculator" element={<Students />} />
+			<Route path="*" element={<PageNotFound />} />
 		</Routes>
 	);
 };

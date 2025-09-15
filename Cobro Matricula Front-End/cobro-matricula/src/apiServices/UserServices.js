@@ -10,6 +10,10 @@ export async function LoginUser(loginRequest) {
 		objectRequest: loginRequest,
 	});
 
+	if (response.statusCode === 500) {
+		return response;
+	}
+
 	return response.json();
 }
 
