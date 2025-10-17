@@ -105,20 +105,20 @@ export const Header = () => {
 											type="button"
 											data-dropdown-toggle="dropdownNavbar"
 											onClick={() => setEnableDrop(true)}
-											className="flex items-center md:justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:underline md:hover:underline-offset-8 md:hover:decoration-4 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto"
+											className="flex items-center md:justify-between w-full py-2 px-3 text-gray-900 md:hover:underline md:hover:underline-offset-8 md:hover:decoration-4 md:hover:bg-transparent md:border-0 md:p-0 md:w-auto"
 										>
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												aria-label="GestionUser"
 												fill="currentColor"
-												className="bi bi-people w-5 h-5 ms-1.5 me-1.5"
+												className="bi bi-people w-5 h-5 md:ms-1.5 me-1.5"
 												viewBox="0 0 16 16"
 											>
 												<path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4" />
 											</svg>
 											Gestion de Usuarios
 											<svg
-												className="w-2.5 h-2.5 ms-2.5"
+												className="w-2.5 h-2.5 ms-2.5 max-md:ml-auto"
 												aria-hidden="true"
 												xmlns="http://www.w3.org/2000/svg"
 												fill="none"
@@ -205,7 +205,7 @@ export const Header = () => {
 												setEnableDrop(false);
 												setEnableMenu(false);
 											}}
-											className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
+											className="block py-2 px-3 text-gray-900 rounded-sm md:hover:bg-transparent md:border-0 md:p-0"
 										>
 											Parámetros Base
 										</NavLink>
@@ -217,7 +217,7 @@ export const Header = () => {
 									<button
 										type="button"
 										onClick={() => handleLogout()}
-										className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 "
+										className="block py-2 px-3 text-gray-900 rounded-sm md:hover:bg-transparent md:border-0 md:p-0 "
 									>
 										Cerrar Sesión
 									</button>
