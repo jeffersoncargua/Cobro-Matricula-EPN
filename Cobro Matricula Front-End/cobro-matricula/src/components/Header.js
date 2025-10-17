@@ -105,7 +105,7 @@ export const Header = () => {
 											type="button"
 											data-dropdown-toggle="dropdownNavbar"
 											onClick={() => setEnableDrop(true)}
-											className="flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:underline md:hover:underline-offset-8 md:hover:decoration-4 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto"
+											className="flex items-center md:justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:underline md:hover:underline-offset-8 md:hover:decoration-4 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto"
 										>
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
@@ -173,7 +173,7 @@ export const Header = () => {
                       </div> */}
 										</div>
 									</li>
-									<li className="flex hover:text-blue-700">
+									<li className="flex items-center hover:text-blue-700">
 										{/* <button id="dropdownNavbarNavLink" data-dropdown-toggle="dropdownNavbar" onMouseOver={() => setEnableDropParameters(true)} onMouseLeave={() => setEnableDropParameters(false)} className="flex items-center justify-between w-full py-2 px-3 text-gray-900 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Parametros Base 
                     <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                       <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
@@ -207,7 +207,7 @@ export const Header = () => {
 											}}
 											className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0"
 										>
-											Parametros Base
+											Parámetros Base
 										</NavLink>
 									</li>
 								</>
