@@ -87,7 +87,7 @@ export const FormRegistration = () => {
 		>
 			<div className="grid gap-6 mb-6 md:grid-cols-2  ">
 				<div>
-					<label htmlFor="name" className="block mb-2 text-sm font-medium ">
+					<label htmlFor="name" className="block mb-2 text-xs md:text-sm font-medium ">
 						Nombre
 					</label>
 					<input
@@ -97,7 +97,7 @@ export const FormRegistration = () => {
 							required: message.req.name,
 							pattern: { value: patterns.letters, message: message.name },
 						})}
-						className={` bg-gray-50 border  ${errors.name ? "text-red-500  focus:outline-red-700" : "text-slate-800 focus:outline-blue-500"} text-sm rounded-lg block w-full p-2.5 `}
+						className={` bg-gray-50 border  ${errors.name ? "text-red-500  focus:outline-red-700" : "text-slate-800 focus:outline-blue-500"} text-xs md:text-sm rounded-lg block w-full p-2.5 `}
 						placeholder="Roberta"
 					/>
 					{errors.name && (
@@ -107,7 +107,7 @@ export const FormRegistration = () => {
 				<div>
 					<label
 						htmlFor="lastName"
-						className="block mb-2 text-sm font-medium dark:text-white"
+						className="block mb-2 text-xs md:text-sm font-medium dark:text-white"
 					>
 						Apellido
 					</label>
@@ -118,7 +118,7 @@ export const FormRegistration = () => {
 							required: message.req.lastName,
 							pattern: { value: patterns.letters, message: message.lastName },
 						})}
-						className={` bg-gray-50 border  ${errors.lastName ? "text-red-500  focus:outline-red-700" : "text-slate-800 focus:outline-blue-500"} text-sm rounded-lg block w-full p-2.5 `}
+						className={` bg-gray-50 border  ${errors.lastName ? "text-red-500  focus:outline-red-700" : "text-slate-800 focus:outline-blue-500"} text-xs md:text-sm rounded-lg block w-full p-2.5 `}
 						placeholder="Mendez"
 					/>
 					{errors.lastName && (
@@ -128,7 +128,7 @@ export const FormRegistration = () => {
 				<div>
 					<label
 						htmlFor="city"
-						className="block mb-2 text-sm font-medium  dark:text-white"
+						className="block mb-2 text-xs md:text-sm font-medium  dark:text-white"
 					>
 						Ciudad
 					</label>
@@ -136,7 +136,7 @@ export const FormRegistration = () => {
 						type="text"
 						name="city"
 						{...register("city", { required: message.req.city })}
-						className={` bg-gray-50 border  ${errors.city ? "text-red-500  focus:outline-red-700" : "text-slate-800 focus:outline-blue-500"} text-sm rounded-lg block w-full p-2.5 `}
+						className={` bg-gray-50 border  ${errors.city ? "text-red-500  focus:outline-red-700" : "text-slate-800 focus:outline-blue-500"} text-xs md:text-sm rounded-lg block w-full p-2.5 `}
 						placeholder="Guayaquil"
 					/>
 					{errors.city && (
@@ -146,7 +146,7 @@ export const FormRegistration = () => {
 				<div>
 					<label
 						htmlFor="phone"
-						className="block mb-2 text-sm font-medium  dark:text-white"
+						className="block mb-2 text-xs md:text-sm font-medium  dark:text-white"
 					>
 						Telefono: +593
 					</label>
@@ -157,7 +157,7 @@ export const FormRegistration = () => {
 							required: message.req.phone,
 							pattern: { value: patterns.numbers, message: message.phone },
 						})}
-						className={` bg-gray-50 border  ${errors.phone ? "text-red-500  focus:outline-red-700" : "text-slate-800 focus:outline-blue-500"} text-sm rounded-lg block w-full p-2.5 `}
+						className={` bg-gray-50 border  ${errors.phone ? "text-red-500  focus:outline-red-700" : "text-slate-800 focus:outline-blue-500"} text-xs md:text-sm rounded-lg block w-full p-2.5 `}
 						placeholder="0987654321"
 					/>
 					{errors.phone && (
@@ -168,7 +168,7 @@ export const FormRegistration = () => {
 			<div className="mb-6">
 				<label
 					htmlFor="email"
-					className="block mb-2 text-sm font-medium  dark:text-white"
+					className="block mb-2 text-xs md:text-sm font-medium  dark:text-white"
 				>
 					Correo Electrónico
 				</label>
@@ -179,7 +179,7 @@ export const FormRegistration = () => {
 						required: message.req.email,
 						pattern: { value: patterns.email, message: message.email },
 					})}
-					className={` bg-gray-50 border  ${errors.email ? "text-red-500  focus:outline-red-700" : "text-slate-800 focus:outline-blue-500"} text-sm rounded-lg block w-full p-2.5 `}
+					className={` bg-gray-50 border  ${errors.email ? "text-red-500  focus:outline-red-700" : "text-slate-800 focus:outline-blue-500"} text-xs md:text-sm rounded-lg block w-full p-2.5 `}
 					placeholder="example@example.com"
 				/>
 				{errors.email && (
@@ -189,7 +189,7 @@ export const FormRegistration = () => {
 			<div className="mb-6">
 				<label
 					htmlFor="password"
-					className="block mb-2 text-sm font-medium  dark:text-white"
+					className="block mb-2 text-xs md:text-sm font-medium  dark:text-white"
 				>
 					Contraseña
 				</label>
@@ -201,7 +201,7 @@ export const FormRegistration = () => {
 							required: message.req.password,
 							pattern: { value: patterns.password, message: message.password },
 						})}
-						className={` bg-gray-50 border  ${errors.password ? "text-red-500  focus:outline-red-700" : "text-slate-800 focus:outline-blue-500"} text-sm rounded-lg block w-full p-2.5 `}
+						className={` bg-gray-50 border  ${errors.password ? "text-red-500  focus:outline-red-700" : "text-slate-800 focus:outline-blue-500"} text-xs md:text-sm rounded-lg block w-full p-2.5 `}
 						placeholder="•••••••••"
 					/>
 					<button
@@ -237,7 +237,7 @@ export const FormRegistration = () => {
 			<div className="mb-6 ">
 				<label
 					htmlFor="confirmPass"
-					className="block mb-2 text-sm font-medium  dark:text-white"
+					className="block mb-2 text-xs md:text-sm font-medium  dark:text-white"
 				>
 					Confirmar Contraseña
 				</label>
@@ -249,7 +249,7 @@ export const FormRegistration = () => {
 							required: message.req.confirmPass,
 							validate: (value) => value === password || message.confirmPass,
 						})}
-						className={` bg-gray-50 border  ${errors.confirmPass ? "text-red-500  focus:outline-red-700" : "text-slate-800 focus:outline-blue-500"} text-sm rounded-lg block w-full p-2.5 `}
+						className={` bg-gray-50 border  ${errors.confirmPass ? "text-red-500  focus:outline-red-700" : "text-slate-800 focus:outline-blue-500"} text-xs md:text-sm rounded-lg block w-full p-2.5 `}
 						placeholder="•••••••••"
 					/>
 					<button
@@ -286,13 +286,13 @@ export const FormRegistration = () => {
             <div className="flex items-center h-5">
             <input id="remember" type="checkbox" value="" onChange={() => setEnableRegistrationButton(!enableRegistrationButton)} className="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 " />
             </div>
-            <label htmlFor="remember" className="ms-2 text-sm font-medium  dark:text-gray-300">Aceptas los <Link to='/' className="text-pink-600 hover:underline dark:text-blue-500">términos y condiciones</Link>.</label>
+            <label htmlFor="remember" className="ms-2 text-xs md:text-sm font-medium  dark:text-gray-300">Aceptas los <Link to='/' className="text-pink-600 hover:underline dark:text-blue-500">términos y condiciones</Link>.</label>
         </div> */}
 
 			{!showButtonLoading
 				? <button
 						type="submit"
-						className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center  `}
+						className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer font-medium rounded-lg text-xs md:text-sm w-full sm:w-auto px-5 py-2.5 text-center  `}
 					>
 						Registrar
 					</button>

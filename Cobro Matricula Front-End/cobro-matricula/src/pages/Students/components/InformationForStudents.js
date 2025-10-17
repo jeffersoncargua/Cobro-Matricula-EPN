@@ -5,7 +5,7 @@ export const InformationForStudents = () => {
 				Información Importante
 			</h1>
 			<div className="grid grid-cols-1 md:grid-cols-2 mt-6 gap-y-2 md:gap-y-0">
-				<section className="w-[90%] mx-auto text-white text-sm border rounded-lg p-4 md:hover:-translate-y-2 md:hover:-translate-x-4 md:hover:scale-[1.08] md:hover:shadow-lg md:hover:shadow-white md:transition md:delay-150 md:duration-300 md:ease-in-out">
+				<section className="w-[90%] mx-auto text-white text-xs md:text-sm border rounded-lg p-4 md:hover:-translate-y-2 md:hover:-translate-x-4 md:hover:scale-[1.08] md:hover:shadow-lg md:hover:shadow-white md:transition md:delay-150 md:duration-300 md:ease-in-out">
 					<h3 className="underline underline-offset-4 flex flex-row justify-center items-center text-center mb-4">
 						<span>
 							<svg
@@ -23,7 +23,7 @@ export const InformationForStudents = () => {
 						Si no recuerdas el quintil socioeconómico al que perteneces, sigue
 						las siguientes instrucciones:
 					</p>
-					<ul className="text-justify list-disc list-inside ">
+					<ul className="text-justify list-disc list-inside leading-6 ">
 						<li>
 							Ingresa al SAEW con el siguiente enlace{" "}
 							<a
@@ -47,7 +47,7 @@ export const InformationForStudents = () => {
 						</li>
 					</ul>
 				</section>
-				<section className="w-[90%] mx-auto text-sm text-white border rounded-lg p-4 md:hover:-translate-y-2 md:hover:translate-x-4 md:hover:scale-[1.08] md:hover:shadow-lg md:hover:shadow-white md:transition md:delay-150 md:duration-300 md:ease-in-out">
+				<section className="w-[90%] mx-auto text-xs md:text-sm text-white border rounded-lg p-4 md:hover:-translate-y-2 md:hover:translate-x-4 md:hover:scale-[1.08] md:hover:shadow-lg md:hover:shadow-white md:transition md:delay-150 md:duration-300 md:ease-in-out">
 					<h3 className="underline underline-offset-4 flex flex-row justify-center items-center text-center mb-4">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +59,7 @@ export const InformationForStudents = () => {
 						</svg>
 						Considerar lo siguiente:
 					</h3>
-					<ul className="text-justify list-disc list-inside">
+					<ul className="text-justify list-disc list-inside leading-6">
 						<li>
 							Si reporbaste asignaturas en el periodo academico previo, tu
 							sitiacion de gratuidad es de perdida de Gratuidad Parcial.

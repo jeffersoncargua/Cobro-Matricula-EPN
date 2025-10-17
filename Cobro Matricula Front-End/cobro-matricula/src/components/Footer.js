@@ -8,7 +8,7 @@ export const Footer = () => {
 					© 2025
 					<Link href="https://flowbite.com/" className="hover:underline">
 						{" "}
-						UniversidadXYZ™{" "}
+						Jefferson Cargua™{" "}
 					</Link>
 					. Derechos reservados.
 				</span>

@@ -5,7 +5,7 @@ import { AllRoutes } from "./routes/AllRoutes";
 
 function App() {
 	return (
-		<main className={`App bg-[url('./assets/Fondo2.jpg')]`}>
+		<main className={`App gTwo`}>
 			<Header />
 			<AllRoutes />
 			<Footer />

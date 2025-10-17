@@ -36,7 +36,7 @@ export const FormCalculator = ({
 			className="w-[90%] md:w-full mx-auto bg-emerald-950/50 p-2 snap-always snap-center"
 			onSubmit={handleSubmit(HandleCalculator)}
 		>
-			<div className="w-full grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-y-0 ">
+			<div className="w-full grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-y-0 text-xs md:text-sm">
 				<section className="p-4">
 					<div className="flex flex-col gap-y-2 text-start">
 						<label
@@ -48,7 +48,7 @@ export const FormCalculator = ({
 						<select
 							name="formacionAcademica"
 							id="formacionAcademica"
-							className="p-2 rounded-lg text-center text-sm italic"
+							className="p-2 rounded-lg text-center  italic"
 							{...register("formacionAcademica", {
 								required: message.req.formAcademy,
 								valueAsNumber: true,
@@ -77,7 +77,7 @@ export const FormCalculator = ({
 						<select
 							name="regimen"
 							id="regimen"
-							className="p-2 rounded-lg text-center text-sm italic"
+							className="p-2 rounded-lg text-center  italic"
 							{...register("regimen", { required: message.req.regimen })}
 						>
 							<option value={""}>--- Seleccione su Régimen ---</option>
@@ -101,7 +101,7 @@ export const FormCalculator = ({
 						<select
 							name="quintil"
 							id="quintil"
-							className="p-2 rounded-lg text-center text-sm italic"
+							className="p-2 rounded-lg text-center  italic"
 							{...register("quintil", {
 								required: message.req.quintil,
 								valueAsNumber: true,
@@ -130,7 +130,7 @@ export const FormCalculator = ({
 						>
 							¿Tiene gratuidad Gratuidad?:{" "}
 						</label>
-						<ul className="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex ">
+						<ul className="items-center w-full  font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex ">
 							<li className="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
 								<div className="flex items-center ps-3">
 									<input
@@ -145,7 +145,7 @@ export const FormCalculator = ({
 									/>
 									<label
 										htmlFor="gratuidadYes"
-										className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+										className="w-full py-3 ms-2  font-medium text-gray-900 dark:text-gray-300"
 									>
 										Si
 									</label>
@@ -165,7 +165,7 @@ export const FormCalculator = ({
 									/>
 									<label
 										htmlFor="gratuidadNo"
-										className="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+										className="w-full py-3 ms-2  font-medium text-gray-900 dark:text-gray-300"
 									>
 										No
 									</label>
@@ -270,7 +270,7 @@ export const FormCalculator = ({
 					</div>
 				</section>
 			</div>
-			<div className="w-[90%] mx-auto flex flex-row justify-between space-x-10 mt-2">
+			<div className="w-[90%] mx-auto flex flex-row text-sm justify-between space-x-10 mt-2">
 				<button
 					type="button"
 					onClick={() => handleCleanForm()}

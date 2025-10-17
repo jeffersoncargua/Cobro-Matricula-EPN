@@ -55,7 +55,7 @@ export const FormRecover = () => {
 
 	return (
 		<form
-			className="border border-slate-600 p-2 rounded-lg w-80 text-sm space-y-4 bg-gray-500/50"
+			className="border border-slate-600 p-2 rounded-lg w-80 text-xs md:text-sm space-y-4 bg-gray-500/50"
 			onSubmit={handleSubmit(handleChangePass)}
 		>
 			<label

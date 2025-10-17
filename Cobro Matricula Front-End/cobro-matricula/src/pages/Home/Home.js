@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Admin from "../../assets/administrador.png";
-import Student from "../../assets/estudiante.png";
+import Admin from "../../assets/Administrador2.png";
+import Student from "../../assets/Alumna.png";
 import { LoadingSquid } from "../../components";
 import { logout } from "../../redux/userSlice";
 import { Login, ModalRecover, UserCard } from "./components";

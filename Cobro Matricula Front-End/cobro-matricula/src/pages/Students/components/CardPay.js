@@ -6,7 +6,7 @@ export const CardPay = ({
 }) => {
 	return (
 		<section
-			className={`w-[70%] mx-auto text-white text-sm text-start ${recargoExtraordinaria !== null && "md:mt-0 mt-4"} `}
+			className={`w-[70%] mx-auto text-white text-xs md:text-sm text-start ${recargoExtraordinaria !== null && "md:mt-0 mt-4"} `}
 		>
 			<h2 className="underline underline-offset-4 mb-4">Matricula {title}:</h2>
 			<span className="">

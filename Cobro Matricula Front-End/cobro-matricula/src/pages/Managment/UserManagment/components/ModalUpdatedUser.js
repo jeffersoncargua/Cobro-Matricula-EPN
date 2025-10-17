@@ -100,7 +100,7 @@ export const ModalUpdatedUser = ({
 							<button
 								type="button"
 								onClick={() => setEnableModal(false)}
-								className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+								className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xs md:text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
 								data-modal-hide="authentication-modal"
 							>
 								<svg
@@ -131,7 +131,7 @@ export const ModalUpdatedUser = ({
 									<div>
 										<label
 											htmlFor="name"
-											className="block mb-2 text-sm font-medium  dark:text-white"
+											className="block mb-2 text-xs md:text-sm font-medium  dark:text-white"
 										>
 											Nombre
 										</label>
@@ -145,7 +145,7 @@ export const ModalUpdatedUser = ({
 													message: message.name,
 												},
 											})}
-											className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+											className="bg-gray-50 border border-gray-300  text-slate-800 text-xs md:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 											placeholder="Antonio"
 											defaultValue={user.name}
 										/>
@@ -156,7 +156,7 @@ export const ModalUpdatedUser = ({
 									<div>
 										<label
 											htmlFor="lastName"
-											className="block mb-2 text-sm font-medium dark:text-white"
+											className="block mb-2 text-xs md:text-sm font-medium dark:text-white"
 										>
 											Apellido
 										</label>
@@ -170,7 +170,7 @@ export const ModalUpdatedUser = ({
 													message: message.lastName,
 												},
 											})}
-											className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+											className="bg-gray-50 border border-gray-300  text-slate-800 text-xs md:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 											placeholder="Sanchez"
 											defaultValue={user.lastName}
 										/>
@@ -183,7 +183,7 @@ export const ModalUpdatedUser = ({
 									<div>
 										<label
 											htmlFor="city"
-											className="block mb-2 text-sm font-medium  dark:text-white"
+											className="block mb-2 text-xs md:text-sm font-medium  dark:text-white"
 										>
 											Ciudad
 										</label>
@@ -193,7 +193,7 @@ export const ModalUpdatedUser = ({
 											{...register("city", {
 												required: message.req.city,
 											})}
-											className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+											className="bg-gray-50 border border-gray-300  text-slate-800 text-xs md:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 											placeholder="Quito"
 											defaultValue={user.city}
 										/>
@@ -204,7 +204,7 @@ export const ModalUpdatedUser = ({
 									<div>
 										<label
 											htmlFor="phone"
-											className="block mb-2 text-sm font-medium  dark:text-white"
+											className="block mb-2 text-xs md:text-sm font-medium  dark:text-white"
 										>
 											Telefono: +593
 										</label>
@@ -218,7 +218,7 @@ export const ModalUpdatedUser = ({
 													message: message.phone,
 												},
 											})}
-											className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+											className="bg-gray-50 border border-gray-300  text-slate-800 text-xs md:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 											placeholder="0987654321"
 											pattern="[0-9]{10}"
 											defaultValue={user.phone}
@@ -231,7 +231,7 @@ export const ModalUpdatedUser = ({
 								<div className="mb-6">
 									<label
 										htmlFor="email"
-										className="block mb-2 text-sm font-medium  dark:text-white"
+										className="block mb-2 text-xs md:text-sm font-medium  dark:text-white"
 									>
 										Correo Electrónico
 									</label>
@@ -246,7 +246,7 @@ export const ModalUpdatedUser = ({
 												message: message.email,
 											},
 										})}
-										className="bg-gray-50 border border-gray-300  text-slate-800 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+										className="bg-gray-50 border border-gray-300  text-slate-800 text-xs md:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
 										placeholder="example@example.com"
 										value={user.email}
 									/>
@@ -258,7 +258,7 @@ export const ModalUpdatedUser = ({
 									? <ButtonLoading />
 									: <button
 											type="submit"
-											className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}
+											className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 cursor-pointer font-medium rounded-lg text-xs md:text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800`}
 										>
 											Editar
 										</button>}

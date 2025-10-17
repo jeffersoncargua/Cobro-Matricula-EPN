@@ -1,8 +1,8 @@
 export const UserTable = ({ handleUpdatedUser, handleDeletedUser, users }) => {
 	return (
 		<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-			<table className="w-full text-sm text-left rtl:text-right text-slate-900 dark:text-gray-400 mt-14">
-				<thead className="text-xs uppercase bg-gray-50/40 dark:bg-gray-700 dark:text-gray-400">
+			<table className="w-full text-xs md:text-sm text-left rtl:text-right text-slate-900 dark:text-gray-400 mt-14">
+				<thead className="text-xs md:text-sm uppercase bg-gray-50/40 dark:bg-gray-700 dark:text-gray-400">
 					<tr>
 						<th scope="col" className="px-6 py-3">
 							Nombre

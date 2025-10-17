@@ -37,7 +37,7 @@ export const Header = () => {
 						alt="Flowbite Logo"
 					/>
 					<span className="font-dancing self-center text-3xl sm:text-5xl font-semibold whitespace-nowrap dark:text-white">
-						Unversidad XYZ
+						Unversidad EPN
 					</span>
 				</Link>
 			</div>
@@ -75,7 +75,7 @@ export const Header = () => {
 						id="navbar-multi-level"
 					>
 						<ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white">
-							<li className="flex hover:text-blue-700">
+							<li className="flex items-center hover:text-blue-700">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									aria-label="Menu"

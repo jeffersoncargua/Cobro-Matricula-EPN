@@ -24,7 +24,7 @@ export const SearchInput = ({ searchRef, fetchData }) => {
 				onChange={() => HandleSearch()}
 				ref={searchRef}
 				type="text"
-				className="outline-none text-sm bg-transparent w-full text-white font-normal px-4 placeholder:text-white"
+				className="outline-none text-xs md:text-sm bg-transparent w-full text-white font-normal px-4 placeholder:text-white"
 				placeholder="Escribe el nombre del usuario a buscar"
 			/>
 		</div>
