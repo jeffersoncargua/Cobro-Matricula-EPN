@@ -18,7 +18,7 @@ export const ButtonEdit = ({ setEnableModalParameters }) => {
 			type="button"
 			onClick={() => setEnableModalParameters(true)}
 			disabled={!enableButtonEdit}
-			class="overflow-hidden relative w-16 p-2 h-10 bg-purple-500 text-white border-none rounded-md text-sm cursor-pointer relative z-10 group"
+			class="overflow-hidden w-16 p-2 h-10 bg-purple-500 text-white border-none rounded-md text-xs md:text-sm cursor-pointer relative z-10 group"
 		>
 			<span className="font-semibold">Editar</span>
 			<span class="absolute w-36 h-32 -top-8 -left-2 bg-white rotate-12 transform scale-x-0 group-hover:scale-x-100 transition-transform group-hover:duration-500 duration-1000 origin-left"></span>

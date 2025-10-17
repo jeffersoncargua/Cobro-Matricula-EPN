@@ -118,11 +118,11 @@ export const BaseParameters = () => {
 						minFontSize={26}
 					/>
 
-					<div className="w-full flex items-center justify-between gap-x-3 p-8 bg-white/90 rounded-lg">
+					<div className="w-full flex flex-wrap items-center justify-between gap-x-3 p-8 mb-3 md:mb-0 bg-white/90 rounded-lg">
 						<select
 							name=""
 							id=""
-							className="p-2.5 rounded-lg text-sm text-center bg-transparent/10"
+							className="p-2.5 rounded-lg text-sm text-center grow bg-transparent/10"
 							onChange={() => handleChangeParameters()}
 							ref={titleRef}
 						>

@@ -12,7 +12,7 @@ export const TableParameters = ({ baseParameters }) => {
 
 	return (
 		<div className="relative overflow-x-auto border shadow-md sm:rounded-lg mb-10">
-			<table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+			<table className="w-full text-xs md:text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
 				<thead className="text-xs text-white uppercase bg-transparent">
 					<tr>
 						<th scope="col" className="px-6 py-3">

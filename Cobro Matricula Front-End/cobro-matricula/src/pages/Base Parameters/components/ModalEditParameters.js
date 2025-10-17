@@ -37,7 +37,7 @@ export const ModalEditParameters = ({
 						<button
 							type="button"
 							onClick={() => setEnableModalParameters(false)}
-							className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+							className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-xs md:text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
 							data-modal-hide="authentication-modal"
 						>
 							<svg
@@ -79,9 +79,9 @@ export const ModalEditParameters = ({
 											valueAsNumber: true,
 										})}
 										defaultValue={baseParameters.costoOptimo}
-										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-xs md:text-sm"
 									/>
-									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-xs md:text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
 										Costo Optimo Anual
 									</span>
 								</label>
@@ -104,9 +104,9 @@ export const ModalEditParameters = ({
 											valueAsNumber: true,
 										})}
 										defaultValue={baseParameters.horaPeriodoAcademico}
-										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-xs md:text-sm"
 									/>
-									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-xs md:text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
 										Hora Periodo Académico
 									</span>
 								</label>
@@ -131,9 +131,9 @@ export const ModalEditParameters = ({
 											valueAsNumber: true,
 										})}
 										defaultValue={baseParameters.creditoPeriodoAcademico}
-										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-xs md:text-sm"
 									/>
-									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-xs md:text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
 										Credito Periodo Academico
 									</span>
 								</label>
@@ -163,9 +163,9 @@ export const ModalEditParameters = ({
 											valueAsNumber: true,
 										})}
 										defaultValue={baseParameters.porcentajeCostoOptimoAnual}
-										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-xs md:text-sm"
 									/>
-									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-xs md:text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
 										Porcentaje Costo Optimo Anual
 									</span>
 								</label>
@@ -192,9 +192,9 @@ export const ModalEditParameters = ({
 											valueAsNumber: true,
 										})}
 										defaultValue={baseParameters.porcentajeValorMin}
-										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-xs md:text-sm"
 									/>
-									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-xs md:text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
 										Porcentaje Valor Minimo
 									</span>
 								</label>
@@ -221,9 +221,9 @@ export const ModalEditParameters = ({
 											valueAsNumber: true,
 										})}
 										defaultValue={baseParameters.porcentajeValorMax}
-										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-xs md:text-sm"
 									/>
-									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-xs md:text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
 										Porcentaje Valor Maximo
 									</span>
 								</label>
@@ -250,9 +250,9 @@ export const ModalEditParameters = ({
 											valueAsNumber: true,
 										})}
 										defaultValue={baseParameters.porcentajeValorArancel}
-										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-xs md:text-sm"
 									/>
-									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-xs md:text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
 										Porcentaje Valor Arancel
 									</span>
 								</label>
@@ -282,9 +282,9 @@ export const ModalEditParameters = ({
 											valueAsNumber: true,
 										})}
 										defaultValue={baseParameters.porcentajePromedioAcademico}
-										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-xs md:text-sm"
 									/>
-									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-xs md:text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
 										Porcentaje Promedio Academico
 									</span>
 								</label>
@@ -311,9 +311,9 @@ export const ModalEditParameters = ({
 											valueAsNumber: true,
 										})}
 										defaultValue={baseParameters.porcentajePerdidaTemporal}
-										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-xs md:text-sm"
 									/>
-									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-xs md:text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
 										Porcentaje Perdida Temporal
 									</span>
 								</label>
@@ -345,9 +345,9 @@ export const ModalEditParameters = ({
 										defaultValue={
 											baseParameters.porcentajeMatriculaExtraordinario
 										}
-										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-xs md:text-sm"
 									/>
-									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-xs md:text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
 										Porcentaje Matricula Extraordinario
 									</span>
 								</label>
@@ -377,9 +377,9 @@ export const ModalEditParameters = ({
 											valueAsNumber: true,
 										})}
 										defaultValue={baseParameters.porcentajeMatriculaEspecial}
-										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-xs md:text-sm"
 									/>
-									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-xs md:text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
 										Porcentaje Matricula Especial
 									</span>
 								</label>
@@ -406,9 +406,9 @@ export const ModalEditParameters = ({
 											valueAsNumber: true,
 										})}
 										defaultValue={baseParameters.porcentajeRecargoSegunda}
-										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-xs md:text-sm"
 									/>
-									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-xs md:text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
 										Porcentaje Recargo Segunda
 									</span>
 								</label>
@@ -435,9 +435,9 @@ export const ModalEditParameters = ({
 											valueAsNumber: true,
 										})}
 										defaultValue={baseParameters.porcentajeRecargoTercera}
-										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-sm"
+										className="peer mt-0.5 p-2 w-full rounded border-gray-300 shadow-sm sm:text-xs md:text-sm"
 									/>
-									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+									<span className="absolute inset-y-0 start-3 -translate-y-5 bg-white px-1 text-xs md:text-sm font-medium text-blue-600 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
 										Porcentaje Recargo Tercera
 									</span>
 								</label>
