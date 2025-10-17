@@ -105,7 +105,7 @@ export const Header = () => {
 											type="button"
 											data-dropdown-toggle="dropdownNavbar"
 											onClick={() => setEnableDrop(true)}
-											className="flex items-center md:justify-between w-full py-2 px-3 text-gray-900 md:hover:underline md:hover:underline-offset-8 md:hover:decoration-4 md:hover:bg-transparent md:border-0 md:p-0 md:w-auto"
+											className="flex items-center md:justify-between w-full py-2 px-3 text-gray-900 md:hover:underline hover:text-blue-700 md:hover:underline-offset-8 md:hover:decoration-4 md:hover:bg-transparent md:border-0 md:p-0 md:w-auto"
 										>
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
@@ -205,7 +205,7 @@ export const Header = () => {
 												setEnableDrop(false);
 												setEnableMenu(false);
 											}}
-											className="block py-2 px-3 text-gray-900 rounded-sm md:hover:bg-transparent md:border-0 md:p-0"
+											className="block py-2 px-3 text-gray-900 hover:text-blue-700 rounded-sm md:hover:bg-transparent md:border-0 md:p-0"
 										>
 											Parámetros Base
 										</NavLink>
@@ -217,7 +217,7 @@ export const Header = () => {
 									<button
 										type="button"
 										onClick={() => handleLogout()}
-										className="block py-2 px-3 text-gray-900 rounded-sm md:hover:bg-transparent md:border-0 md:p-0 "
+										className="block py-2 px-3 text-gray-900 hover:text-blue-700 rounded-sm md:hover:bg-transparent md:border-0 md:p-0 "
 									>
 										Cerrar Sesión
 									</button>
